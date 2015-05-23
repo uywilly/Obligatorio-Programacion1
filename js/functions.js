@@ -137,7 +137,9 @@ function validar_email(_texto)
     }
     return _correcto;
 }
-function validarCodigoIdentificador(_codigoIdentificador, _tipoPublicacion) {
+function validarCodigoIdentificador(_codigoId, _tipoPub) {
+    var _codigoIdentificador = _codigoId;
+    var _tipoPublicacion = _tipoPub;
     var _valido = true;
     // según el tipo de publicación controlo una cosa u otra...
     switch (_tipoPublicacion) {
