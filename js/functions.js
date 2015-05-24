@@ -331,6 +331,61 @@ function total_ventas_fecha(_listaVentas, _fecha)
     }
     return _totalVentas;
 }
-
+//BUSCAR POSICION PUBLICACION
+function posicion_publicacion(_listaPublicaciones,_codigo)
+{
+    var _posicion = 0;
+    for(var i =0;i<_listaPublicaciones.length;i++)
+    {
+        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo);
+        if(_codigo_elemento === _codigo)
+        {
+            _posicion = i;
+            break;
+        }
+    }
+    return _posicion;  
+    
+}
+//ACTUALIZAR
+function actualizar_stock(_listaPublicaciones,_codigoPublicacion,_cantidad)
+{
+    //Busco la publicacion para obtener su informacion
+    var _publicacion = buscar_publicacion_codigo(_listaPublicaciones,_codigoPublicacion);
+    //Busco la posicion de la publicacion en la lista 
+    var _posPublicacion = posicion_publicacion(_listaPublicaciones,_codigoPublicacion);
+    //Actualizo el stock
+    var _stock = parseInt(_publicacion.stock) - _cantidad;;
+    _publicacion.stock = _stock;
+    //Utilizando la posicion actualizo el objeto
+    _listaPublicaciones[_posPublicacion] = _publicacion; 
+}
+//INGRESOS DE DATOS
+function ingresar_ventas(_listaVentas,_codigoPublicacion,_cantidad)
+{
+    var _fecha = generar_fecha();
+    var _publicacion = buscar_publicacion_codigo(listaPublicaciones,_codigoPublicacion);
+    var _stock = parseInt(_publicacion.stock);
+    var _total = parseInt(_publicacion.precio) * _cantidad;
+    var _nuevaVenta;
+    if(_stock >=_cantidad)
+    {
+        var _numeroVenta = _listaVentas.length;
+        _nuevaVenta = {
+            numero:_numeroVenta,
+            fecha:_fecha,
+            codigo_pub:_codigoPublicacion,
+            cantidad:_cantidad,
+            total:_total
+        };
+        actualizar_stock(listaPublicaciones,_codigoPublicacion,_cantidad);
+        
+    }else{
+        _nuevaVenta = -1;
+        alert('No hay stock!');
+    }
+    _listaVentas.push(_nuevaVenta);
+    return _nuevaVenta;
+}
 
 
