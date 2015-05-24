@@ -205,6 +205,20 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
     }
      return _valido;
 }
+function validarCampoVacio(_campo){
+    var _vacio = false;
+    if (_campo !== ""){
+        _vacio = true;
+    }    
+    return _vacio;
+}
+function validarPrecio(_precio){
+    var _precioValido = false;
+    if(_precio > 0){
+        _precioValido = true;
+    }
+    return _precioValido;
+}
 function generar_fecha()
 {
     var _fecha = new Date();
