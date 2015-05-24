@@ -171,25 +171,30 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
                 }
                 // si en este punto sigue siendo true es que son todos números...
                 if (_valido) {
-                    // separo lo que es número de publicación y dígito verificador...
-                    var numeroPublicacion = _codigoIdentificador.splice(2, 7);
-                    var digitoVerificadorIngresado = _codigoIdentificador.splice(9, 1);
-                    // inicializo la var donde guardo la suma de los 7 dígitos..
-                    var suma7digitos = 0;
-                    // hago la suma..
-                    for (var k = 0; k < numeroPublicacion.length; k++) {
-                        suma7digitos = suma7digitos + numeroPublicacion[k];
+                    // inicializo _numeroPublicacion
+                    var _numeroPublicacion = "";
+                    // lo relleno con los números de 2 a 8...
+                    for (var n = 2; n < 9; n++){
+                        _numeroPublicacion = _numeroPublicacion + _codigoIdentificador[n];
                     }
-                    var restoDivisionEntera = suma7digitos % 10;
+                    // le asigno a _digitoVerificadorIngresado el digito en la posición 9...
+                    var _digitoVerificadorIngresado = parseInt(_codigoIdentificador[9]);
+                    // inicializo la variable donde hago la suma...
+                    var _suma7digitos = 0;
+                    // hago la suma..
+                    for (var k = 0; k < _numeroPublicacion.length; k++) {
+                        _suma7digitos = _suma7digitos + parseInt(_numeroPublicacion[k]);
+                    }
+                    var _restoDivisionEntera = _suma7digitos % 10;
                     // inicializo el digitoVerificadorCalculado y lo fijo en 0 por si
                     // el resto de la división entera es igual a 0...
-                    var digitoVerificadorCalculado = 0;
-                    if (restoDivisionEntera !== 0) {
+                    var _digitoVerificadorCalculado = 0;
+                    if (_restoDivisionEntera !== 0) {
                         // si el resto no es cero, el digito es 10 - resto...
-                        digitoVerificadorCalculado = 10 - restoDivisionEntera;
+                        _digitoVerificadorCalculado = 10 - _restoDivisionEntera;
                     }
                     // si el digito varificador ingresado es distinto al calculado...
-                    if (digitoVerificadorIngresado !== digitoVerificadorCalculado) {
+                    if (_digitoVerificadorIngresado !== _digitoVerificadorCalculado) {
                         _valido = false;
                     }
                 }
@@ -198,7 +203,7 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
             }
             break;
     }
-    return _valido;
+     return _valido;
 }
 function generar_fecha()
 {
@@ -332,55 +337,55 @@ function total_ventas_fecha(_listaVentas, _fecha)
     return _totalVentas;
 }
 //BUSCAR POSICION PUBLICACION
-function posicion_publicacion(_listaPublicaciones,_codigo)
+function posicion_publicacion(_listaPublicaciones, _codigo)
 {
     var _posicion = 0;
-    for(var i =0;i<_listaPublicaciones.length;i++)
+    for (var i = 0; i < _listaPublicaciones.length; i++)
     {
         var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo);
-        if(_codigo_elemento === _codigo)
+        if (_codigo_elemento === _codigo)
         {
             _posicion = i;
             break;
         }
     }
-    return _posicion;  
-    
+    return _posicion;
+
 }
 //ACTUALIZAR
-function actualizar_stock(_listaPublicaciones,_codigoPublicacion,_cantidad)
+function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad)
 {
     //Busco la publicacion para obtener su informacion
-    var _publicacion = buscar_publicacion_codigo(_listaPublicaciones,_codigoPublicacion);
+    var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
-    var _posPublicacion = posicion_publicacion(_listaPublicaciones,_codigoPublicacion);
+    var _posPublicacion = posicion_publicacion(_listaPublicaciones, _codigoPublicacion);
     //Actualizo el stock
-    var _stock = parseInt(_publicacion.stock) - _cantidad;;
+    var _stock = parseInt(_publicacion.stock) - _cantidad;
     _publicacion.stock = _stock;
     //Utilizando la posicion actualizo el objeto
-    _listaPublicaciones[_posPublicacion] = _publicacion; 
+    _listaPublicaciones[_posPublicacion] = _publicacion;
 }
 //INGRESOS DE DATOS
-function ingresar_ventas(_listaVentas,_codigoPublicacion,_cantidad)
+function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad)
 {
     var _fecha = generar_fecha();
-    var _publicacion = buscar_publicacion_codigo(listaPublicaciones,_codigoPublicacion);
+    var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _codigoPublicacion);
     var _stock = parseInt(_publicacion.stock);
     var _total = parseInt(_publicacion.precio) * _cantidad;
     var _nuevaVenta;
-    if(_stock >=_cantidad)
+    if (_stock >= _cantidad)
     {
         var _numeroVenta = _listaVentas.length;
         _nuevaVenta = {
-            numero:_numeroVenta,
-            fecha:_fecha,
-            codigo_pub:_codigoPublicacion,
-            cantidad:_cantidad,
-            total:_total
+            numero: _numeroVenta,
+            fecha: _fecha,
+            codigo_pub: _codigoPublicacion,
+            cantidad: _cantidad,
+            total: _total
         };
-        actualizar_stock(listaPublicaciones,_codigoPublicacion,_cantidad);
-        
-    }else{
+        actualizar_stock(listaPublicaciones, _codigoPublicacion, _cantidad);
+
+    } else {
         _nuevaVenta = -1;
         alert('No hay stock!');
     }
