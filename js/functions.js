@@ -367,14 +367,37 @@ var usuario = new Array(
     mail: 'pilar.jimenez@gmail.com',
     contrasena: 'pilar'
 });
-var venta =
+var ventas = new Array(
         {
-            numero: ' ',
-            fecha: ' ',
-            codigo_pub: ' ',
-            cantidad: ' ',
-            total: ' '
-        };
+            numero: '0',
+            fecha: '22/05/2015',
+            codigo_pub: '6789123456789',
+            cantidad: '1'
+        },
+{
+    numero: '1',
+    fecha: '23/05/2015',
+    codigo_pub: '4489123458',
+    cantidad: '2'
+},
+{
+    numero: '2',
+    fecha: '23/05/2015',
+    codigo_pub: '5678901234567',
+    cantidad: '3'
+},
+{
+    numero: '3',
+    fecha: '24/05/2015',
+    codigo_pub: '3356789014',
+    cantidad: '2'
+},
+{
+    numero: '4',
+    fecha: '24/05/2015',
+    codigo_pub: '2345678912345',
+    cantidad: '4'
+});
 
 //MOSTRAR LISTAS
 function headers(_lista) {
@@ -695,5 +718,3 @@ function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad) {
     _listaVentas.push(_nuevaVenta);
     return _nuevaVenta;
 }
-
-
