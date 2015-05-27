@@ -1,58 +1,333 @@
 //Objetos
 var listaPublicaciones = new Array(
         {
-            tipo: 'revista',
-            codigo: '1111',
-            imagen: 'img1',
-            titulo: 'Paula',
-            descripcion: 'Revista de variedades',
-            autor: 'El Pais',
-            precio: '180',
-            stock: '20',
-            estado: 'habilitada'
+            tipo: 'libro',
+            codigo: '1234567891234',
+            imagen: 'libro1.jpg',
+            titulo: 'Aprende a tocar la guitarra',
+            descripcion: 'Curso de guitarra',
+            autor: 'Phil Capone',
+            precio: '320',
+            stock: '15',
+            estado: 'habilitado'
         },
 {
     tipo: 'libro',
-    codigo: '2222',
-    imagen: 'img2',
-    titulo: 'Firestarter',
-    descripcion: 'Novela de terror',
-    autor: 'Stephen King',
-    precio: '320',
+    codigo: '2345678912345',
+    imagen: 'libro2.jpg',
+    titulo: 'Introducción a Piaget',
+    descripcion: 'Manual de método docente',
+    autor: 'Ed Labinowicz',
+    precio: '260',
+    stock: '25',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '3456789123456',
+    imagen: 'libro3.jpg',
+    titulo: 'Ovinos Tecnologías',
+    descripcion: 'Catálogo de ovejas mecánicas',
+    autor: 'César Calvo',
+    precio: '120',
+    stock: '8',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '4567891234567',
+    imagen: 'libro4.jpg',
+    titulo: 'Al fin libre',
+    descripcion: 'Manual de autosuperación',
+    autor: 'Beth Moore',
+    precio: '120',
+    stock: '42',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '5678912345678',
+    imagen: 'libro5.jpg',
+    titulo: 'Caligrafía del pelo',
+    descripcion: 'Recopilación de poesías capilares',
+    autor: 'Renzo Carnevale',
+    precio: '324',
+    stock: '8',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '6789123456789',
+    imagen: 'libro6.jpg',
+    titulo: 'La cocina japonesa del Kabuki',
+    descripcion: 'Recetas de pescado crudo',
+    autor: 'Ricardo Sanz',
+    precio: '213',
+    stock: '13',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '7891234567890',
+    imagen: 'libro7.jpg',
+    titulo: 'Organización de congresos y convenciones',
+    descripcion: 'Libro para quitarle guita a los giles',
+    autor: 'Manuel Papillón',
+    precio: '420',
+    stock: '5',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '8912345678901',
+    imagen: 'libro8.jpg',
+    titulo: 'Identificación forense',
+    descripcion: 'Manual para averiguar quién es el muerto',
+    autor: 'Francisco Trillas',
+    precio: '312',
+    stock: '18',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '9123456789012',
+    imagen: 'libro9.jpg',
+    titulo: 'Las actividades turísticas y recreacionales',
+    descripcion: 'Catálogo de cosas para hacer en el tiempo libre',
+    autor: 'Esteban Quito',
+    precio: '50',
     stock: '10',
     estado: 'habilitado'
 },
 {
-    tipo: 'revista',
-    codigo: '1112',
-    imagen: 'img3',
-    titulo: 'Sabado show',
-    descripcion: 'Revista sobre la farandula',
-    autor: 'El Observador',
-    precio: '220',
-    stock: '40',
-    estado: 'habilitada'
-},
-{
     tipo: 'libro',
-    codigo: '2223',
-    imagen: 'img4',
-    titulo: 'The dead Zone',
-    descripcion: 'Novela de suspenso',
-    autor: 'Stephen King',
-    precio: '500',
-    stock: '3',
+    codigo: '1234567890123',
+    imagen: 'libro10.jpg',
+    titulo: 'Seguridad e higiene en el trabajo',
+    descripcion: 'Reglas para bañarse seguro en e trabajo',
+    autor: 'Walter Gargano',
+    precio: '282',
+    stock: '31',
     estado: 'habilitado'
 },
 {
     tipo: 'libro',
-    codigo: '2224',
-    imagen: 'img5',
-    titulo: 'Entrevista con el vampiro',
-    descripcion: 'Novela de ciencia ficcion',
-    autor: 'Anne Rice',
-    precio: '290',
-    stock: '40',
+    codigo: '2345678901234',
+    imagen: 'libro11.jpg',
+    titulo: 'Las cortinas rojas',
+    descripcion: 'Libro de cuento con tapa horrible',
+    autor: 'Margarita Mainé',
+    precio: '150',
+    stock: '12',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '3456789012345',
+    imagen: 'libro12.jpg',
+    titulo: 'Mi libro de lectura 2',
+    descripcion: 'Libro para leer',
+    autor: 'Carolo Santillana',
+    precio: '115',
+    stock: '22',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '4567890123456',
+    imagen: 'libro13.jpg',
+    titulo: 'Yoga en casa',
+    descripcion: 'Como torcerse uno mismo sin morir',
+    autor: 'Ruben Rada',
+    precio: '200',
+    stock: '14',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '5678901234567',
+    imagen: 'libro14.jpg',
+    titulo: 'Libro de poemas',
+    descripcion: 'Recopilación de buenos poemas',
+    autor: 'Federico García Lorca',
+    precio: '280',
+    stock: '20',
+    estado: 'habilitado'
+},
+{
+    tipo: 'libro',
+    codigo: '6789012345678',
+    imagen: 'libro15.jpg',
+    titulo: 'Guía literaria de Roma',
+    descripcion: 'Ambientación de obras literarias romanas',
+    autor: 'Massimo Mastrancuzo',
+    precio: '100',
+    stock: '5',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '1134567898',
+    imagen: 'revista1.jpg',
+    titulo: 'Hola - Diego es cursi',
+    descripcion: 'Chusmeríos de celebridades',
+    autor: 'Antonia Capalutto',
+    precio: '75',
+    stock: '44',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '1145678910',
+    imagen: 'revista2.jpg',
+    titulo: 'Hola - Suar y Oreiro',
+    descripcion: 'Chusmeríos de celebridades',
+    autor: 'Antonia Capalutto',
+    precio: '75',
+    stock: '32',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '2256789122',
+    imagen: 'revista3.jpg',
+    titulo: 'El gráfico - Genio insaciable',
+    descripcion: 'Revista deportiva',
+    autor: 'Marcelo Zalayeta',
+    precio: '80',
+    stock: '20',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '3367891234',
+    imagen: 'revista4.jpg',
+    titulo: 'Bodas - Casamientos de verano',
+    descripcion: 'Revista de novias desesperadas',
+    autor: 'Monica Rajo',
+    precio: '180',
+    stock: '9',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '3378912346',
+    imagen: 'revista5.jpg',
+    titulo: 'Bodas - Novia de verano',
+    descripcion: 'Revista de novias desesperadas',
+    autor: 'Gudalupe Lotuda',
+    precio: '180',
+    stock: '11',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '4489123458',
+    imagen: 'revista6.jpg',
+    titulo: 'Ciencia hoy',
+    descripcion: 'DIvulgación científica',
+    autor: 'Albert Einstein',
+    precio: '85',
+    stock: '13',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '5591234560',
+    imagen: 'revista7.jpg',
+    titulo: 'Luz - Chocolate',
+    descripcion: 'Revista para mujeres',
+    autor: 'Catalina Pedruño',
+    precio: '120',
+    stock: '21',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '1112345672',
+    imagen: 'revista8.jpg',
+    titulo: 'Gente - Ahora vamos por todo',
+    descripcion: 'Chusmeríos de celebridades',
+    autor: 'Julio Iglesias',
+    precio: '115',
+    stock: '18',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '6623456785',
+    imagen: 'revista9.jpg',
+    titulo: 'Paint Works',
+    descripcion: 'Revista para ilustradores gráficos',
+    autor: 'Roberto Goya',
+    precio: '220',
+    stock: '16',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '5534567898',
+    imagen: 'revista10.jpg',
+    titulo: 'Para ti - Horóscopo del amor',
+    descripcion: 'Revista para mujeres',
+    autor: 'Margarita Houdini',
+    precio: '130',
+    stock: '31',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '3345678901',
+    imagen: 'revista11.jpg',
+    titulo: 'Bodas - Amor de primavera',
+    descripcion: 'Revista de novias desesperadas',
+    autor: 'Anastasia Larrusa',
+    precio: '150',
+    stock: '22',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '3356789014',
+    imagen: 'revista12.jpg',
+    titulo: 'Bodas - Blanca y radiante',
+    descripcion: 'Revista de novias desesperadas',
+    autor: 'Justina Dimenti',
+    precio: '115',
+    stock: '23',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '5567890127',
+    imagen: 'revista13.jpg',
+    titulo: 'Sophia - Vivir diferente',
+    descripcion: 'Revista para mujeres',
+    autor: 'Chengue Morales',
+    precio: '110',
+    stock: '24',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '7778901230',
+    imagen: 'revista14.jpg',
+    titulo: 'Nuevos Pueblos',
+    descripcion: 'Publicación cultural geográfica',
+    autor: 'Miranda Cuenca',
+    precio: '140',
+    stock: '18',
+    estado: 'habilitado'
+},
+{
+    tipo: 'revista',
+    codigo: '5589012343',
+    imagen: 'revista15.jpg',
+    titulo: 'Woman',
+    descripcion: 'Revista vieja para mujeres viejas',
+    autor: 'Fortunato Mascaronne',
+    precio: '125',
+    stock: '22',
     estado: 'habilitado'
 }
 );
@@ -174,7 +449,7 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
                     // inicializo _numeroPublicacion
                     var _numeroPublicacion = "";
                     // lo relleno con los números de 2 a 8...
-                    for (var n = 2; n < 9; n++){
+                    for (var n = 2; n < 9; n++) {
                         _numeroPublicacion = _numeroPublicacion + _codigoIdentificador[n];
                     }
                     // le asigno a _digitoVerificadorIngresado el digito en la posición 9...
@@ -203,18 +478,18 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
             }
             break;
     }
-     return _valido;
+    return _valido;
 }
-function validarCampoVacio(_campo){
+function validarCampoVacio(_campo) {
     var _vacio = false;
-    if (_campo !== ""){
+    if (_campo !== "") {
         _vacio = true;
-    }    
+    }
     return _vacio;
 }
-function validarPrecio(_precio){
+function validarPrecio(_precio) {
     var _precioValido = false;
-    if(_precio > 0){
+    if (_precio > 0) {
         _precioValido = true;
     }
     return _precioValido;
