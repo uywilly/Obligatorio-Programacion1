@@ -349,8 +349,7 @@ var venta =
         };
 
 //MOSTRAR LISTAS
-function headers(_lista)
-{
+function headers(_lista){
     var cabecera = '<tr>';
     for (var j in _lista[0])
     {
@@ -359,8 +358,7 @@ function headers(_lista)
     cabecera += '</tr>';
     $('#myhead').append(cabecera);
 }
-function listar(_lista)
-{
+function listar(_lista){
     //cargo las categorias
     headers(_lista);
     //recorro y cargo la tabla
@@ -377,8 +375,7 @@ function listar(_lista)
 }
 
 //validaciones
-function validar_titulo(_titulo)
-{
+function validar_titulo(_titulo){
     var _correcto = false;
     var _caracter = _titulo.charCodeAt(0);
     if ((_caracter >= 65) && (_caracter <= 90))
@@ -389,8 +386,7 @@ function validar_titulo(_titulo)
     }
     return _correcto;
 }
-function validar_descripcion(_desc)
-{
+function validar_descripcion(_desc){
     var _correcto = false;
     var _largo = _desc.length;
     if (_largo >= 15)
@@ -401,8 +397,7 @@ function validar_descripcion(_desc)
     }
     return _correcto;
 }
-function validar_email(_texto)
-{
+function validar_email(_texto){
     var _correcto = false;
     if ((_texto.indexOf('@') !== -1) && (_texto.indexOf('@') === _texto.lastIndexOf('@')))
     {
@@ -494,8 +489,7 @@ function validarPrecio(_precio) {
     }
     return _precioValido;
 }
-function generar_fecha()
-{
+function generar_fecha(){
     var _fecha = new Date();
     var _mes = _fecha.getMonth() + 1;
     var _dia = _fecha.getDate();
@@ -505,8 +499,7 @@ function generar_fecha()
     return _fecha;
 }
 //Buscadores
-function buscar_publicacion_codigo(_listaPublicaciones, _codigo)
-{
+function buscar_publicacion_codigo(_listaPublicaciones, _codigo){
     var _publicacion = -1;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
@@ -521,8 +514,7 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo)
 }
 
 //listado
-function listar_publicaciones_menor_precio(_listaPublicaciones, _precio)
-{
+function listar_publicaciones_menor_precio(_listaPublicaciones, _precio){
     var _listadoPrecio = new Array();
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
@@ -534,8 +526,7 @@ function listar_publicaciones_menor_precio(_listaPublicaciones, _precio)
     return _listadoPrecio;
 }
 
-function separar_palabras(_texto)
-{
+function separar_palabras(_texto){
     var _palabra = ' ';
     var _cantidadEspacios = 0;
     for (var i = 0; i < _texto.length; i++)
@@ -562,8 +553,7 @@ function separar_palabras(_texto)
 
 
 //Ordenar publicaciones alfabeticamente utilizando bubble sort
-function ordenar_publicaciones(_listaPublicaciones)
-{
+function ordenar_publicaciones(_listaPublicaciones){
     var _publicaciones = _listaPublicaciones;
     var _largo = _publicaciones.length;
     do
@@ -613,8 +603,7 @@ function ordenar_publicaciones(_listaPublicaciones)
     return _publicaciones;
 }
 
-function total_ventas_fecha(_listaVentas, _fecha)
-{
+function total_ventas_fecha(_listaVentas, _fecha){
     var _totalVentas = 0;
     for (var i = 0; i < _listaVentas.length; i++)
     {
@@ -626,8 +615,7 @@ function total_ventas_fecha(_listaVentas, _fecha)
     return _totalVentas;
 }
 //BUSCAR POSICION PUBLICACION
-function posicion_publicacion(_listaPublicaciones, _codigo)
-{
+function posicion_publicacion(_listaPublicaciones, _codigo){
     var _posicion = 0;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
@@ -642,8 +630,7 @@ function posicion_publicacion(_listaPublicaciones, _codigo)
 
 }
 //ACTUALIZAR
-function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad)
-{
+function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad){
     //Busco la publicacion para obtener su informacion
     var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
@@ -655,8 +642,7 @@ function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad)
     _listaPublicaciones[_posPublicacion] = _publicacion;
 }
 //INGRESOS DE DATOS
-function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad)
-{
+function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad){
     var _fecha = generar_fecha();
     var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _codigoPublicacion);
     var _stock = parseInt(_publicacion.stock);
