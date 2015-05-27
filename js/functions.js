@@ -577,28 +577,13 @@ function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
     return _listadoPrecio;
 }
 
-function separar_palabras(_texto) {
-    var _palabra = ' ';
-    var _cantidadEspacios = 0;
-    for (var i = 0; i < _texto.length; i++)
-    {
-        if (_texto.charAt(i) === ' ')
-        {
-            _cantidadEspacios++;
-        } else {
+function separar_palabras(_texto)
+{
+    var _palabras = new Array();
+    var _caracterseparador = " ";
+    _palabras = _texto.split(_caracterseparador);
 
-        }
-    }
-    if (_cantidadEspacios === 0)
-    {
-        _palabra = _texto;
-    }
-    else {
-        var _posEspacio = _texto.indexOf(' ');
-        _palabra = _texto.slice(0, _posEspacio);
-    }
-
-    return _palabra;
+    return _palabras;
 
 }
 
@@ -618,35 +603,56 @@ function ordenar_publicaciones(_listaPublicaciones) {
 
             /*separo los titulos por palabras considerando que algunos 
              titulos pueden tener solo una palabra*/
-            var _palabra_titulo1 = separar_palabras(_titulo1);
-            var _palabra_titulo2 = separar_palabras(_titulo2);
-
-            //obtengo el largo de la palabra mas corta
-            if (_palabra_titulo2.length > _palabra_titulo1.length)
+            var _palabras_titulo1 = separar_palabras(_titulo1);
+            var _palabras_titulo2 = separar_palabras(_titulo2);
+            
+            var _cantidadpalabras=0;
+            if (_palabras_titulo2.length > _palabras_titulo1.length)
             {
-                var cont = _palabra_titulo1.length;
+                _cantidadpalabras =_palabras_titulo1.length;
             } else {
-                var cont = _palabra_titulo2.length;
+                _cantidadpalabras = _palabras_titulo2.length;
             }
-
-            //comparo y de ser necesario ordeno utilizando el bubble sort
-            for (var j = 0; j < cont; j++)
+            for(var j = 0; j<_cantidadpalabras;j++)
             {
-                if (_palabra_titulo1.charAt(j) === _palabra_titulo2.charAt(j))
+                if(_palabras_titulo1[j]!==_palabras_titulo2[j])
                 {
+                    //ordenar y salir
+                    
+                    //obtengo el largo de la palabra mas corta
+                    if (_palabras_titulo2[j].length > _palabras_titulo1[j].length)
+                    {
+                        var _largoPalabra = _palabras_titulo1[j].length;
+                    } else {
+                        var _largoPalabra = _palabras_titulo2[j].length;
+                    }
+                    
+                    //comparo las letras de la palabra mas corta 
+                    //y de ser necesario ordeno utilizando el bubble sort
+                    for (var k = 0; k < _largoPalabra; k++)
+                    {
+                        if (_palabras_titulo1[j].charAt(k) !== _palabras_titulo2[j].charAt(k))
+                        { 
+                            if (_palabras_titulo1[j].charAt(k) > _palabras_titulo2[j].charAt(k))
+                            {
+                                var aux = _publicaciones[i - 1];
+                                _publicaciones[i - 1] = _publicaciones[i];
+                                _publicaciones[i] = aux;
+                                _cambios = true;
+                                j = _cantidadpalabras;
+                                break;
+                            } else {
+                                j = _cantidadpalabras;
+                                break;
+                            }
+                        } 
+                    }
 
-                } else if (_palabra_titulo1.charAt(j) > _palabra_titulo2.charAt(j))
-                {
-                    var aux = _publicaciones[i - 1];
-                    _publicaciones[i - 1] = _publicaciones[i];
-                    _publicaciones[i] = aux;
-                    _cambios = true;
-                    break;
-                } else
-                {
+                } else {
                     break;
                 }
             }
+
         }
         _largo = _largo - 1;
     } while (_cambios === true);
@@ -654,7 +660,14 @@ function ordenar_publicaciones(_listaPublicaciones) {
     return _publicaciones;
 }
 
-function total_ventas_fecha(_listaVentas, _fecha) {
+$("#probarfuncion").click(function (){
+    //listar(listaPublicaciones);
+var listaOrdenada = ordenar_publicaciones(listaPublicaciones);
+    listar(listaOrdenada);  
+});
+
+function total_ventas_fecha(_listaVentas, _fecha)
+{
     var _totalVentas = 0;
     for (var i = 0; i < _listaVentas.length; i++)
     {
