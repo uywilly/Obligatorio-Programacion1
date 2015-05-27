@@ -7,8 +7,8 @@ var listaPublicaciones = new Array(
             titulo: 'Aprende a tocar la guitarra',
             descripcion: 'Curso de guitarra',
             autor: 'Phil Capone',
-            precio: '320',
-            stock: '15',
+            precio: 320,
+            stock: 15,
             estado: 'habilitado'
         },
 {
@@ -18,8 +18,8 @@ var listaPublicaciones = new Array(
     titulo: 'Introducción a Piaget',
     descripcion: 'Manual de método docente',
     autor: 'Ed Labinowicz',
-    precio: '260',
-    stock: '25',
+    precio: 260,
+    stock: 25,
     estado: 'habilitado'
 },
 {
@@ -29,8 +29,8 @@ var listaPublicaciones = new Array(
     titulo: 'Ovinos Tecnologías',
     descripcion: 'Catálogo de ovejas mecánicas',
     autor: 'César Calvo',
-    precio: '120',
-    stock: '8',
+    precio: 120,
+    stock: 8,
     estado: 'habilitado'
 },
 {
@@ -40,8 +40,8 @@ var listaPublicaciones = new Array(
     titulo: 'Al fin libre',
     descripcion: 'Manual de autosuperación',
     autor: 'Beth Moore',
-    precio: '120',
-    stock: '42',
+    precio: 120,
+    stock: 42,
     estado: 'habilitado'
 },
 {
@@ -51,8 +51,8 @@ var listaPublicaciones = new Array(
     titulo: 'Caligrafía del pelo',
     descripcion: 'Recopilación de poesías capilares',
     autor: 'Renzo Carnevale',
-    precio: '324',
-    stock: '8',
+    precio: 324,
+    stock: 8,
     estado: 'habilitado'
 },
 {
@@ -62,8 +62,8 @@ var listaPublicaciones = new Array(
     titulo: 'La cocina japonesa del Kabuki',
     descripcion: 'Recetas de pescado crudo',
     autor: 'Ricardo Sanz',
-    precio: '213',
-    stock: '13',
+    precio: 213,
+    stock: 13,
     estado: 'habilitado'
 },
 {
@@ -73,8 +73,8 @@ var listaPublicaciones = new Array(
     titulo: 'Organización de congresos y convenciones',
     descripcion: 'Libro para quitarle guita a los giles',
     autor: 'Manuel Papillón',
-    precio: '420',
-    stock: '5',
+    precio: 420,
+    stock: 5,
     estado: 'habilitado'
 },
 {
@@ -84,8 +84,8 @@ var listaPublicaciones = new Array(
     titulo: 'Identificación forense',
     descripcion: 'Manual para averiguar quién es el muerto',
     autor: 'Francisco Trillas',
-    precio: '312',
-    stock: '18',
+    precio: 312,
+    stock: 18,
     estado: 'habilitado'
 },
 {
@@ -95,8 +95,8 @@ var listaPublicaciones = new Array(
     titulo: 'Las actividades turísticas y recreacionales',
     descripcion: 'Catálogo de cosas para hacer en el tiempo libre',
     autor: 'Esteban Quito',
-    precio: '50',
-    stock: '10',
+    precio: 50,
+    stock: 10,
     estado: 'habilitado'
 },
 {
@@ -104,10 +104,10 @@ var listaPublicaciones = new Array(
     codigo: '1234567890123',
     imagen: 'libro10.jpg',
     titulo: 'Seguridad e higiene en el trabajo',
-    descripcion: 'Reglas para bañarse seguro en e trabajo',
+    descripcion: 'Reglas para bañarse seguro en el trabajo',
     autor: 'Walter Gargano',
-    precio: '282',
-    stock: '31',
+    precio: 282,
+    stock: 31,
     estado: 'habilitado'
 },
 {
@@ -117,8 +117,8 @@ var listaPublicaciones = new Array(
     titulo: 'Las cortinas rojas',
     descripcion: 'Libro de cuento con tapa horrible',
     autor: 'Margarita Mainé',
-    precio: '150',
-    stock: '12',
+    precio: 150,
+    stock: 12,
     estado: 'habilitado'
 },
 {
@@ -126,10 +126,10 @@ var listaPublicaciones = new Array(
     codigo: '3456789012345',
     imagen: 'libro12.jpg',
     titulo: 'Mi libro de lectura 2',
-    descripcion: 'Libro para leer',
+    descripcion: 'Libro para leer dos veces.',
     autor: 'Carolo Santillana',
-    precio: '115',
-    stock: '22',
+    precio: 115,
+    stock: 22,
     estado: 'habilitado'
 },
 {
@@ -139,8 +139,8 @@ var listaPublicaciones = new Array(
     titulo: 'Yoga en casa',
     descripcion: 'Como torcerse uno mismo sin morir',
     autor: 'Ruben Rada',
-    precio: '200',
-    stock: '14',
+    precio: 200,
+    stock: 14,
     estado: 'habilitado'
 },
 {
@@ -150,8 +150,8 @@ var listaPublicaciones = new Array(
     titulo: 'Libro de poemas',
     descripcion: 'Recopilación de buenos poemas',
     autor: 'Federico García Lorca',
-    precio: '280',
-    stock: '20',
+    precio: 280,
+    stock: 20,
     estado: 'habilitado'
 },
 {
@@ -161,8 +161,8 @@ var listaPublicaciones = new Array(
     titulo: 'Guía literaria de Roma',
     descripcion: 'Ambientación de obras literarias romanas',
     autor: 'Massimo Mastrancuzo',
-    precio: '100',
-    stock: '5',
+    precio: 100,
+    stock: 5,
     estado: 'habilitado'
 },
 {
@@ -172,8 +172,8 @@ var listaPublicaciones = new Array(
     titulo: 'Hola - Diego es cursi',
     descripcion: 'Chusmeríos de celebridades',
     autor: 'Antonia Capalutto',
-    precio: '75',
-    stock: '44',
+    precio: 75,
+    stock: 44,
     estado: 'habilitado'
 },
 {
@@ -183,8 +183,8 @@ var listaPublicaciones = new Array(
     titulo: 'Hola - Suar y Oreiro',
     descripcion: 'Chusmeríos de celebridades',
     autor: 'Antonia Capalutto',
-    precio: '75',
-    stock: '32',
+    precio: 75,
+    stock: 32,
     estado: 'habilitado'
 },
 {
@@ -194,8 +194,8 @@ var listaPublicaciones = new Array(
     titulo: 'El gráfico - Genio insaciable',
     descripcion: 'Revista deportiva',
     autor: 'Marcelo Zalayeta',
-    precio: '80',
-    stock: '20',
+    precio: 80,
+    stock: 20,
     estado: 'habilitado'
 },
 {
@@ -205,8 +205,8 @@ var listaPublicaciones = new Array(
     titulo: 'Bodas - Casamientos de verano',
     descripcion: 'Revista de novias desesperadas',
     autor: 'Monica Rajo',
-    precio: '180',
-    stock: '9',
+    precio: 180,
+    stock: 9,
     estado: 'habilitado'
 },
 {
@@ -216,8 +216,8 @@ var listaPublicaciones = new Array(
     titulo: 'Bodas - Novia de verano',
     descripcion: 'Revista de novias desesperadas',
     autor: 'Gudalupe Lotuda',
-    precio: '180',
-    stock: '11',
+    precio: 180,
+    stock: 11,
     estado: 'habilitado'
 },
 {
@@ -225,10 +225,10 @@ var listaPublicaciones = new Array(
     codigo: '4489123458',
     imagen: 'revista6.jpg',
     titulo: 'Ciencia hoy',
-    descripcion: 'DIvulgación científica',
+    descripcion: 'Divulgación científica',
     autor: 'Albert Einstein',
-    precio: '85',
-    stock: '13',
+    precio: 85,
+    stock: 13,
     estado: 'habilitado'
 },
 {
@@ -238,8 +238,8 @@ var listaPublicaciones = new Array(
     titulo: 'Luz - Chocolate',
     descripcion: 'Revista para mujeres',
     autor: 'Catalina Pedruño',
-    precio: '120',
-    stock: '21',
+    precio: 120,
+    stock: 21,
     estado: 'habilitado'
 },
 {
@@ -249,8 +249,8 @@ var listaPublicaciones = new Array(
     titulo: 'Gente - Ahora vamos por todo',
     descripcion: 'Chusmeríos de celebridades',
     autor: 'Julio Iglesias',
-    precio: '115',
-    stock: '18',
+    precio: 115,
+    stock: 18,
     estado: 'habilitado'
 },
 {
@@ -260,8 +260,8 @@ var listaPublicaciones = new Array(
     titulo: 'Paint Works',
     descripcion: 'Revista para ilustradores gráficos',
     autor: 'Roberto Goya',
-    precio: '220',
-    stock: '16',
+    precio: 220,
+    stock: 16,
     estado: 'habilitado'
 },
 {
@@ -271,8 +271,8 @@ var listaPublicaciones = new Array(
     titulo: 'Para ti - Horóscopo del amor',
     descripcion: 'Revista para mujeres',
     autor: 'Margarita Houdini',
-    precio: '130',
-    stock: '31',
+    precio: 130,
+    stock: 31,
     estado: 'habilitado'
 },
 {
@@ -282,8 +282,8 @@ var listaPublicaciones = new Array(
     titulo: 'Bodas - Amor de primavera',
     descripcion: 'Revista de novias desesperadas',
     autor: 'Anastasia Larrusa',
-    precio: '150',
-    stock: '22',
+    precio: 150,
+    stock: 22,
     estado: 'habilitado'
 },
 {
@@ -293,8 +293,8 @@ var listaPublicaciones = new Array(
     titulo: 'Bodas - Blanca y radiante',
     descripcion: 'Revista de novias desesperadas',
     autor: 'Justina Dimenti',
-    precio: '115',
-    stock: '23',
+    precio: 115,
+    stock: 23,
     estado: 'habilitado'
 },
 {
@@ -304,8 +304,8 @@ var listaPublicaciones = new Array(
     titulo: 'Sophia - Vivir diferente',
     descripcion: 'Revista para mujeres',
     autor: 'Chengue Morales',
-    precio: '110',
-    stock: '24',
+    precio: 110,
+    stock: 24,
     estado: 'habilitado'
 },
 {
@@ -315,8 +315,8 @@ var listaPublicaciones = new Array(
     titulo: 'Nuevos Pueblos',
     descripcion: 'Publicación cultural geográfica',
     autor: 'Miranda Cuenca',
-    precio: '140',
-    stock: '18',
+    precio: 140,
+    stock: 18,
     estado: 'habilitado'
 },
 {
@@ -326,8 +326,8 @@ var listaPublicaciones = new Array(
     titulo: 'Woman',
     descripcion: 'Revista vieja para mujeres viejas',
     autor: 'Fortunato Mascaronne',
-    precio: '125',
-    stock: '22',
+    precio: 125,
+    stock: 22,
     estado: 'habilitado'
 }
 );
@@ -337,99 +337,79 @@ var usuario = new Array(
             nombre: 'William',
             apellido: 'Machado',
             mail: 'william.machado.uy@gmail.com',
-            contrasena: 'william'
+            contrasena: 'william11'
         },
 {
     tipo: 'adminstrador',
     nombre: 'Juan',
     apellido: 'Rodríguez',
     mail: 'niandubay79@gmail.com',
-    contrasena: 'juan'
+    contrasena: 'juan11'
 },
 {
     tipo: 'vendedor',
     nombre: 'Pedro',
     apellido: 'Sánchez',
     mail: 'pedro.sanchez@gmail.com',
-    contrasena: 'pedro'
+    contrasena: 'pedro22'
 },
 {
     tipo: 'vendedor',
     nombre: 'Marta',
     apellido: 'Carrasco',
     mail: 'marta.carrasco@gmail.com',
-    contrasena: 'marta'
+    contrasena: 'marta22'
 },
 {
     tipo: 'vendedor',
     nombre: 'Pilar',
     apellido: 'Jiménez',
     mail: 'pilar.jimenez@gmail.com',
-    contrasena: 'pilar'
+    contrasena: 'pilar22'
 });
 var ventas = new Array(
         {
-            numero: '0',
+            numero: 1,
             fecha: '22/05/2015',
             codigo_pub: '6789123456789',
-            cantidad: '1'
+            cantidad: 1,
+            total: 213
         },
 {
-    numero: '1',
+    numero: 2,
     fecha: '23/05/2015',
     codigo_pub: '4489123458',
-    cantidad: '2'
+    cantidad: 2,
+    total: 170
 },
 {
-    numero: '2',
+    numero: 3,
     fecha: '23/05/2015',
     codigo_pub: '5678901234567',
-    cantidad: '3'
+    cantidad: '3',
+    total: "840"
 },
 {
-    numero: '3',
+    numero: 4,
     fecha: '24/05/2015',
     codigo_pub: '3356789014',
-    cantidad: '2'
+    cantidad: 2,
+    total: 230
 },
 {
-    numero: '4',
+    numero: 5,
     fecha: '24/05/2015',
     codigo_pub: '2345678912345',
-    cantidad: '4'
+    cantidad: 4,
+    total: 1040
 });
 
-//MOSTRAR LISTAS
-function headers(_lista) {
-    var cabecera = '<tr>';
-    for (var j in _lista[0])
-    {
-        cabecera += '<th>' + j + '</th>';
-    }
-    cabecera += '</tr>';
-    $('#myhead').append(cabecera);
-}
-function listar(_lista) {
-    //cargo las categorias
-    headers(_lista);
-    //recorro y cargo la tabla
-    for (var i = 0; i < _lista.length; i++)
-    {
-        var elemento = '<tr>';
-        for (var j in _lista[i])
-        {
-            elemento += '<td>' + _lista[i][j] + '</td>';
-        }
-        elemento += '</tr>';
-        $('#mybody').append(elemento);
-    }
-}
-
-//validaciones
-function validar_titulo(_titulo) {
+// Validaciones
+function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
-    var _caracter = _titulo.charCodeAt(0);
-    if ((_caracter >= 65) && (_caracter <= 90))
+    var _caracter = _string.charCodeAt(0);
+    // la primer letra debe ser mayúscula..
+    if ((_caracter >= 'A') && (_caracter <= 'Z'))
     {
         _correcto = true;
     } else {
@@ -438,9 +418,11 @@ function validar_titulo(_titulo) {
     return _correcto;
 }
 function validar_descripcion(_desc) {
+    // la descripción debe empezar con mayúscula y tener al menos 15 caracteres...
+    var _primer_letra_mayuscula = validar_primer_letra_mayuscula(_desc);
     var _correcto = false;
     var _largo = _desc.length;
-    if (_largo >= 15)
+    if (_largo >= 15 && _primer_letra_mayuscula===true)
     {
         _correcto = true;
     } else {
@@ -540,6 +522,8 @@ function validarPrecio(_precio) {
     }
     return _precioValido;
 }
+
+// Generar fecha
 function generar_fecha() {
     var _fecha = new Date();
     var _mes = _fecha.getMonth() + 1;
@@ -549,12 +533,13 @@ function generar_fecha() {
     _fecha = _dia + '/' + _mes + '/' + _ano;
     return _fecha;
 }
-//Buscadores
+
+// Buscadores
 function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     var _publicacion = -1;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo);
+        var _codigo_elemento = _listaPublicaciones[i].codigo;
         if (_codigo_elemento === _codigo)
         {
             _publicacion = _listaPublicaciones[i];
@@ -564,7 +549,58 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     return _publicacion;
 }
 
-//listado
+// Mostrar lista
+//-----------------------------------------------------------
+//function headers(_lista) {
+//    var cabecera = '<tr>';
+//    for (var j in _lista[0])
+//    {
+//        cabecera += '<th>' + j + '</th>';
+//    }
+//    cabecera += '</tr>';
+//    $('#myhead').append(cabecera);
+//}
+//function listar(_lista) {
+//    //cargo las categorias
+//    headers(_lista);
+//    //recorro y cargo la tabla
+//    for (var i = 0; i < _lista.length; i++)
+//    {
+//        var elemento = '<tr>';
+//        for (var j in _lista[i])
+//        {
+//            elemento += '<td>' + _lista[i][j] + '</td>';
+//        }
+//        elemento += '</tr>';
+//        $('#mybody').append(elemento);
+//    }
+//}
+//------------------------------------------------------------
+
+function listar(_lista, _thead, _tbody) {
+    //cargo las categorias
+    var cabecera = '<tr>';
+    for (var j in _lista[0])
+    {
+        cabecera += '<th>' + j + '</th>';
+    }
+    cabecera += '</tr>';
+    $('#' + _thead).html(cabecera);
+    $('#' + _tbody).html("");
+    //recorro y cargo la tabla
+    for (var i = 0; i < _lista.length; i++)
+    {
+        var elemento = '<tr>';
+        for (var k in _lista[i])
+        {
+            elemento += '<td>' + _lista[i][k] + '</td>';
+        }
+        elemento += '</tr>';
+        $('#' + _tbody).append(elemento);
+    }
+}
+
+// Listar publicaciones de precio menor a un precio dado...
 function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
     var _listadoPrecio = new Array();
     for (var i = 0; i < _listaPublicaciones.length; i++)
@@ -576,21 +612,34 @@ function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
     }
     return _listadoPrecio;
 }
+// Listar ventas con fecha igual a una fecha dada...
+function total_ventas_fecha(_ventas, _fecha) {
+    var _totalVentas = 0;
+    for (var i = 0; i < _ventas.length; i++)
+    {
+        if (_ventas[i].fecha === _fecha)
+        {
+            //_totalVentas++; ---> esto sería un contador de ventas y pide el total
+            // en _totalVentas acumulamos los totales de cada venta...
+            _totalVentas += _ventas[i].total;
+        }
+    }
+    return _totalVentas;
+}
 
+// Separar palabras de un string...
 function separar_palabras(_texto)
 {
     var _palabras = new Array();
     var _caracterseparador = " ";
     _palabras = _texto.split(_caracterseparador);
-
     return _palabras;
-
 }
-
-
-//Ordenar publicaciones alfabeticamente utilizando bubble sort
+// Ordenar publicaciones alfabeticamente utilizando bubble sort
 function ordenar_publicaciones(_listaPublicaciones) {
-    var _publicaciones = _listaPublicaciones;
+    //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
+    //var _publicaciones = JSON.parse( JSON.stringify( _listaPublicaciones ) ); -->furula pero usando JSON
+    var _publicaciones = _listaPublicaciones.slice(0); // perfecta! 
     var _largo = _publicaciones.length;
     do
     {
@@ -600,25 +649,22 @@ function ordenar_publicaciones(_listaPublicaciones) {
             //cargo los titulos completos
             var _titulo1 = _publicaciones[i - 1].titulo.toLowerCase();
             var _titulo2 = _publicaciones[i].titulo.toLowerCase();
-
             /*separo los titulos por palabras considerando que algunos 
              titulos pueden tener solo una palabra*/
             var _palabras_titulo1 = separar_palabras(_titulo1);
             var _palabras_titulo2 = separar_palabras(_titulo2);
-            
-            var _cantidadpalabras=0;
+            var _cantidadpalabras = 0;
             if (_palabras_titulo2.length > _palabras_titulo1.length)
             {
-                _cantidadpalabras =_palabras_titulo1.length;
+                _cantidadpalabras = _palabras_titulo1.length;
             } else {
                 _cantidadpalabras = _palabras_titulo2.length;
             }
-            for(var j = 0; j<_cantidadpalabras;j++)
+            for (var j = 0; j < _cantidadpalabras; j++)
             {
-                if(_palabras_titulo1[j]!==_palabras_titulo2[j])
+                if (_palabras_titulo1[j] !== _palabras_titulo2[j])
                 {
-                    //ordenar y salir
-                    
+                    //ordenar y salir...
                     //obtengo el largo de la palabra mas corta
                     if (_palabras_titulo2[j].length > _palabras_titulo1[j].length)
                     {
@@ -626,13 +672,12 @@ function ordenar_publicaciones(_listaPublicaciones) {
                     } else {
                         var _largoPalabra = _palabras_titulo2[j].length;
                     }
-                    
                     //comparo las letras de la palabra mas corta 
                     //y de ser necesario ordeno utilizando el bubble sort
                     for (var k = 0; k < _largoPalabra; k++)
                     {
                         if (_palabras_titulo1[j].charAt(k) !== _palabras_titulo2[j].charAt(k))
-                        { 
+                        {
                             if (_palabras_titulo1[j].charAt(k) > _palabras_titulo2[j].charAt(k))
                             {
                                 var aux = _publicaciones[i - 1];
@@ -645,46 +690,26 @@ function ordenar_publicaciones(_listaPublicaciones) {
                                 j = _cantidadpalabras;
                                 break;
                             }
-                        } 
+                        }
                     }
-
                 } else {
                     break;
                 }
             }
-
         }
         _largo = _largo - 1;
     } while (_cambios === true);
-
     return _publicaciones;
 }
 
-$("#probarfuncion").click(function (){
-    //listar(listaPublicaciones);
-var listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    listar(listaOrdenada);  
-});
-
-function total_ventas_fecha(_listaVentas, _fecha)
-{
-    var _totalVentas = 0;
-    for (var i = 0; i < _listaVentas.length; i++)
-    {
-        if (_listaVentas[i].fecha === _fecha)
-        {
-            _totalVentas++;
-        }
-    }
-    return _totalVentas;
-}
-//BUSCAR POSICION PUBLICACION
+// Buscar posición (indice) de publicación según su _codigo
 function posicion_publicacion(_listaPublicaciones, _codigo) {
     var _posicion = 0;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo);
+        var _codigo_elemento = _listaPublicaciones[i].codigo;
         if (_codigo_elemento === _codigo)
+        // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
         {
             _posicion = i;
             break;
@@ -693,28 +718,31 @@ function posicion_publicacion(_listaPublicaciones, _codigo) {
     return _posicion;
 
 }
-//ACTUALIZAR
+
+// Actualizar stock de un objeto de _listaPublicaciones, con _codigoPublicacion usando _cantidad
 function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
     //Busco la publicacion para obtener su informacion
     var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
     var _posPublicacion = posicion_publicacion(_listaPublicaciones, _codigoPublicacion);
     //Actualizo el stock
-    var _stock = parseInt(_publicacion.stock) - _cantidad;
+    var _stock = _publicacion.stock - _cantidad;
     _publicacion.stock = _stock;
     //Utilizando la posicion actualizo el objeto
     _listaPublicaciones[_posPublicacion] = _publicacion;
 }
-//INGRESOS DE DATOS
-function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad) {
+
+// Ingresar una venta
+function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     var _fecha = generar_fecha();
     var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _codigoPublicacion);
-    var _stock = parseInt(_publicacion.stock);
-    var _total = parseInt(_publicacion.precio) * _cantidad;
+    var _stock = _publicacion.stock;
+    var _total = _publicacion.precio * _cantidad;
+    // a _cantidad le paso un parseInt porque lo capturamos como string...
     var _nuevaVenta;
     if (_stock >= _cantidad)
     {
-        var _numeroVenta = _listaVentas.length;
+        var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
         _nuevaVenta = {
             numero: _numeroVenta,
             fecha: _fecha,
@@ -728,6 +756,21 @@ function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad) {
         _nuevaVenta = -1;
         alert('No hay stock!');
     }
-    _listaVentas.push(_nuevaVenta);
+    _ventas.push(_nuevaVenta);
     return _nuevaVenta;
 }
+
+// PRUEBAS
+$("#probarfuncion").click(function () {
+    listar(listaPublicaciones, 'myhead', 'mybody');
+    //listar(listaPublicaciones);
+});
+$("#probarfuncion2").click(function () {
+    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
+    listar(_listaOrdenada, 'myhead', 'mybody');
+    //listar(_listaOrdenada);
+});
+$("#probarfuncion3").click(function () {
+    listar(ventas, 'myhead', 'mybody');
+    //listar(ventas);
+});
