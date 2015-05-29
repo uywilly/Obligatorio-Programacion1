@@ -550,33 +550,6 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
 }
 
 // Mostrar lista
-//-----------------------------------------------------------
-//function headers(_lista) {
-//    var cabecera = '<tr>';
-//    for (var j in _lista[0])
-//    {
-//        cabecera += '<th>' + j + '</th>';
-//    }
-//    cabecera += '</tr>';
-//    $('#myhead').append(cabecera);
-//}
-//function listar(_lista) {
-//    //cargo las categorias
-//    headers(_lista);
-//    //recorro y cargo la tabla
-//    for (var i = 0; i < _lista.length; i++)
-//    {
-//        var elemento = '<tr>';
-//        for (var j in _lista[i])
-//        {
-//            elemento += '<td>' + _lista[i][j] + '</td>';
-//        }
-//        elemento += '</tr>';
-//        $('#mybody').append(elemento);
-//    }
-//}
-//------------------------------------------------------------
-
 function listar(_lista, _thead, _tbody) {
     //cargo las categorias
     var cabecera = '<tr>';
@@ -628,8 +601,7 @@ function total_ventas_fecha(_ventas, _fecha) {
 }
 
 // Separar palabras de un string...
-function separar_palabras(_texto)
-{
+function separar_palabras(_texto){
     var _palabras = new Array();
     var _caracterseparador = " ";
     _palabras = _texto.split(_caracterseparador);
@@ -763,14 +735,11 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
 // PRUEBAS
 $("#probarfuncion").click(function () {
     listar(listaPublicaciones, 'myhead', 'mybody');
-    //listar(listaPublicaciones);
 });
 $("#probarfuncion2").click(function () {
     var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
     listar(_listaOrdenada, 'myhead', 'mybody');
-    //listar(_listaOrdenada);
 });
 $("#probarfuncion3").click(function () {
     listar(ventas, 'myhead', 'mybody');
-    //listar(ventas);
 });
