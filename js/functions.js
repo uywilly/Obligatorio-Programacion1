@@ -348,40 +348,12 @@ var venta =
             total: ' '
         };
 
-//MOSTRAR LISTAS
-function headers(_lista)
-{
-    var cabecera = '<tr>';
-    for (var j in _lista[0])
-    {
-        cabecera += '<th>' + j + '</th>';
-    }
-    cabecera += '</tr>';
-    $('#myhead').append(cabecera);
-}
-function listar(_lista)
-{
-    //cargo las categorias
-    headers(_lista);
-    //recorro y cargo la tabla
-    for (var i = 0; i < _lista.length; i++)
-    {
-        var elemento = '<tr>';
-        for (var j in _lista[i])
-        {
-            elemento += '<td>' + _lista[i][j] + '</td>';
-        }
-        elemento += '</tr>';
-        $('#mybody').append(elemento);
-    }
-}
-
-//validaciones
-function validar_titulo(_titulo)
-{
+// Validaciones
+function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
-    var _caracter = _titulo.charCodeAt(0);
-    if ((_caracter >= 65) && (_caracter <= 90))
+    var _caracter = _string.charCodeAt(0);
+    // la primer letra debe ser mayúscula..
+    if ((_caracter >= 'A') && (_caracter <= 'Z'))
     {
         _correcto = true;
     } else {
@@ -389,11 +361,12 @@ function validar_titulo(_titulo)
     }
     return _correcto;
 }
-function validar_descripcion(_desc)
-{
+function validar_descripcion(_desc) {
+    // la descripción debe empezar con mayúscula y tener al menos 15 caracteres...
+    var _primer_letra_mayuscula = validar_primer_letra_mayuscula(_desc);
     var _correcto = false;
     var _largo = _desc.length;
-    if (_largo >= 15)
+    if (_largo >= 15 && _primer_letra_mayuscula===true)
     {
         _correcto = true;
     } else {
@@ -401,8 +374,7 @@ function validar_descripcion(_desc)
     }
     return _correcto;
 }
-function validar_email(_texto)
-{
+function validar_email(_texto) {
     var _correcto = false;
     if ((_texto.indexOf('@') !== -1) && (_texto.indexOf('@') === _texto.lastIndexOf('@')))
     {
@@ -494,8 +466,9 @@ function validarPrecio(_precio) {
     }
     return _precioValido;
 }
-function generar_fecha()
-{
+
+// Generar fecha
+function generar_fecha() {
     var _fecha = new Date();
     var _mes = _fecha.getMonth() + 1;
     var _dia = _fecha.getDate();
@@ -504,9 +477,9 @@ function generar_fecha()
     _fecha = _dia + '/' + _mes + '/' + _ano;
     return _fecha;
 }
-//Buscadores
-function buscar_publicacion_codigo(_listaPublicaciones, _codigo)
-{
+
+// Buscadores
+function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     var _publicacion = -1;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
@@ -520,9 +493,32 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo)
     return _publicacion;
 }
 
-//listado
-function listar_publicaciones_menor_precio(_listaPublicaciones, _precio)
-{
+// Mostrar lista
+function listar(_lista, _thead, _tbody) {
+    //cargo las categorias
+    var cabecera = '<tr>';
+    for (var j in _lista[0])
+    {
+        cabecera += '<th>' + j + '</th>';
+    }
+    cabecera += '</tr>';
+    $('#' + _thead).html(cabecera);
+    $('#' + _tbody).html("");
+    //recorro y cargo la tabla
+    for (var i = 0; i < _lista.length; i++)
+    {
+        var elemento = '<tr>';
+        for (var k in _lista[i])
+        {
+            elemento += '<td>' + _lista[i][k] + '</td>';
+        }
+        elemento += '</tr>';
+        $('#' + _tbody).append(elemento);
+    }
+}
+
+// Listar publicaciones de precio menor a un precio dado...
+function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
     var _listadoPrecio = new Array();
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
@@ -533,22 +529,33 @@ function listar_publicaciones_menor_precio(_listaPublicaciones, _precio)
     }
     return _listadoPrecio;
 }
+// Listar ventas con fecha igual a una fecha dada...
+function total_ventas_fecha(_ventas, _fecha) {
+    var _totalVentas = 0;
+    for (var i = 0; i < _ventas.length; i++)
+    {
+        if (_ventas[i].fecha === _fecha)
+        {
+            //_totalVentas++; ---> esto sería un contador de ventas y pide el total
+            // en _totalVentas acumulamos los totales de cada venta...
+            _totalVentas += _ventas[i].total;
+        }
+    }
+    return _totalVentas;
+}
 
-function separar_palabras(_texto)
-{
+// Separar palabras de un string...
+function separar_palabras(_texto){
     var _palabras = new Array();
     var _caracterseparador = " ";
     _palabras = _texto.split(_caracterseparador);
-
     return _palabras;
-
 }
-
-
-//Ordenar publicaciones alfabeticamente utilizando bubble sort
-function ordenar_publicaciones(_listaPublicaciones)
-{
-    var _publicaciones = _listaPublicaciones;
+// Ordenar publicaciones alfabeticamente utilizando bubble sort
+function ordenar_publicaciones(_listaPublicaciones) {
+    //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
+    //var _publicaciones = JSON.parse( JSON.stringify( _listaPublicaciones ) ); -->furula pero usando JSON
+    var _publicaciones = _listaPublicaciones.slice(0); // perfecta! 
     var _largo = _publicaciones.length;
     do
     {
@@ -558,25 +565,22 @@ function ordenar_publicaciones(_listaPublicaciones)
             //cargo los titulos completos
             var _titulo1 = _publicaciones[i - 1].titulo.toLowerCase();
             var _titulo2 = _publicaciones[i].titulo.toLowerCase();
-
             /*separo los titulos por palabras considerando que algunos 
              titulos pueden tener solo una palabra*/
             var _palabras_titulo1 = separar_palabras(_titulo1);
             var _palabras_titulo2 = separar_palabras(_titulo2);
-            
-            var _cantidadpalabras=0;
+            var _cantidadpalabras = 0;
             if (_palabras_titulo2.length > _palabras_titulo1.length)
             {
-                _cantidadpalabras =_palabras_titulo1.length;
+                _cantidadpalabras = _palabras_titulo1.length;
             } else {
                 _cantidadpalabras = _palabras_titulo2.length;
             }
-            for(var j = 0; j<_cantidadpalabras;j++)
+            for (var j = 0; j < _cantidadpalabras; j++)
             {
-                if(_palabras_titulo1[j]!==_palabras_titulo2[j])
+                if (_palabras_titulo1[j] !== _palabras_titulo2[j])
                 {
-                    //ordenar y salir
-                    
+                    //ordenar y salir...
                     //obtengo el largo de la palabra mas corta
                     if (_palabras_titulo2[j].length > _palabras_titulo1[j].length)
                     {
@@ -584,13 +588,12 @@ function ordenar_publicaciones(_listaPublicaciones)
                     } else {
                         var _largoPalabra = _palabras_titulo2[j].length;
                     }
-                    
                     //comparo las letras de la palabra mas corta 
                     //y de ser necesario ordeno utilizando el bubble sort
                     for (var k = 0; k < _largoPalabra; k++)
                     {
                         if (_palabras_titulo1[j].charAt(k) !== _palabras_titulo2[j].charAt(k))
-                        { 
+                        {
                             if (_palabras_titulo1[j].charAt(k) > _palabras_titulo2[j].charAt(k))
                             {
                                 var aux = _publicaciones[i - 1];
@@ -603,47 +606,26 @@ function ordenar_publicaciones(_listaPublicaciones)
                                 j = _cantidadpalabras;
                                 break;
                             }
-                        } 
+                        }
                     }
-
                 } else {
                     break;
                 }
             }
-
         }
         _largo = _largo - 1;
     } while (_cambios === true);
-
     return _publicaciones;
 }
 
-$("#probarfuncion").click(function (){
-    //listar(listaPublicaciones);
-var listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    listar(listaOrdenada);  
-});
-
-function total_ventas_fecha(_listaVentas, _fecha)
-{
-    var _totalVentas = 0;
-    for (var i = 0; i < _listaVentas.length; i++)
-    {
-        if (_listaVentas[i].fecha === _fecha)
-        {
-            _totalVentas++;
-        }
-    }
-    return _totalVentas;
-}
-//BUSCAR POSICION PUBLICACION
-function posicion_publicacion(_listaPublicaciones, _codigo)
-{
+// Buscar posición (indice) de publicación según su _codigo
+function posicion_publicacion(_listaPublicaciones, _codigo) {
     var _posicion = 0;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo);
+        var _codigo_elemento = _listaPublicaciones[i].codigo;
         if (_codigo_elemento === _codigo)
+        // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
         {
             _posicion = i;
             break;
@@ -652,30 +634,31 @@ function posicion_publicacion(_listaPublicaciones, _codigo)
     return _posicion;
 
 }
-//ACTUALIZAR
-function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad)
-{
+
+// Actualizar stock de un objeto de _listaPublicaciones, con _codigoPublicacion usando _cantidad
+function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
     //Busco la publicacion para obtener su informacion
     var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
     var _posPublicacion = posicion_publicacion(_listaPublicaciones, _codigoPublicacion);
     //Actualizo el stock
-    var _stock = parseInt(_publicacion.stock) - _cantidad;
+    var _stock = _publicacion.stock - _cantidad;
     _publicacion.stock = _stock;
     //Utilizando la posicion actualizo el objeto
     _listaPublicaciones[_posPublicacion] = _publicacion;
 }
-//INGRESOS DE DATOS
-function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad)
-{
+
+// Ingresar una venta
+function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     var _fecha = generar_fecha();
     var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _codigoPublicacion);
-    var _stock = parseInt(_publicacion.stock);
-    var _total = parseInt(_publicacion.precio) * _cantidad;
+    var _stock = _publicacion.stock;
+    var _total = _publicacion.precio * _cantidad;
+    // a _cantidad le paso un parseInt porque lo capturamos como string...
     var _nuevaVenta;
     if (_stock >= _cantidad)
     {
-        var _numeroVenta = _listaVentas.length;
+        var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
         _nuevaVenta = {
             numero: _numeroVenta,
             fecha: _fecha,
@@ -689,8 +672,134 @@ function ingresar_ventas(_listaVentas, _codigoPublicacion, _cantidad)
         _nuevaVenta = -1;
         alert('No hay stock!');
     }
-    _listaVentas.push(_nuevaVenta);
+    _ventas.push(_nuevaVenta);
     return _nuevaVenta;
 }
 
+function buscar_ventas_codPublicacion(_listaVentas,_codigoPub)
+{
+    var _ventas = new Array();
+    for (var i = 0; i < _listaVentas.length; i++)
+    {
+        var _codigo = parseInt(_listaVentas[i].codigo_pub);
+        if (_codigo === _codigoPub)
+        {
+            _ventas.push(_listaVentas[i]);
+        }
+    }
+    if(_ventas.length === 0)
+    {
+       //si no hay ventas con ese codigo de publicacion retorno -1
+       return _ventas = -1;
+    }else
+    {
+        //si hay ventas con ese codigo de publicacion retorno listado
+       return _ventas;
+    }
+}
 
+function listar_mayores_ventas(_listadoVentas)
+{
+    var _listaMayoresVentas = new Array();
+    //recorro el listado de ventas
+    for(var i = 0; i<_listadoVentas.length;i++)
+    {
+        //consulto si ya no he contabilizado esa venta
+        var _publicacion = _listadoVentas[i];
+        var _numPublicacion = parseInt(_publicacion.codigo_pub);
+        var _yaConsultada = buscar_ventas_codPublicacion(_listaMayoresVentas,_numPublicacion);
+        if (_yaConsultada === -1)
+        {
+            //ya que no he procesado este elemento busco todas las ventas
+            //con ese codigo, sumo sus cantidades y los agrego a listadoMayoresVentas
+            var _ventasPublicacion = buscar_ventas_codPublicacion(_listadoVentas,_numPublicacion);
+            var _total = 0;
+            for(var j = 0; j<_ventasPublicacion.length;j++)
+            {
+                _total += _ventasPublicacion[j].cantidad;
+            }
+            _publicacion.cantidad = _total;
+            _listaMayoresVentas.push(_publicacion);
+        }else
+        {
+            i++;
+        }
+    }
+    return _listaMayoresVentas;
+}
+function topTen(_listadoVentas)
+{
+    var _top10 = new Array();
+    var _listado = listar_mayores_ventas(_listadoVentas);
+    var _largo = _listado.length;
+    do{
+        var _cambio = false;
+        for(var j = 1; j<=_largo-1;j++)
+        {
+            var _total1 = parseInt(_listado[j-1].cantidad);
+            var _total2 = parseInt(_listado[j].cantidad);
+            if(_total1 > _total2)
+            {
+                var _aux = _listado[j-1];
+                _listado[j-1] = _listado[j];
+                _listado[j] = _aux;
+                _cambio = true;                 
+            }else if(_total1===_total2)
+            {
+                var _pub1 = buscar_publicacion_codigo(listaPublicaciones, parseInt(_listado[j-1].codigo_pub));
+                var _pub2 = buscar_publicacion_codigo(listaPublicaciones, parseInt(_listado[j].codigo_pub));
+                var _precio1 = parseInt(_pub1.precio);
+                var _precio2 = parseInt(_pub2.precio);   
+                if(_precio1 > _precio2)
+                {
+                    var _aux = _listado[j];
+                    _listado[j] = _listado[j-1];
+                    _listado[j-1] = _aux;
+                    _cambio = true;    
+                    
+                }
+            }
+        }
+        _largo--;
+    }while(_cambio === true);
+    
+    //cargo solamente las 10
+    for (var i =0; i<10;i++)
+    {
+        _top10[i] = _listado[i];
+    }
+    return _top10;
+}
+
+/*
+//ALGUNAS PRUEBAS
+$("#btnPrueba").click(function () {
+     
+    var venta1 = ingresar_ventas(ventas, 1234567891234, 2);
+    var venta1 = ingresar_ventas(ventas, 1234567891234, 2);
+    var venta1 = ingresar_ventas(ventas, 1234567891234, 2);
+    var venta1 = ingresar_ventas(ventas, 1234567891234, 2);
+    var venta2 = ingresar_ventas(ventas, 2345678912345, 10);
+    var venta2 = ingresar_ventas(ventas, 2345678912345, 10);
+    var venta2 = ingresar_ventas(ventas, 1134567898, 10);
+    var venta2 = ingresar_ventas(ventas, 1134567898, 10);
+    var venta2 = ingresar_ventas(ventas, 5589012343, 30);
+    var venta2 = ingresar_ventas(ventas, 1134567898, 10);
+    var venta2 = ingresar_ventas(ventas, 1145678910, 10);
+    var venta2 = ingresar_ventas(ventas, 1145678910, 10);
+    var venta2 = ingresar_ventas(ventas, 1145678910, 10);
+    var venta2 = ingresar_ventas(ventas, 7778901230, 3);
+    var venta2 = ingresar_ventas(ventas, 4489123458, 5);
+    var venta2 = ingresar_ventas(ventas, 1112345672, 3);
+    var venta2 = ingresar_ventas(ventas, 4567890123456, 5);
+   
+    
+    
+    //listar(ventas, 'myhead', 'mybody');
+    //var lista1 = listar_mayores_ventas(ventas);
+    //listar(lista1, 'myhead', 'mybody');
+    var lista2 = topTen(ventas);
+    listar(lista2, 'myhead', 'mybody');
+
+});
+ */
