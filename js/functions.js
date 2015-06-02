@@ -554,12 +554,16 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     var _publicacion = -1;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = _listaPublicaciones[i].codigo;
+        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo); //AGREGO PARSE INT YA QUE CON ESTOS DATOS LO LEVANTA COMO STRING
         if (_codigo_elemento === _codigo)
         {
             _publicacion = _listaPublicaciones[i];
             break;
         }
+    }
+    if(_publicacion === -1)
+    {
+        alert("No existe la publicacion");
     }
     return _publicacion;
 }
@@ -727,23 +731,29 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     var _total = _publicacion.precio * _cantidad;
     // a _cantidad le paso un parseInt porque lo capturamos como string...
     var _nuevaVenta;
-    if (_stock >= _cantidad)
+    if(_publicacion !==-1)
     {
-        var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
-        _nuevaVenta = {
-            numero: _numeroVenta,
-            fecha: _fecha,
-            codigo_pub: _codigoPublicacion,
-            cantidad: _cantidad,
-            total: _total
-        };
-        actualizar_stock(listaPublicaciones, _codigoPublicacion, _cantidad);
+        if (_stock >= _cantidad)
+        {
+            var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
+            _nuevaVenta = {
+                numero: _numeroVenta,
+                fecha: _fecha,
+                codigo_pub: _codigoPublicacion,
+                cantidad: _cantidad,
+                total: _total
+            };
+            actualizar_stock(listaPublicaciones, _codigoPublicacion, _cantidad);
+            _ventas.push(_nuevaVenta);
+            alert('Venta agregada con exito');
 
-    } else {
-        _nuevaVenta = -1;
-        alert('No hay stock!');
+        } else {
+            alert('No hay stock!');
+        }
+    }else
+    {
+        alert('No se agrego la venta');
     }
-    _ventas.push(_nuevaVenta);
     return _nuevaVenta;
 }
 
@@ -895,4 +905,10 @@ $("#probarfuncion9").click(function () {
 $("#probarfuncion10").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones,250);
     dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
+});
+$('#ingresar_venta').click(function(){
+    var codigo_pub_venta = parseInt($('#codigo_pub_venta').val());
+    var cantidad = parseInt($('#cantidad_venta').val());
+    var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
+    
 });
