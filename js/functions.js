@@ -747,7 +747,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
 // Ordenar _array por _clave
 function ordenarArrayPorClave(_array, _clave) {
     // clono el array _ventas
-    _lista = _array.slice();
+    var _lista = _array.slice();
     // esta es la magia que apenas entiendo...
     _lista.sort(function (a, b) {
         // significa algo como retornar el array pero ordenado de b -> a (descendente)
@@ -780,7 +780,14 @@ function sumarVentas(_ventas) {
     return _array;
 }
 // Dibujar tabla tops   ->> es distinta porque mezcla datos, no saca el header de las claves...
-function dibujarTablaTops(_array, _tabla) {
+function dibujarTablaTops(_arrayDeTops, _tabla) {
+    // clono el array para trabajar sobre copia...
+    var _array = JSON.parse( JSON.stringify(_arrayDeTops));
+    // elimino en los objetos del array las claves no usadas..
+    for (var n = 0; n < _arrayDeTops.length; n++){
+        delete _arrayDeTops[n].fecha;
+        delete _arrayDeTops[n].numero;
+    }
     // thead
     var _cabecera = "<tr><th>Publicación</th><th>Ventas</th><th>Precio</th></tr>";
     // un thead que sea hijo directo de un #table1
