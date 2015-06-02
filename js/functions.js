@@ -386,8 +386,8 @@ var ventas = new Array(
     numero: 3,
     fecha: '23/05/2015',
     codigo_pub: '5678901234567',
-    cantidad: '3',
-    total: "840"
+    cantidad: 3,
+    total: 840
 },
 {
     numero: 4,
@@ -402,6 +402,18 @@ var ventas = new Array(
     codigo_pub: '2345678912345',
     cantidad: 4,
     total: 1040
+}, {
+    numero: 6,
+    fecha: '25/05/2015',
+    codigo_pub: '3356789014',
+    cantidad: 3,
+    total: 345
+}, {
+    numero: 7,
+    fecha: '25/05/2015',
+    codigo_pub: '6789123456789',
+    cantidad: 2,
+    total: 426
 });
 
 // Validaciones
@@ -550,25 +562,25 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
 }
 
 // Dibujar tabla
-function dibujarTabla(_array,_tabla){
+function dibujarTabla(_array, _tabla) {
     // thead
     var _cabecera = "<tr>";
-    for(var j in _array[0]){
+    for (var j in _array[0]) {
         _cabecera += "<th>" + j + "</th>";
     }
     _cabecera += "</tr>";
     // un thead que sea hijo directo de un #table1
-    $("#"+_tabla+">thead").html(_cabecera);
+    $("#" + _tabla + ">thead").html(_cabecera);
     // limpio el tbody para rellenarlo..
-    $("#"+_tabla+">tbody").html("");
+    $("#" + _tabla + ">tbody").html("");
     // tbody
-    for(var i = 0; i < _array.length; i++){
+    for (var i = 0; i < _array.length; i++) {
         var _linea = "<tr>";
-        for (var k in _array[i]){
+        for (var k in _array[i]) {
             _linea += "<td>" + _array[i][k] + "</td>";
         }
         _linea += "</tr>";
-        $("#"+_tabla+">tbody").append(_linea);
+        $("#" + _tabla + ">tbody").append(_linea);
     }
 }
 
@@ -610,8 +622,8 @@ function separar_palabras(_texto) {
 // Ordenar publicaciones alfabeticamente utilizando bubble sort
 function ordenar_publicaciones(_listaPublicaciones) {
     //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
-    //var _publicaciones = JSON.parse( JSON.stringify( _listaPublicaciones ) ); -->furula pero usando JSON
-    var _publicaciones = _listaPublicaciones.slice(0); // perfecta! 
+    var _publicaciones = _listaPublicaciones.slice(0); // -->hay que comprobarla mejor...
+    var _publicaciones = JSON.parse( JSON.stringify(_listaPublicaciones)); // -->furula pero usando JSON    
     var _largo = _publicaciones.length;
     do
     {
@@ -732,10 +744,8 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     return _nuevaVenta;
 }
 
-// Calcular tops de ventas (o de cualquier array ordenado por alguna clave)
-//------------------------------------------------------------------------------
 // Ordenar _array por _clave
-function ordenarArrayPorClave(_array,_clave) {
+function ordenarArrayPorClave(_array, _clave) {
     // clono el array _ventas
     _lista = _array.slice();
     // esta es la magia que apenas entiendo...
@@ -753,7 +763,38 @@ function cuantasPrimerasDeArray(_array, _cuantas) {
     var _primeras = _array.slice(0, _cuantas);
     return _primeras;
 }
-//------------------------------------------------------------------------------
+// Sumar ventas de misma publicación
+function sumarVentas(_ventas) {
+    var _array = JSON.parse( JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
+    for (var i = 0; i < _ventas.length - 1; i++) {
+        var k = i + 1;
+        for (var j = k; j < _array.length; j++) {
+            if (_array[i].codigo_pub === _array[j].codigo_pub) {
+                _array[i].total += _array[j].total;
+                _array[i].cantidad += _array[j].cantidad;
+                _array.splice(j, 1);
+                j--;
+            }
+        }
+    }
+    return _array;
+}
+// Dibujar tabla tops   ->> es distinta porque mezcla datos, no saca el header de las claves...
+function dibujarTablaTops(_array, _tabla) {
+    // thead
+    var _cabecera = "<tr><th>Publicación</th><th>Ventas</th><th>Precio</th></tr>";
+    // un thead que sea hijo directo de un #table1
+    $("#" + _tabla + ">thead").html(_cabecera);
+    // limpio el tbody para rellenarlo..
+    $("#" + _tabla + ">tbody").html("");
+    // tbody
+    for (var i = 0; i < _array.length; i++) {
+        var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _array[i].codigo_pub);
+        var _linea = "<tr><td>"+_publicacion.titulo+"</td><td>"+
+                _array[i].cantidad+"</td><td>"+_publicacion.precio+"</td></tr>";
+        $("#" + _tabla + ">tbody").append(_linea);
+    }
+}
 
 // PRUEBAS
 $("#probarfuncion").click(function () {
@@ -766,14 +807,31 @@ $("#probarfuncion2").click(function () {
 $("#probarfuncion3").click(function () {
     dibujarTabla(ventas, 'tabla1');
 });
-$("#probarfuncion4").click(function(){
-    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas,'total');
+$("#probarfuncion4").click(function () {
+    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas, 'total');
     dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
 });
 $("#probarfuncion5").click(function () {
     // en este caso la clave es total...
-    var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas,'total');
+    var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas, 'total');
     // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
     var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
     dibujarTabla(_tops, 'tabla1');
+});
+$("#probarfuncion6").click(function () {
+    var _sumaVentas = sumarVentas(ventas);
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
+    dibujarTabla(_sumaVentasOrdenadasPorMayor, 'tabla1');
+});
+$("#probarfuncion7").click(function () {
+    var _sumaVentas = sumarVentas(ventas);
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
+    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 3);
+    dibujarTabla(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
+});
+$("#probarfuncion8").click(function () {
+    var _sumaVentas = sumarVentas(ventas);
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
+    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 3);
+    dibujarTablaTops(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
 });
