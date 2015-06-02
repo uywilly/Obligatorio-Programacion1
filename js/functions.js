@@ -803,6 +803,44 @@ function dibujarTablaTops(_arrayDeTops, _tabla) {
     }
 }
 
+// Reporte por fecha
+function totalVentasPorFecha(_ventas,_fecha){
+    var _array = JSON.parse( JSON.stringify(_ventas));
+    for (var i = 0; i < _array.length - 1; i++) {
+        var k = i + 1;
+        for (var j = k; j < _array.length; j++) {
+            if (_array[i].fecha === _array[j].fecha && _array[i].fecha === _fecha) {
+                _array[i].total += _array[j].total;
+                _array[i].cantidad += _array[j].cantidad;
+                _array.splice(j, 1);
+                j--;
+            }
+        }
+        for(var n = 0; n < _array.length; n++){
+            delete _array[n].numero;
+            delete _array[n].codigo_pub;
+        }
+    }
+    for (var g = 0; g < _array.length; g++){
+        if (_array[g].fecha !== _fecha){
+            _array.splice(g, 1);
+            g--;
+        }
+    }
+    return _array;    
+}
+// Reporte por precio menor a dado
+function publicacionesConPrecioMenorADado(_publicaciones,_precio){
+    var _array = JSON.parse( JSON.stringify(_publicaciones));
+    var _publicacionesDePrecioMenor = new Array();
+    for (var i = 0; i < _array.length; i++) {
+        if(_array[i].precio < _precio){
+            _publicacionesDePrecioMenor.push(_array[i]);
+        }
+    }
+    return _publicacionesDePrecioMenor;
+}
+
 // PRUEBAS
 $("#probarfuncion").click(function () {
     dibujarTabla(listaPublicaciones, 'tabla1');
@@ -841,4 +879,12 @@ $("#probarfuncion8").click(function () {
     var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
     var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 3);
     dibujarTablaTops(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
+});
+$("#probarfuncion9").click(function () {
+    var _ventasPorFecha = totalVentasPorFecha(ventas,'24/05/2015');
+    dibujarTabla(_ventasPorFecha, 'tabla1');
+});
+$("#probarfuncion10").click(function () {
+    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones,250);
+    dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
 });
