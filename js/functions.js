@@ -780,6 +780,11 @@ function sumarVentas(_ventas) {
             }
         }
     }
+    // esto es para borrar claves innecesarias del nuevo array..
+    for (var n = 0; n < _array.length; n++){
+        delete _array[n].fecha;
+        delete _array[n].numero;
+    }
     return _array;
 }
 // Dibujar tabla tops   ->> es distinta porque mezcla datos, no saca el header de las claves...
