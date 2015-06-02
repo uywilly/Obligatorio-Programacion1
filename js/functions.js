@@ -554,11 +554,6 @@ function dibujarTabla(_array,_tabla){
     // thead
     var _cabecera = "<tr>";
     for(var j in _array[0]){
-        // arreglo para que muestre la palabra año aunque
-        // la clave se llame year...
-        if(j==='year'){
-            j='año';
-        }
         _cabecera += "<th>" + j + "</th>";
     }
     _cabecera += "</tr>";
@@ -771,11 +766,11 @@ $("#probarfuncion2").click(function () {
 $("#probarfuncion3").click(function () {
     dibujarTabla(ventas, 'tabla1');
 });
-//$("#probarfuncion3").click(function(){
-//    var _ventasOrdenadasPorTotales = ordenarVentasPorTotal(ventas);
-//    listar(_ventasOrdenadasPorTotales, 'myhead', 'mybody');
-//});
-$("#probarfuncion4").click(function () {
+$("#probarfuncion4").click(function(){
+    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas,'total');
+    dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
+});
+$("#probarfuncion5").click(function () {
     // en este caso la clave es total...
     var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas,'total');
     // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
