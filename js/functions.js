@@ -549,27 +549,31 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     return _publicacion;
 }
 
-// Mostrar lista
-function listar(_lista, _thead, _tbody) {
-    //cargo las categorias
-    var cabecera = '<tr>';
-    for (var j in _lista[0])
-    {
-        cabecera += '<th>' + j + '</th>';
-    }
-    cabecera += '</tr>';
-    $('#' + _thead).html(cabecera);
-    $('#' + _tbody).html("");
-    //recorro y cargo la tabla
-    for (var i = 0; i < _lista.length; i++)
-    {
-        var elemento = '<tr>';
-        for (var k in _lista[i])
-        {
-            elemento += '<td>' + _lista[i][k] + '</td>';
+// Dibujar tabla
+function dibujarTabla(_array,_tabla){
+    // thead
+    var _cabecera = "<tr>";
+    for(var j in _array[0]){
+        // arreglo para que muestre la palabra año aunque
+        // la clave se llame year...
+        if(j==='year'){
+            j='año';
         }
-        elemento += '</tr>';
-        $('#' + _tbody).append(elemento);
+        _cabecera += "<th>" + j + "</th>";
+    }
+    _cabecera += "</tr>";
+    // un thead que sea hijo directo de un #table1
+    $("#"+_tabla+">thead").html(_cabecera);
+    // limpio el tbody para rellenarlo..
+    $("#"+_tabla+">tbody").html("");
+    // tbody
+    for(var i = 0; i < _array.length; i++){
+        var _linea = "<tr>";
+        for (var k in _array[i]){
+            _linea += "<td>" + _array[i][k] + "</td>";
+        }
+        _linea += "</tr>";
+        $("#"+_tabla+">tbody").append(_linea);
     }
 }
 
@@ -758,14 +762,14 @@ function cuantasPrimerasDeArray(_array, _cuantas) {
 
 // PRUEBAS
 $("#probarfuncion").click(function () {
-    listar(listaPublicaciones, 'myhead', 'mybody');
+    dibujarTabla(listaPublicaciones, 'tabla1');
 });
 $("#probarfuncion2").click(function () {
     var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    listar(_listaOrdenada, 'myhead', 'mybody');
+    dibujarTabla(_listaOrdenada, 'tabla1');
 });
 $("#probarfuncion3").click(function () {
-    listar(ventas, 'myhead', 'mybody');
+    dibujarTabla(ventas, 'tabla1');
 });
 //$("#probarfuncion3").click(function(){
 //    var _ventasOrdenadasPorTotales = ordenarVentasPorTotal(ventas);
@@ -776,5 +780,5 @@ $("#probarfuncion4").click(function () {
     var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas,'total');
     // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
     var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
-    listar(_tops, 'myhead', 'mybody');
+    dibujarTabla(_tops, 'tabla1');
 });
