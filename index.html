@@ -4,22 +4,42 @@
         <title>Obligatorio - Programación 1</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            td, th {border:1px solid}
-        </style>
+        <style>td, th {border:1px solid}</style>
     </head>
     <body>
-        <p>Pruebas</p>
-        <input type="button" value="Publicaciones Desordenadas" id="probarfuncion"><br>
-        <input type="button" value="Publicaciones Ordenadas" id="probarfuncion2"><br>
-        <input type="button" value="Ventas" id="probarfuncion3"><br>
-        <input type="button" value="Ventas ordenadas de mayor a menor" id="probarfuncion4"><br>
-        <input type="button" value="Top '3' Ventas" id="probarfuncion5"><br>
-        <input type="button" value="Ventas Totales" id="probarfuncion6"><br>
-        <input type="button" value="Top '3' Ventas Totales" id="probarfuncion7"><br>
-        <input type="button" value="Tabla Top '3' Ventas Totales" id="probarfuncion8"><br>
-        <input type="button" value="Ventas totales el '24/05/2015'" id="probarfuncion9"><br>
-        <input type="button" value="Publicaciones con precio < 250" id="probarfuncion10"><br>
+        <form style="border: 1px solid black; max-width: 610px">
+            <p>
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo">
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo">
+                <label for="imagen">Imagen:</label>
+                <input type="text" id="imagen"><br>
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion">
+                <label for="autor">Autor:</label>
+                <input type="text" id="autor"><br>
+                <label for="precio">Precio:</label>
+                <input type="text" id="precio">
+                <label for="stock">Stock:</label>
+                <input type="text" value="0" id="stock">
+                <label for="estado">Estado:</label>
+                <input type="text" value="habilitado" id="estado"><br>
+                <input type="button" value="Ingresar Publicación"> <input type="reset">
+            </p>
+        </form><br>
+        <input type="button" value="Publicaciones Desordenadas" id="probarfuncion">
+        <input type="button" value="Publicaciones Ordenadas" id="probarfuncion2"><br><br>
+        <input type="button" value="Ventas" id="probarfuncion3">
+        <input type="button" value="Ventas ordenadas de mayor a menor" id="probarfuncion4">
+        <input type="button" value="Top '3' Ventas" id="probarfuncion5"><br><br>
+        <input type="button" value="Ventas Totales" id="probarfuncion6">
+        <input type="button" value="Top '3' Ventas Totales" id="probarfuncion7">
+        <input type="button" value="Tabla Top '3' Ventas Totales" id="probarfuncion8"><br><br>
+        <input type="button" value="Ventas totales el '24/05/2015'" id="probarfuncion9">
+        <input type="button" value="Publicaciones con precio < 250" id="probarfuncion10"><br><br>
         <table id="tabla1">
             <thead></thead>
             <tbody></tbody>

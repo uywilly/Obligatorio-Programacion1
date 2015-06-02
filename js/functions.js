@@ -416,6 +416,9 @@ var ventas = new Array(
     total: 426
 });
 
+// Constantes
+var stockMinimo = 4;
+
 // Validaciones
 function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
