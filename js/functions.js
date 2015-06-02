@@ -422,7 +422,7 @@ function validar_descripcion(_desc) {
     var _primer_letra_mayuscula = validar_primer_letra_mayuscula(_desc);
     var _correcto = false;
     var _largo = _desc.length;
-    if (_largo >= 15 && _primer_letra_mayuscula===true)
+    if (_largo >= 15 && _primer_letra_mayuscula === true)
     {
         _correcto = true;
     } else {
@@ -601,12 +601,13 @@ function total_ventas_fecha(_ventas, _fecha) {
 }
 
 // Separar palabras de un string...
-function separar_palabras(_texto){
+function separar_palabras(_texto) {
     var _palabras = new Array();
     var _caracterseparador = " ";
     _palabras = _texto.split(_caracterseparador);
     return _palabras;
 }
+
 // Ordenar publicaciones alfabeticamente utilizando bubble sort
 function ordenar_publicaciones(_listaPublicaciones) {
     //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
@@ -681,11 +682,11 @@ function posicion_publicacion(_listaPublicaciones, _codigo) {
     {
         var _codigo_elemento = _listaPublicaciones[i].codigo;
         if (_codigo_elemento === _codigo)
-        // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
-        {
-            _posicion = i;
-            break;
-        }
+                // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
+                {
+                    _posicion = i;
+                    break;
+                }
     }
     return _posicion;
 
@@ -732,6 +733,29 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     return _nuevaVenta;
 }
 
+// Calcular tops de ventas (o de cualquier array ordenado por alguna clave)
+//------------------------------------------------------------------------------
+// Ordenar _array por _clave
+function ordenarArrayPorClave(_array,_clave) {
+    // clono el array _ventas
+    _lista = _array.slice();
+    // esta es la magia que apenas entiendo...
+    _lista.sort(function (a, b) {
+        // significa algo como retornar el array pero ordenado de b -> a (descendente)
+        // usando los valores de la clave (_clave) de cada objeto... 
+        return b[_clave] - a[_clave];
+    });
+    // retorno la _lista ordenada...
+    return _lista;
+}
+// Tomar sólo las primeras '_cuantas' de ese _array...
+function cuantasPrimerasDeArray(_array, _cuantas) {
+    // creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
+    var _primeras = _array.slice(0, _cuantas);
+    return _primeras;
+}
+//------------------------------------------------------------------------------
+
 // PRUEBAS
 $("#probarfuncion").click(function () {
     listar(listaPublicaciones, 'myhead', 'mybody');
@@ -742,4 +766,15 @@ $("#probarfuncion2").click(function () {
 });
 $("#probarfuncion3").click(function () {
     listar(ventas, 'myhead', 'mybody');
+});
+//$("#probarfuncion3").click(function(){
+//    var _ventasOrdenadasPorTotales = ordenarVentasPorTotal(ventas);
+//    listar(_ventasOrdenadasPorTotales, 'myhead', 'mybody');
+//});
+$("#probarfuncion4").click(function () {
+    // en este caso la clave es total...
+    var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas,'total');
+    // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
+    var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
+    listar(_tops, 'myhead', 'mybody');
 });
