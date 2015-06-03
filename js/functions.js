@@ -762,6 +762,31 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     return _nuevaVenta;
 }
 
+// Clona _ventas pero le agrega la clave precio
+function agregarPrecioPublicacionEnArrayVentas(_ventas){
+    var _lista = new Array();
+    for (var i = 0; i < _ventas.length; i++){
+        //cargo la venta
+        var _venta = _ventas[i];
+        // cargo el codigo_pub de la venta
+        var _codigo = parseInt(_venta.codigo_pub);
+        // cargo el precio de la publicacion que tenga el _codigo de la venta
+        var _precio = buscar_publicacion_codigo(listaPublicaciones,_codigo).precio;
+        // defino una nuevo objeto con la estructura de _venta más la clave nueva precio y lo relleno..
+        var _ventaModif = {
+            numero: _venta.numero,
+             fecha: _venta.fecha,
+             codigo_pub: _venta.codigo_pub,
+             cantidad: _venta.cantidad,
+             total: _venta.total,
+             precio: _precio
+            };
+        // lo agrego a la _lista
+        _lista.push(_ventaModif);
+    }
+    return _lista;
+}
+
 // Ordenar _array por _clave
 function ordenarArrayPorClave(_array, _clave) {
     // clono el array _ventas
@@ -771,6 +796,30 @@ function ordenarArrayPorClave(_array, _clave) {
         // significa algo como retornar el array pero ordenado de b -> a (descendente)
         // usando los valores de la clave (_clave) de cada objeto... 
         return b[_clave] - a[_clave];
+    });
+    // retorno la _lista ordenada...
+    return _lista;
+}
+// Ordenar _array por _clave1 y luego por _clave2
+function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
+    // clono el array _ventas
+    var _lista = _array.slice();
+    // esta es la magia que apenas entiendo...
+    _lista.sort(function (a, b) {
+        // significa algo como retornar el array pero ordenado de b -> a (descendente)
+        // usando los valores de la clave (_clave) de cada objeto... 
+        //return b[_clave] - a[_clave];
+        if(a[_clave1] - b[_clave1] > 0){
+            return b[_clave1]-a[_clave1];            
+        } else if(b[_clave1] - a[_clave1] < 0){
+            return a[_clave1]-b[_clave1];
+        } else{
+            if(b[_clave2] - a[_clave2] > 0){
+                return a[_clave2]-b[_clave2];
+            } else if(b[_clave2] - a[_clave2] < 0){
+                return b[_clave2]-a[_clave2];
+            }
+        }
     });
     // retorno la _lista ordenada...
     return _lista;
@@ -876,7 +925,7 @@ $("#probarfuncion3").click(function () {
     dibujarTabla(ventas, 'tabla1');
 });
 $("#probarfuncion4").click(function () {
-    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas, 'total');
+    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas, 'total', 'precio');
     dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
 });
 $("#probarfuncion5").click(function () {
@@ -893,15 +942,17 @@ $("#probarfuncion6").click(function () {
 });
 $("#probarfuncion7").click(function () {
     var _sumaVentas = sumarVentas(ventas);
-    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
-    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 3);
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
+    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
     dibujarTabla(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
 });
-$("#probarfuncion8").click(function () {
+$("#probarfuncion8").click(function () {    
     var _sumaVentas = sumarVentas(ventas);
-    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
-    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 3);
-    dibujarTablaTops(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
+    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
+    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
+    var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
+    dibujarTablaTops(_ordenada, 'tabla1');
 });
 $("#probarfuncion9").click(function () {
     var _ventasPorFecha = totalVentasPorFecha(ventas,'24/5/2015');
@@ -917,3 +968,4 @@ $('#ingresar_venta').click(function(){
     var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
     
 });
+$("#codigo_pub_venta").blur(function(){alert('hola');});// tiene que llamar al que crea el total y lo muestra.
