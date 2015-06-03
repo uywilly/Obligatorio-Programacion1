@@ -370,47 +370,49 @@ var usuario = new Array(
 var ventas = new Array(
         {
             numero: 1,
-            fecha: '22/05/2015',
+            fecha: '22/5/2015',
             codigo_pub: '6789123456789',
             cantidad: 1,
             total: 213
         },
 {
     numero: 2,
-    fecha: '23/05/2015',
+    fecha: '23/5/2015',
     codigo_pub: '4489123458',
     cantidad: 2,
     total: 170
 },
 {
     numero: 3,
-    fecha: '23/05/2015',
+    fecha: '23/5/2015',
     codigo_pub: '5678901234567',
     cantidad: 3,
     total: 840
 },
 {
     numero: 4,
-    fecha: '24/05/2015',
+    fecha: '24/5/2015',
     codigo_pub: '3356789014',
     cantidad: 2,
     total: 230
 },
 {
     numero: 5,
-    fecha: '24/05/2015',
+    fecha: '24/5/2015',
     codigo_pub: '2345678912345',
     cantidad: 4,
     total: 1040
-}, {
+},
+{
     numero: 6,
-    fecha: '25/05/2015',
+    fecha: '25/5/2015',
     codigo_pub: '3356789014',
     cantidad: 3,
     total: 345
-}, {
+},
+{
     numero: 7,
-    fecha: '25/05/2015',
+    fecha: '25/5/2015',
     codigo_pub: '6789123456789',
     cantidad: 2,
     total: 426
@@ -754,6 +756,9 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     {
         alert('No se agrego la venta');
     }
+    if (_publicacion.stock<stockMinimo){
+        alert('El stock de este artìculo ha quedado por debajo de '+stockMinimo+' unidades!');
+    }
     return _nuevaVenta;
 }
 
@@ -814,7 +819,7 @@ function dibujarTablaTops(_arrayDeTops, _tabla) {
     $("#" + _tabla + ">tbody").html("");
     // tbody
     for (var i = 0; i < _array.length; i++) {
-        var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _array[i].codigo_pub);
+        var _publicacion = buscar_publicacion_codigo(listaPublicaciones, parseInt(_array[i].codigo_pub)); // el parseInt lo necesita la funciòn buscar_publicacion_codigo...
         var _linea = "<tr><td>"+_publicacion.titulo+"</td><td>"+
                 _array[i].cantidad+"</td><td>"+_publicacion.precio+"</td></tr>";
         $("#" + _tabla + ">tbody").append(_linea);
@@ -899,7 +904,7 @@ $("#probarfuncion8").click(function () {
     dibujarTablaTops(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
 });
 $("#probarfuncion9").click(function () {
-    var _ventasPorFecha = totalVentasPorFecha(ventas,'24/05/2015');
+    var _ventasPorFecha = totalVentasPorFecha(ventas,'24/5/2015');
     dibujarTabla(_ventasPorFecha, 'tabla1');
 });
 $("#probarfuncion10").click(function () {
