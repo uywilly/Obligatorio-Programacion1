@@ -1,16 +1,16 @@
 //Objetos
 var listaPublicaciones = new Array(
-        {
-            tipo: 'libro',
-            codigo: '1234567891234',
-            imagen: 'libro1.jpg',
-            titulo: 'Aprende a tocar la guitarra',
-            descripcion: 'Curso de guitarra',
-            autor: 'Phil Capone',
-            precio: 320,
-            stock: 15,
-            estado: 'habilitado'
-        },
+//        {
+//            tipo: 'libro',
+//            codigo: '1234567891234',
+//            imagen: 'libro1.jpg',
+//            titulo: 'Aprende a tocar la guitarra',
+//            descripcion: 'Curso de guitarra',
+//            autor: 'Phil Capone',
+//            precio: 320,
+//            stock: 15,
+//            estado: 'habilitado'
+//        },
 {
     tipo: 'libro',
     codigo: '2345678912345',
@@ -447,10 +447,10 @@ function controlUsuario(_usuario, _password) {
 }
 
 // Mostrar interfaz principal de vendedores o administradores
-function interfazPrincipal(_tipo){
-    if(_tipo==='vendedor'){
+function interfazPrincipal(_tipo) {
+    if (_tipo === 'vendedor') {
         // show todo lo que tenga que ver el vendedor...
-    } else if (_tipo==='administrador'){
+    } else if (_tipo === 'administrador') {
         // show todo lo que tenga que ver el administrador...
     } else {
         // si eltipo es 'incorrecto' no se muestra nada :)
@@ -460,8 +460,7 @@ function interfazPrincipal(_tipo){
 // Validaciones
 function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
-    //var _caracter = _string.charCodeAt(0); --> diferencia con lo de abajo?
-    var _caracter = _string[0]; // modificación de William
+    var _caracter = _string[0];
     // la primer letra debe ser mayúscula..
     if ((_caracter >= 'A') && (_caracter <= 'Z'))
     {
@@ -594,7 +593,7 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
         var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo); //AGREGO PARSE INT YA QUE CON ESTOS DATOS LO LEVANTA COMO STRING
-        if (_codigo_elemento === _codigo)
+        if (_codigo_elemento === parseInt(_codigo))
         {
             _publicacion = _listaPublicaciones[i];
             break;
@@ -800,18 +799,14 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
 }
 // Ingresar una publicación
 //
-// en que caso _parametrosCorrectos cambiaría a false?
-// el if de _parametrosCorrectos && buscar_publicacion_codigo va anidado?
-// y si buscar_publicacion_codigo es distinto a -1?
 // mensajes individuales por cada campo mal ingresado?
 // las validaciones deberían estar anidadas... si la primera es correcta, pasar a la segunda, sino, mostrar aviso...
 function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
     var _parametros = [_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado];
-    var _parametrosCorrectos = true;
     var _campoNoVacio = false;
     var _letraMayus = false;
     var _descOk = false;
-    var _cadIdentif = false;
+    var _codIdentif = false;
     var _precioValido = false;
 
     //Valido que todos los campos tengan datos
@@ -828,55 +823,56 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
         }
     }
     // Si todos los campos estan llenos, se realizan validaciones individuales
-    if (_campoNoVacio === true)
+    if (_campoNoVacio === true) // si nungún campo está vacío...
     {
         _letraMayus = validar_primer_letra_mayuscula(_titulo);
         _descOk = validar_descripcion(_desc);
-        _cadIdentif = validarCodigoIdentificador(_codigo, _tipo);
+        _codIdentif = validarCodigoIdentificador(_codigo, _tipo);
         _precioValido = validarPrecio(_precio);
-    }
-
-    //Si todas las validaciones fueron exitosas se procede al ingreso de la nueva publicacion
-    if (_letraMayus === true && _descOk === true &&
-            _cadIdentif === true && _precioValido === true)
-    {
-        if (_parametrosCorrectos && buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1)
+        //Si todas las validaciones fueron exitosas se procede al ingreso de la nueva publicacion
+        if (_letraMayus === true && _descOk === true &&
+                _codIdentif === true && _precioValido === true)
         {
-            var _nuevaPub = {
-                tipo: _tipo,
-                codigo: _codigo,
-                imagen: _imagen,
-                titulo: _titulo,
-                descripcion: _desc,
-                autor: _autor,
-                precio: _precio,
-                stock: _stock,
-                estado: _estado
-            };
-            listaPublicaciones.push(_nuevaPub);
+            if (buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1) // si no existe la pub..
+            {
+                var _nuevaPub = {
+                    tipo: _tipo,
+                    codigo: _codigo,
+                    imagen: _imagen,
+                    titulo: _titulo,
+                    descripcion: _desc,
+                    autor: _autor,
+                    precio: _precio,
+                    stock: _stock,
+                    estado: _estado
+                };
+                listaPublicaciones.push(_nuevaPub);
+            } else {
+                alert ('Ya está dada de alta esa publicación!.');
+            }
         }
     }
 }
 
 // Clona _ventas pero le agrega la clave precio
-function agregarPrecioPublicacionEnArrayVentas(_ventas){
+function agregarPrecioPublicacionEnArrayVentas(_ventas) {
     var _lista = new Array();
-    for (var i = 0; i < _ventas.length; i++){
+    for (var i = 0; i < _ventas.length; i++) {
         //cargo la venta
         var _venta = _ventas[i];
         // cargo el codigo_pub de la venta
         var _codigo = parseInt(_venta.codigo_pub);
         // cargo el precio de la publicacion que tenga el _codigo de la venta
-        var _precio = buscar_publicacion_codigo(listaPublicaciones,_codigo).precio;
+        var _precio = buscar_publicacion_codigo(listaPublicaciones, _codigo).precio;
         // defino una nuevo objeto con la estructura de _venta más la clave nueva precio y lo relleno..
         var _ventaModif = {
             numero: _venta.numero,
-             fecha: _venta.fecha,
-             codigo_pub: _venta.codigo_pub,
-             cantidad: _venta.cantidad,
-             total: _venta.total,
-             precio: _precio
-            };
+            fecha: _venta.fecha,
+            codigo_pub: _venta.codigo_pub,
+            cantidad: _venta.cantidad,
+            total: _venta.total,
+            precio: _precio
+        };
         // lo agrego a la _lista
         _lista.push(_ventaModif);
     }
@@ -905,15 +901,15 @@ function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
         // significa algo como retornar el array pero ordenado de b -> a (descendente)
         // usando los valores de la clave (_clave) de cada objeto... 
         //return b[_clave] - a[_clave];
-        if(a[_clave1] - b[_clave1] > 0){
-            return b[_clave1]-a[_clave1];            
-        } else if(b[_clave1] - a[_clave1] < 0){
-            return a[_clave1]-b[_clave1];
-        } else{
-            if(b[_clave2] - a[_clave2] > 0){
-                return a[_clave2]-b[_clave2];
-            } else if(b[_clave2] - a[_clave2] < 0){
-                return b[_clave2]-a[_clave2];
+        if (a[_clave1] - b[_clave1] > 0) {
+            return b[_clave1] - a[_clave1];
+        } else if (b[_clave1] - a[_clave1] < 0) {
+            return a[_clave1] - b[_clave1];
+        } else {
+            if (b[_clave2] - a[_clave2] > 0) {
+                return a[_clave2] - b[_clave2];
+            } else if (b[_clave2] - a[_clave2] < 0) {
+                return b[_clave2] - a[_clave2];
             }
         }
     });
@@ -1042,7 +1038,7 @@ $("#probarfuncion7").click(function () {
     var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
     dibujarTabla(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
 });
-$("#probarfuncion8").click(function () {    
+$("#probarfuncion8").click(function () {
     var _sumaVentas = sumarVentas(ventas);
     var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
     var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
@@ -1064,4 +1060,42 @@ $('#ingresar_venta').click(function () {
     var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
 
 });
-$("#codigo_pub_venta").blur(function(){alert('hola');});// tiene que llamar al que crea el total y lo muestra.
+$("#codigo_pub_venta").blur(function () {
+    alert('hola');
+});// tiene que llamar al que crea el total y lo muestra.
+$("#ingresarPub").click( function(){
+    var _tipo = $("#tipo").val();
+    var _codigo = $("#codigo").val();
+    var _imagen = $("#imagen").val();
+    var _titulo = $("#titulo").val();
+    var _desc = $("#descripcion").val();
+    var _autor = $("#autor").val();
+    var _precio = $("#precio").val();
+    var _stock = $("#stock").val();
+    var _estado = $("#estado").val();
+    ingresar_publicacion(_tipo,_codigo,_imagen,_titulo,_desc,_autor,_precio,_stock,_estado);
+    
+});
+
+// LLamados para index-maqueta
+// 
+//topten
+$(function() {
+    var _sumaVentas = sumarVentas(ventas);
+    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
+    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
+    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
+    var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
+    dibujarTablaTops(_ordenada, 'tablatopten');
+});
+
+// lista publicaciones en página de inicio...
+$(function () {
+    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
+    dibujarTabla(_listaOrdenada, 'listaPublicacionesInicio');
+});
+// lista de publicaciones en página de catálogo, hay que formatearla bien...
+$(function () {
+    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
+    dibujarTabla(listaPublicaciones, 'listaPublicacionesCastalogo');
+});

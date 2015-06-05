@@ -322,13 +322,12 @@ th, td{
     color:#222222;
     font: normal 12px Arial, Helvetica, sans-serif;
     text-transform:capitalize;
-    float:left;
 }
 .formulario label span {
     color:#F00;
 }
 .formulario input.text {
-    width:530px;
+    width:auto;
     border:1px solid #e8e8e8;
     margin:2px 0;
     padding:5px 2px;
@@ -344,7 +343,7 @@ th, td{
     background:#f8f8f8;
     float:left;
 }
-input[type=button], input[type=submit] {
+input[type=button], input[type=submit], input[type=reset] {
     padding:10px 10px;
     margin:10px 0 0 0;
     border:1px solid #e8e8e8;
