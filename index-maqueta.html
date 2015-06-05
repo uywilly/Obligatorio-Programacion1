@@ -5,8 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-
     </head>
+    
     <body>
         <div class="main"><!-- fix para ie8 -->
             <div class="main_resize clearfix"><!-- sitio completo -->
@@ -32,19 +32,13 @@
                         <ul>
                             <!-- el atributo class con valor active marca la selección de la sección actual -->
                             <li><a href="#" class="active"><span>Inicio</span></a></li>
-                            <li><a href="#" <span>Catálogo</span></a></li>
+                            <li><a href="#" ><span>Catálogo</span></a></li>
                             <li><a href="#" ><span>Ventas</span></a></li>
                             <li><a href="#" ><span>Administración</span></a></li>
-                            <!--
-                            Generar elementos li con este formato para agregar menus a la navegación
-                            <li><a href="about.html"><span> About Us </span></a></li>
-                            -->
                         </ul>
                     </div>
-
-
                 </div><!-- fin header -->
-
+                
                 <div class="main_left"><!-- parte izquierda de div dividido -->
                     <div id="topten">
                         <h3>Top Ten</h3>
@@ -54,132 +48,218 @@
                         </table>
                     </div><br>                    
                 </div><!-- fin div parte izquierda -->
-
+                
                 <div class="main_right"><!-- parte derecha de div dividido -->
-                    <div id="mensajeVienvenida">
-                    <h2><strong>Bienvenidos a Librería</strong></h2><!-- titulo de seccion -->
+                    
+                    <div id="mensajeBienvenida">
+                        <h2><strong>Bienvenidos a Librería</strong></h2><!-- titulo de seccion -->
                         <p>Este sería el mensaje de bienvenida a la librería, tendría que estar visible sólo 
-                        cuando no haya ningún usuario logeado.</p>
-                    </div>
+                            cuando no haya ningún usuario logeado. A continuación explica que abajo está el
+                            catálogo de publicaciones en orden alfabético.
+                        </p>
+                    </div>                    
                     <div id="publicacionesInicio">
-                        <h3>Lista de Publicaciones en Inicio</h3>
+                        <h3>Lista de Publicaciones en Inicio Ord. Alfabetico</h3>
                         <table id="listaPublicacionesInicio">
                             <thead></thead>
                             <tbody></tbody>
                         </table>       
                     </div>                    
                     <p>&nbsp;</p>
-                    <div id="publicacionesCatalogo">
-                        <h3>Catálogo</h3>
-                        <table id="listaPublicacionesCastalogo">
+                    <div id="catalogo">
+                        <h3>Catálogo a lo bruto</h3>
+                        <table id="listaPublicacionesCatalogo">
                             <thead></thead>
                             <tbody></tbody>
                         </table>       
                     </div>                    
                     <p>&nbsp;</p>
-                    <div id="formularioIngresoPublicaciones" style="display: block">
-                        <h3>Ingreso de Publicaciones</h3>
-                        <form class="formulario">
-                            <table id="tablaIngresoPublicaciones" style="display: block">
-
-                                <tbody>
-                                    <tr>
-                                        <td><label for="tipo">Tipo:</label></td>
-                                        <td><label for="codigo">Código:</label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" id="tipo"></td>
-                                        <td><input type="text" id="codigo"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="imagen">Imagen:</label></td>
-                                        <td><label for="titulo">Título:</label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" id="imagen"></td>
-                                        <td><input type="text" id="titulo"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="descripcion">Descripción:</label></td>
-                                        <td><label for="autor">Autor:</label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" id="descripcion"></td>
-                                        <td><input type="text" id="autor"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="precio">Precio:</label></td>
-                                        <td><label for="stock">Stock:</label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" id="precio"></td>
-                                        <td><input type="text" value="0" id="stock"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="estado">Estado:</label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" value="habilitado" id="estado"></td>
-                                    </tr>                             
-                                </tbody>                            
-                            </table>
-                            <input type="button" value="Ingresar Publicación" id="ingresarPub">
-                            <input type="reset">
-                            <p>&nbsp;</p>
-                        </form>
-                    </div>
-                    <p>&nbsp;</p> 
-                    <div id="mensajesAdministrador" style="display: block">
-                        <h3>Mensajes de Ingresos de Publicaciones:</h3>
-                        <div class="message">
-                            <p><strong>Aviso:</strong> Publicación ingresada con éxito</p>
+                    <div id="administrador" style="clear: both">
+                        <div class="menu">
+                            <ul>
+                                <li><a href="#" class="active"><span>Ingresar</span></a></li>
+                                <li><a href="#" ><span>Modificar/Eliminar</span></a></li>
+                            </ul>
                         </div>
+                        <p>&nbsp;</p>
+                        
+                        <div id="ingresos">
+                            <div id="formularioIngresoPublicaciones" style="max-width: 487px; float: left">
+                                <h3>Ingreso de Publicaciones</h3>
+                                <form class="formulario">
+                                    <table id="tablaIngresoPublicaciones">
 
-                        <div class="warning">
-                            <p><strong>Aviso:</strong> Cuidado, puede haber errores</p>
+                                        <tbody>
+                                            <tr>
+                                                <td><label for="tipo">Tipo:</label></td>
+                                                <td><label for="codigo">Código:</label></td>
+                                                <td><label for="imagen">Imagen:</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" id="tipo"></td>
+                                                <td><input type="text" id="codigo"></td>
+                                                <td><input type="text" id="imagen"></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><label for="titulo">Título:</label></td>
+                                                <td><label for="descripcion">Descripción:</label></td>
+                                                <td><label for="autor">Autor:</label></td>
+                                            </tr>
+                                            <tr>                                           
+                                                <td><input type="text" id="titulo"></td>
+                                                <td><input type="text" id="descripcion"></td>
+                                                <td><input type="text" id="autor"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="precio">Precio:</label></td>
+                                                <td><label for="stock">Stock:</label></td>
+                                                <td><label for="estado">Estado:</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" id="precio"></td>
+                                                <td><input type="text" value="0" id="stock"></td>
+                                                <td><input type="text" value="habilitado" id="estado"></td>
+                                            </tr>                            
+                                        </tbody>                            
+                                    </table>
+                                    <input type="button" value="Ingresar Publicación" id="ingresarPub">
+                                    <input type="reset">
+                                    <p>&nbsp;</p>
+                                </form>
+                            </div>
+                            <div id="mensajesIngreso" style="width: 162px; float: right">
+                                <h3>Mensajes:</h3>
+                                <div class="message">
+                                    <p> Publicación Ingresada</p>
+                                </div>
+                                <div class="warning">
+                                    <p> Errores en los campos.</p>
+                                </div>
+                                <div class="error">
+                                    <p> Publicación no ingresada.</p>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="error">
-                            <p><strong>Aviso:</strong> Error al ingresar la publicación</p>
+                        
+                        <div id="modificaciones">
+                            <div id="formularioBuscador" style="clear: both">
+                                <div id="busqueda" style="min-width: 345px; float: left">
+                                    <h3>Buscar Publicación:</h3>
+                                    <form id="buscarPublicacion" class="formulario">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><label for="codigo_pub_venta">Codigo:</label></td>
+                                                    <td><input type="text" id="codigo_pub_venta"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="button" id="buscar" value="Buscar"> <input type="reset">
+                                    </form>
+                                </div>
+                                <div id="mensajesBusqueda" style="width: 162px; float: left">
+                                    <h3>Mensajes:</h3>
+                                    <div class="message">
+                                        <p> Publicación encontrada.</p>
+                                    </div>
+                                    <div class="error">
+                                        <p> Publicación no encontrada!</p>
+                                    </div>
+                                </div>
+                                <div id="formularioModificarPublicaciones" style="max-width: 487px; float: left">
+                                    <h3>Modificación de Publicaciones</h3>
+                                    <form class="formulario">
+                                        <table id="tablaModificacionPublicaciones">
+                                            <tbody>
+                                                <tr>
+                                                    <td><label for="tipo">Tipo:</label></td>
+                                                    <td><label for="codigo">Código:</label></td>
+                                                    <td><label for="imagen">Imagen:</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" id="tipoModificado"></td>
+                                                    <td><input type="text" id="codigoModificado"></td>
+                                                    <td><input type="text" id="imagenModificado"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="titulo">Título:</label></td>
+                                                    <td><label for="descripcion">Descripción:</label></td>
+                                                    <td><label for="autor">Autor:</label></td>
+                                                </tr>
+                                                <tr>                                           
+                                                    <td><input type="text" id="tituloModificado"></td>
+                                                    <td><input type="text" id="descripcionModificado"></td>
+                                                    <td><input type="text" id="autorModificado"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="precio">Precio:</label></td>
+                                                    <td><label for="stock">Stock:</label></td>
+                                                    <td><label for="estado">Estado:</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" id="precioModificado"></td>
+                                                    <td><input type="text" value="0" id="stockModificado"></td>
+                                                    <td><input type="text" value="habilitado" id="estadoModificado"></td>
+                                                </tr>                            
+                                            </tbody>                            
+                                        </table>
+                                        <input type="button" value="Modificar Publicación" id="modificarPub">
+                                        <input type="button" value="Eliminar Publicación" id="eliminarPub">
+                                        <input type="reset">
+                                        <p>&nbsp;</p>
+                                    </form>
+                                </div>
+                                <div id="mensajesModificacion" style="width: 162px; float: right">
+                                    <h3>Mensajes:</h3>
+                                    <div class="message">
+                                        <p> Publicación modificada</p>
+                                    </div>
+                                    <div class="warning">
+                                        <p> Errores en los campos.</p>
+                                    </div>
+                                    <div class="error">
+                                        <p> Publicación no modificada.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p>&nbsp;</p> 
-                    <div id="cabezales" style="display: none">
-                        <h1>Cabezal H1</h1>
-                        <h2>Cabezal H2</h2>
-                        <h3>Cabezal H3</h3>
-                        <h4>Cabezal H4</h4>
-                        <h5>Cabezal H5</h5>
-                        <h6>Cabezal H6</h6>
-                        <p>Párrafo, sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    </div>
-                    <p>&nbsp;</p> 
-                    <div id="tablaEjemplo" style="display:none">
-                        <table width="600" border="1">
-                            <tr>
-                                <th>Cabezal</th>
-                                <th>Cabezal</th>
-                                <th>Cabezal</th>
-                                <th>Cabezal</th>
-                            </tr>
-                            <tr>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                            </tr>
-                            <tr>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                                <td>Dato</td>
-                            </tr>
-                        </table>
+                     <p>&nbsp;</p>
+                    <div id="vendedor" style="clear: both">
+                        <div id="ingresarVenta" style="min-width: 345px; float: left">
+                            <h3>Ingresar Venta:</h3>
+                            <form id="form_ventas" class="formulario">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="codigo_pub">Codigo:</label></td>
+                                            <td><label for="cantidad">Cantidad:</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" id="codigo_pub"></td>
+                                            <td><input type="text" id="cantidad"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input type="button" id="ingresar_venta" value="Ingresar Venta"> <input type="reset">
+                            </form>
+                        </div>
+                        <div id="mensajesVenta" style="width: 162px; float: left">
+                            <h3>Mensajes:</h3>
+                            <div class="message">
+                                <p> Venta ingresada</p>
+                            </div>
+                            <div class="warning">
+                                <p> Errores en los campos.</p>
+                            </div>
+                            <div class="error">
+                                <p> Venta no ingresada.</p>
+                            </div>
+                        </div>
                     </div>
                     <p>&nbsp;</p>
-
                 </div><!-- fin div parte derecha -->
-
             </div><!-- fin div contenedor sitio completo -->
             <div class="footer"><!-- pie -->
                 <div class="footer_resize clearfix">

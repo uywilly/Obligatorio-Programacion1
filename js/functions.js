@@ -1097,5 +1097,5 @@ $(function () {
 // lista de publicaciones en página de catálogo, hay que formatearla bien...
 $(function () {
     var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    dibujarTabla(listaPublicaciones, 'listaPublicacionesCastalogo');
+    dibujarTabla(listaPublicaciones, 'listaPublicacionesCatalogo');
 });
