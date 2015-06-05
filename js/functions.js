@@ -331,7 +331,7 @@ var listaPublicaciones = new Array(
     estado: 'habilitado'
 }
 );
-var usuario = new Array(
+var usuarios = new Array(
         {
             tipo: 'adminstrador',
             nombre: 'William',
@@ -421,10 +421,47 @@ var ventas = new Array(
 // Constantes
 var stockMinimo = 4;
 
+// Control de usuarios
+// que la contraseña sea alfanumérica significa que tiene que ser un string o que
+// hay que verificar que tenga si o sí alguna letra y algún número?
+function controlUsuario(_usuario, _password) {
+    // devuelve vendedor, administrador o incorrecto.
+    var _tipoUsuario = 'incorrecto';
+    var _usuarioEncontrado = false;
+    for (var i = 0; i < usuarios.length; i++) {
+        if (usuarios[i].nombre === _usuario) {
+            _usuarioEncontrado = true;
+            if (usuarios[i].contrasena === _password) {
+                _tipoUsuario = usuarios[i].tipo;
+                break;
+            } else {
+                alert("Contraseña incorrecta!");
+                break;
+            }
+        }
+    }
+    if (_usuarioEncontrado === false) {
+        alert("Usuario no encontrado!");
+    }
+    return _tipoUsuario;
+}
+
+// Mostrar interfaz principal de vendedores o administradores
+function interfazPrincipal(_tipo){
+    if(_tipo==='vendedor'){
+        // show todo lo que tenga que ver el vendedor...
+    } else if (_tipo==='administrador'){
+        // show todo lo que tenga que ver el administrador...
+    } else {
+        // si eltipo es 'incorrecto' no se muestra nada :)
+    }
+}
+
 // Validaciones
 function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
-    var _caracter = _string.charCodeAt(0);
+    //var _caracter = _string.charCodeAt(0); --> diferencia con lo de abajo?
+    var _caracter = _string[0]; // modificación de William
     // la primer letra debe ser mayúscula..
     if ((_caracter >= 'A') && (_caracter <= 'Z'))
     {
@@ -563,7 +600,7 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
             break;
         }
     }
-    if(_publicacion === -1)
+    if (_publicacion === -1)
     {
         alert("No existe la publicacion");
     }
@@ -632,7 +669,7 @@ function separar_palabras(_texto) {
 function ordenar_publicaciones(_listaPublicaciones) {
     //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
     //var _publicaciones = _listaPublicaciones.slice(0); // -->hay que comprobarla mejor...
-    var _publicaciones = JSON.parse( JSON.stringify(_listaPublicaciones)); // -->furula pero usando JSON    
+    var _publicaciones = JSON.parse(JSON.stringify(_listaPublicaciones)); // -->furula pero usando JSON    
     var _largo = _publicaciones.length;
     do
     {
@@ -733,7 +770,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     var _total = _publicacion.precio * _cantidad;
     // a _cantidad le paso un parseInt porque lo capturamos como string...
     var _nuevaVenta;
-    if(_publicacion !==-1)
+    if (_publicacion !== -1)
     {
         if (_stock >= _cantidad)
         {
@@ -752,14 +789,73 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
         } else {
             alert('No hay stock!');
         }
-    }else
+    } else
     {
         alert('No se agrego la venta');
     }
-    if (_publicacion.stock<stockMinimo){
-        alert('El stock de este artìculo ha quedado por debajo de '+stockMinimo+' unidades!');
+    if (_publicacion.stock < stockMinimo) {
+        alert('El stock de este artìculo ha quedado por debajo de ' + stockMinimo + ' unidades!');
     }
     return _nuevaVenta;
+}
+// Ingresar una publicación
+//
+// en que caso _parametrosCorrectos cambiaría a false?
+// el if de _parametrosCorrectos && buscar_publicacion_codigo va anidado?
+// y si buscar_publicacion_codigo es distinto a -1?
+// mensajes individuales por cada campo mal ingresado?
+// las validaciones deberían estar anidadas... si la primera es correcta, pasar a la segunda, sino, mostrar aviso...
+function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
+    var _parametros = [_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado];
+    var _parametrosCorrectos = true;
+    var _campoNoVacio = false;
+    var _letraMayus = false;
+    var _descOk = false;
+    var _cadIdentif = false;
+    var _precioValido = false;
+
+    //Valido que todos los campos tengan datos
+    for (var i = 0; i < _parametros.length; i++)
+    { //true = no vacio
+        if (validarCampoVacio(_parametros[i]) === false)
+        {
+            _campoNoVacio = false;
+            alert("entra a param vacio");
+            break;
+        } else
+        {
+            _campoNoVacio = true;
+        }
+    }
+    // Si todos los campos estan llenos, se realizan validaciones individuales
+    if (_campoNoVacio === true)
+    {
+        _letraMayus = validar_primer_letra_mayuscula(_titulo);
+        _descOk = validar_descripcion(_desc);
+        _cadIdentif = validarCodigoIdentificador(_codigo, _tipo);
+        _precioValido = validarPrecio(_precio);
+    }
+
+    //Si todas las validaciones fueron exitosas se procede al ingreso de la nueva publicacion
+    if (_letraMayus === true && _descOk === true &&
+            _cadIdentif === true && _precioValido === true)
+    {
+        if (_parametrosCorrectos && buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1)
+        {
+            var _nuevaPub = {
+                tipo: _tipo,
+                codigo: _codigo,
+                imagen: _imagen,
+                titulo: _titulo,
+                descripcion: _desc,
+                autor: _autor,
+                precio: _precio,
+                stock: _stock,
+                estado: _estado
+            };
+            listaPublicaciones.push(_nuevaPub);
+        }
+    }
 }
 
 // Ordenar _array por _clave
@@ -783,7 +879,7 @@ function cuantasPrimerasDeArray(_array, _cuantas) {
 }
 // Sumar ventas de misma publicación
 function sumarVentas(_ventas) {
-    var _array = JSON.parse( JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
+    var _array = JSON.parse(JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
     for (var i = 0; i < _ventas.length - 1; i++) {
         var k = i + 1;
         for (var j = k; j < _array.length; j++) {
@@ -796,7 +892,7 @@ function sumarVentas(_ventas) {
         }
     }
     // esto es para borrar claves innecesarias del nuevo array..
-    for (var n = 0; n < _array.length; n++){
+    for (var n = 0; n < _array.length; n++) {
         delete _array[n].fecha;
         delete _array[n].numero;
     }
@@ -805,9 +901,9 @@ function sumarVentas(_ventas) {
 // Dibujar tabla tops   ->> es distinta porque mezcla datos, no saca el header de las claves...
 function dibujarTablaTops(_arrayDeTops, _tabla) {
     // clono el array para trabajar sobre copia...
-    var _array = JSON.parse( JSON.stringify(_arrayDeTops));
+    var _array = JSON.parse(JSON.stringify(_arrayDeTops));
     // elimino en los objetos del array las claves no usadas..
-    for (var n = 0; n < _arrayDeTops.length; n++){
+    for (var n = 0; n < _arrayDeTops.length; n++) {
         delete _arrayDeTops[n].fecha;
         delete _arrayDeTops[n].numero;
     }
@@ -820,15 +916,15 @@ function dibujarTablaTops(_arrayDeTops, _tabla) {
     // tbody
     for (var i = 0; i < _array.length; i++) {
         var _publicacion = buscar_publicacion_codigo(listaPublicaciones, parseInt(_array[i].codigo_pub)); // el parseInt lo necesita la funciòn buscar_publicacion_codigo...
-        var _linea = "<tr><td>"+_publicacion.titulo+"</td><td>"+
-                _array[i].cantidad+"</td><td>"+_publicacion.precio+"</td></tr>";
+        var _linea = "<tr><td>" + _publicacion.titulo + "</td><td>" +
+                _array[i].cantidad + "</td><td>" + _publicacion.precio + "</td></tr>";
         $("#" + _tabla + ">tbody").append(_linea);
     }
 }
 
 // Reporte por fecha
-function totalVentasPorFecha(_ventas,_fecha){
-    var _array = JSON.parse( JSON.stringify(_ventas));
+function totalVentasPorFecha(_ventas, _fecha) {
+    var _array = JSON.parse(JSON.stringify(_ventas));
     for (var i = 0; i < _array.length - 1; i++) {
         var k = i + 1;
         for (var j = k; j < _array.length; j++) {
@@ -839,25 +935,25 @@ function totalVentasPorFecha(_ventas,_fecha){
                 j--;
             }
         }
-        for(var n = 0; n < _array.length; n++){
+        for (var n = 0; n < _array.length; n++) {
             delete _array[n].numero;
             delete _array[n].codigo_pub;
         }
     }
-    for (var g = 0; g < _array.length; g++){
-        if (_array[g].fecha !== _fecha){
+    for (var g = 0; g < _array.length; g++) {
+        if (_array[g].fecha !== _fecha) {
             _array.splice(g, 1);
             g--;
         }
     }
-    return _array;    
+    return _array;
 }
 // Reporte por precio menor a dado
-function publicacionesConPrecioMenorADado(_publicaciones,_precio){
-    var _array = JSON.parse( JSON.stringify(_publicaciones));
+function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
+    var _array = JSON.parse(JSON.stringify(_publicaciones));
     var _publicacionesDePrecioMenor = new Array();
     for (var i = 0; i < _array.length; i++) {
-        if(_array[i].precio < _precio){
+        if (_array[i].precio < _precio) {
             _publicacionesDePrecioMenor.push(_array[i]);
         }
     }
@@ -904,16 +1000,16 @@ $("#probarfuncion8").click(function () {
     dibujarTablaTops(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
 });
 $("#probarfuncion9").click(function () {
-    var _ventasPorFecha = totalVentasPorFecha(ventas,'24/5/2015');
+    var _ventasPorFecha = totalVentasPorFecha(ventas, '24/5/2015');
     dibujarTabla(_ventasPorFecha, 'tabla1');
 });
 $("#probarfuncion10").click(function () {
-    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones,250);
+    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, 250);
     dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
 });
-$('#ingresar_venta').click(function(){
+$('#ingresar_venta').click(function () {
     var codigo_pub_venta = parseInt($('#codigo_pub_venta').val());
     var cantidad = parseInt($('#cantidad_venta').val());
     var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
-    
+
 });
