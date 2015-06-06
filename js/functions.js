@@ -762,7 +762,7 @@ function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
 }
 
 function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
-    
+
     var _pubValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
     if (_pubValida === true)
     {
@@ -1099,18 +1099,6 @@ $("#codigo_pub_venta").blur(function () {
     alert('hola');
 });
 // tiene que llamar al que crea el total y lo muestra.
-$("#ingresarPub").click(function () {
-    var _tipo = $("#tipoIngreso").val();
-    var _codigo = $("#codigoIngreso").val();
-    var _imagen = $("#imagenIngreso").val();
-    var _titulo = $("#tituloIngreso").val();
-    var _desc = $("#descripcionIngreso").val();
-    var _autor = $("#autorIngreso").val();
-    var _precio = $("#precioIngreso").val();
-    var _stock = $("#stockIngreso").val();
-    var _estado = $("#estadoIngreso").val();
-    ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-});
 
 //------------------------------------------------------------------------------
 // Funciones para index-maqueta
@@ -1180,4 +1168,49 @@ $('#ingresarNuevaVenta').click(function () {
     $(TablaPublicaciones);
     $(TablaCatalogo);
 });
+$("#ingresarPub").click(function () {
+    var _tipo = $("#tipoIngreso").val();
+    var _codigo = $("#codigoIngreso").val();
+    var _imagen = $("#imagenIngreso").val();
+    var _titulo = $("#tituloIngreso").val();
+    var _desc = $("#descripcionIngreso").val();
+    var _autor = $("#autorIngreso").val();
+    var _precio = $("#precioIngreso").val();
+    var _stock = $("#stockIngreso").val();
+    var _estado = $("#estadoIngreso").val();
+    ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+});
+$('#buscar').click(
+        function () {
+            var _cod = $('#codigo_pub_a_modif').val();
+            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            $('#tipoModificado').val(_pub.tipo);
+            $('#codigoModificado').val(_pub.codigo);
+            $('#imagenModificado').val(_pub.imagen);
+            $('#tituloModificado').val(_pub.titulo);
+            $('#descripcionModificado').val(_pub.descripcion);
+            $('#autorModificado').val(_pub.autor);
+            $('#precioModificado').val(_pub.precio);
+            $('#stockModificado').val(_pub.stock);
+            $('#estadoModificado').val(_pub.estado);
+        });
+$('#modificarPub').click(
+        function () {
+            var _cod = $('#codigo_pub_a_modif').val();
+            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            var _pos = posicion_publicacion(listaPublicaciones, _cod);
+
+            var _tipo = $('#tipoModificado').val();
+            var _codigo = $('#codigoModificado').val();
+            var _imagen = $('#imagenModificado').val();
+            var _titulo = $('#tituloModificado').val();
+            var _desc = $('#descripcionModificado').val();
+            var _autor = $("#autorModificado").val();
+            var _precio = $('#precioModificado').val();
+            var _stock = $('#stockModificado').val();
+            var _estado = $('#estadoModificado').val();
+
+            actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+
+        });
 //-----------------------------------------------------------------------------
