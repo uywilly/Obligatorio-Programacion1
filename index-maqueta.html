@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
         <link href="css/style.css" rel="stylesheet" type="text/css" />
     </head>
-    
+
     <body>
         <div class="main"><!-- fix para ie8 -->
             <div class="main_resize clearfix"><!-- sitio completo -->
@@ -35,11 +35,11 @@
                             <li><span id="spanCatalgo">Catálogo</span></li>
                             <li><span id="spanVentas">Ventas</span></li>
                             <li><span id="spanAdministracion">Administración</span></li>
-						    <li><span id="spanReportes">Reportes</span></li>
+                            <li><span id="spanReportes">Reportes</span></li>
                         </ul>
                     </div>
                 </div><!-- fin header -->
-                
+
                 <div class="main_left"><!-- parte izquierda de div dividido -->
                     <div id="topten">
                         <h3>Top Ten</h3>
@@ -49,9 +49,9 @@
                         </table>
                     </div><br>                    
                 </div><!-- fin div parte izquierda -->
-                
+
                 <div class="main_right"><!-- parte derecha de div dividido -->
-                    
+
                     <div id="mensajeBienvenida">
                         <h2><strong>Bienvenidos a Librería</strong></h2><!-- titulo de seccion -->
                         <p>Este sería el mensaje de bienvenida a la librería, tendría que estar visible sólo 
@@ -83,7 +83,7 @@
                             </ul>
                         </div>
                         <p>&nbsp;</p>
-                        
+
                         <div id="ingresos">
                             <div id="formularioIngresoPublicaciones" style="max-width: 487px; float: left">
                                 <h3>Ingreso de Publicaciones</h3>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div id="modificaciones">
                             <div id="formularioBuscador" style="clear: both">
                                 <div id="busqueda" style="min-width: 345px; float: left">
@@ -174,9 +174,9 @@
                                         <table id="tablaModificacionPublicaciones">
                                             <tbody>
                                                 <tr>
-                                                    <td><label for="tipo">Tipo:</label></td>
-                                                    <td><label for="codigo">Código:</label></td>
-                                                    <td><label for="imagen">Imagen:</label></td>
+                                                    <td><label for="tipoModificado">Tipo:</label></td>
+                                                    <td><label for="codigoModificado">Código:</label></td>
+                                                    <td><label for="imagenModificado">Imagen:</label></td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="text" id="tipoModificado"></td>
@@ -184,9 +184,9 @@
                                                     <td><input type="text" id="imagenModificado"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><label for="titulo">Título:</label></td>
-                                                    <td><label for="descripcion">Descripción:</label></td>
-                                                    <td><label for="autor">Autor:</label></td>
+                                                    <td><label for="tituloModificado">Título:</label></td>
+                                                    <td><label for="descripcionModificado">Descripción:</label></td>
+                                                    <td><label for="autorModificado">Autor:</label></td>
                                                 </tr>
                                                 <tr>                                           
                                                     <td><input type="text" id="tituloModificado"></td>
@@ -194,9 +194,9 @@
                                                     <td><input type="text" id="autorModificado"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><label for="precio">Precio:</label></td>
-                                                    <td><label for="stock">Stock:</label></td>
-                                                    <td><label for="estado">Estado:</label></td>
+                                                    <td><label for="precioModificado">Precio:</label></td>
+                                                    <td><label for="stockModificado">Stock:</label></td>
+                                                    <td><label for="estadoModificado">Estado:</label></td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="text" id="precioModificado"></td>
@@ -226,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                     <p>&nbsp;</p>
+                    <p>&nbsp;</p>
                     <div id="vendedor" style="clear: both">
                         <div id="ingresarVenta" style="min-width: 345px; float: left">
                             <h3>Ingresar Venta:</h3>
@@ -259,75 +259,75 @@
                             </div>
                         </div>
                     </div>
-				    <div id="reportes" style="clear: both">
-					  <h3>Reportes:</h3>
-					  <div class="menu">
-                        <ul>
-						  <!-- el atributo class con valor active marca la selección de la sección actual -->
-						  <li><span class="active" id="spanPorPrecio">Por precio:</span></li>
-						  <li><span id="spanPorFecha">Por fecha:</span></li>
-                        </ul>
-					  </div>
-					  <p>&nbsp;</p>
-					  <div id="reportePorPrecio">
-					  <div id="busquedaPorPrecio" style="min-width: 345px; float: left; clear: both">
-						<h4>Generar reporte por precio:</h4>
-						<form id="formularioBusquedaPorPrecio" class="formulario">
-						  <table>
-							<tbody>
-							  <tr>
-								<td><label for="precioDeReporte">Precio:</label></td>
-								<td><input type="text" id="precioDeReporte"></td>
-							  </tr>
-							</tbody>
-						  </table>
-						  <input type="button" id="generarReportePorPrecio" value="Buscar"> <input type="reset">
-						</form>
-					  </div>
-					  <div id="mensajesBusquedaPorPrecio" style="width: 162px; float: left">
-						<h4>Mensajes:</h4>
-						<div class="message">
-						  <p> Reporte generado!</p>
-						</div>
-						<div class="error">
-						  <p> Reporte negativo!</p>
-						</div>
-					  </div>
-					  <table id="tablaReportePorPrecio" style="clear: both">
-						<thead></thead>
-						<tbody></tbody>
-					  </table>
-					  </div>
-					  <div id="reportePorFecha">
-						<div id="busquedaPorFecha" style="min-width: 345px; float: left; clear: both">
-						  <h4>Generar reporte por Fecha:</h4>
-						  <form id="formularioBusquedaPorFecha" class="formulario">
-							<table>
-							  <tbody>
-								<tr>
-								  <td><label for="fechaDeReporte">Fecha:</label></td>
-								  <td><input type="text" id="fechaDeReporte"></td>
-								</tr>
-							  </tbody>
-							</table>
-							<input type="button" id="generarReportePorFecha" value="Buscar"> <input type="reset">
-						  </form>
-						</div>
-						<div id="mensajesBusquedaPorFecha" style="width: 162px; float: left">
-						  <h4>Mensajes:</h4>
-						  <div class="message">
-							<p> Reporte generado!</p>
-						  </div>
-						  <div class="error">
-							<p> Reporte negativo!</p>
-						  </div>
-						</div>
-						<table id="tablaReportePorFecha" style="clear: both">
-						  <thead></thead>
-						  <tbody></tbody>
-						</table>
-					  </div>
-					</div>
+                    <div id="reportes" style="clear: both">
+                        <h3>Reportes:</h3>
+                        <div class="menu">
+                            <ul>
+                                <!-- el atributo class con valor active marca la selección de la sección actual -->
+                                <li><span class="active" id="spanPorPrecio">Por precio:</span></li>
+                                <li><span id="spanPorFecha">Por fecha:</span></li>
+                            </ul>
+                        </div>
+                        <p>&nbsp;</p>
+                        <div id="reportePorPrecio">
+                            <div id="busquedaPorPrecio" style="min-width: 345px; float: left; clear: both">
+                                <h4>Generar reporte por precio:</h4>
+                                <form id="formularioBusquedaPorPrecio" class="formulario">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><label for="precioDeReporte">Precio:</label></td>
+                                                <td><input type="text" id="precioDeReporte"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type="button" id="generarReportePorPrecio" value="Buscar"> <input type="reset">
+                                </form>
+                            </div>
+                            <div id="mensajesBusquedaPorPrecio" style="width: 162px; float: left">
+                                <h4>Mensajes:</h4>
+                                <div class="message">
+                                    <p> Reporte generado!</p>
+                                </div>
+                                <div class="error">
+                                    <p> Reporte negativo!</p>
+                                </div>
+                            </div>
+                            <table id="tablaReportePorPrecio" style="clear: both">
+                                <thead></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div id="reportePorFecha">
+                            <div id="busquedaPorFecha" style="min-width: 345px; float: left; clear: both">
+                                <h4>Generar reporte por Fecha:</h4>
+                                <form id="formularioBusquedaPorFecha" class="formulario">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><label for="fechaDeReporte">Fecha:</label></td>
+                                                <td><input type="text" id="fechaDeReporte"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type="button" id="generarReportePorFecha" value="Buscar"> <input type="reset">
+                                </form>
+                            </div>
+                            <div id="mensajesBusquedaPorFecha" style="width: 162px; float: left">
+                                <h4>Mensajes:</h4>
+                                <div class="message">
+                                    <p> Reporte generado!</p>
+                                </div>
+                                <div class="error">
+                                    <p> Reporte negativo!</p>
+                                </div>
+                            </div>
+                            <table id="tablaReportePorFecha" style="clear: both">
+                                <thead></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                     <p>&nbsp;</p>
                 </div><!-- fin div parte derecha -->
             </div><!-- fin div contenedor sitio completo -->
