@@ -858,17 +858,6 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
         if (_letraMayus === true && _descOk === true &&
                 _codIdentif === true && _precioValido === true)
         {
-            var _nuevaPub = {
-                tipo: _tipo,
-                codigo: _codigo,
-                imagen: _imagen,
-                titulo: _titulo,
-                descripcion: _desc,
-                autor: _autor,
-                precio: _precio,
-                stock: _stock,
-                estado: _estado
-            };
             _pubCorrecta = true;
         }
     }
@@ -1111,15 +1100,15 @@ $("#codigo_pub_venta").blur(function () {
 });
 // tiene que llamar al que crea el total y lo muestra.
 $("#ingresarPub").click(function () {
-    var _tipo = $("#tipo").val();
-    var _codigo = $("#codigo").val();
-    var _imagen = $("#imagen").val();
-    var _titulo = $("#titulo").val();
-    var _desc = $("#descripcion").val();
-    var _autor = $("#autor").val();
-    var _precio = $("#precio").val();
-    var _stock = $("#stock").val();
-    var _estado = $("#estado").val();
+    var _tipo = $("#tipoIngreso").val();
+    var _codigo = $("#codigoIngreso").val();
+    var _imagen = $("#imagenIngreso").val();
+    var _titulo = $("#tituloIngreso").val();
+    var _desc = $("#descripcionIngreso").val();
+    var _autor = $("#autorIngreso").val();
+    var _precio = $("#precioIngreso").val();
+    var _stock = $("#stockIngreso").val();
+    var _estado = $("#estadoIngreso").val();
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
 });
 
