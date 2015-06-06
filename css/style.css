@@ -244,7 +244,7 @@ th, td{
     border:0;
     background:none;
 }
-.menu ul li a {
+.menu ul li span{
     display:inline;
     margin:0;
     padding:11px;
@@ -252,10 +252,10 @@ th, td{
     font:normal 11px Arial, Helvetica, sans-serif;
     text-decoration:none;
 }
-.menu ul li a:hover {
+.menu ul li span:hover {
     background: #dfdfdf;
 }
-.menu ul li a.active {
+.menu ul li span.active {
     background: #dfdfdf;
 }
 /* right_text */
@@ -326,8 +326,11 @@ th, td{
 .formulario label span {
     color:#F00;
 }
+td input { 
+    width: 97%;;
+}
 .formulario input.text {
-    width:auto;
+    width:136px;
     border:1px solid #e8e8e8;
     margin:2px 0;
     padding:5px 2px;

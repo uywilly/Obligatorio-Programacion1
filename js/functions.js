@@ -11,17 +11,17 @@ var listaPublicaciones = new Array(
 //            stock: 15,
 //            estado: 'habilitado'
 //        },
-{
-    tipo: 'libro',
-    codigo: '2345678912345',
-    imagen: 'libro2.jpg',
-    titulo: 'Introducción a Piaget',
-    descripcion: 'Manual de método docente',
-    autor: 'Ed Labinowicz',
-    precio: 260,
-    stock: 25,
-    estado: 'habilitado'
-},
+        {
+            tipo: 'libro',
+            codigo: '2345678912345',
+            imagen: 'libro2.jpg',
+            titulo: 'Introducción a Piaget',
+            descripcion: 'Manual de método docente',
+            autor: 'Ed Labinowicz',
+            precio: 260,
+            stock: 25,
+            estado: 'habilitado'
+        },
 {
     tipo: 'libro',
     codigo: '3456789123456',
@@ -848,7 +848,7 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
                 };
                 listaPublicaciones.push(_nuevaPub);
             } else {
-                alert ('Ya está dada de alta esa publicación!.');
+                alert('Ya está dada de alta esa publicación!.');
             }
         }
     }
@@ -1062,8 +1062,9 @@ $('#ingresar_venta').click(function () {
 });
 $("#codigo_pub_venta").blur(function () {
     alert('hola');
-});// tiene que llamar al que crea el total y lo muestra.
-$("#ingresarPub").click( function(){
+});
+// tiene que llamar al que crea el total y lo muestra.
+$("#ingresarPub").click(function () {
     var _tipo = $("#tipo").val();
     var _codigo = $("#codigo").val();
     var _imagen = $("#imagen").val();
@@ -1073,29 +1074,75 @@ $("#ingresarPub").click( function(){
     var _precio = $("#precio").val();
     var _stock = $("#stock").val();
     var _estado = $("#estado").val();
-    ingresar_publicacion(_tipo,_codigo,_imagen,_titulo,_desc,_autor,_precio,_stock,_estado);
-    
+    ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
 });
 
-// LLamados para index-maqueta
-// 
+//------------------------------------------------------------------------------
+// Funciones para index-maqueta
+// -----------------------------------------------------------------------------
+// Dibujar tabla Publicaciones en Orden Alfabético
+function dibujarTablaPublicaciones(_array, _tabla) {
+    var _cabecera = "<tr><th>Título</th><th>Autor/Editorial</th><th>Tipo</th><th>Descripción</th><th>Precio</th></tr>";
+    $("#" + _tabla + ">thead").html(_cabecera);
+    $("#" + _tabla + ">tbody").html("");
+    for (var i = 0; i < _array.length; i++) {
+        var _titulo = _array[i].titulo;
+        var _autor = _array[i].autor;
+        var _tipo = _array[i].tipo;
+        var _descripcion = _array[i].descripcion;
+        var _precio = _array[i].precio;
+        var _linea = "<tr><td>" + _titulo + "</td><td>" + _autor + "</td><td>" + _tipo + "</td><td>" + _descripcion + "</td><td>" + _precio + "</td></tr>";
+        $("#" + _tabla + ">tbody").append(_linea);
+    }
+}
+// Dibujar tabla Catalgo a lo bruto
+function dibujarTablaCatalogo(_array, _tabla) {
+    var _cabecera = "<tr><th>Tipo</th><th>Código</th><th>Imagen</th><th>Título</th><th>Descripción</th><th>Autor</th><th>Precio</th><th>Stock</th><th>Estado</th></tr>";
+    $("#" + _tabla + ">thead").html(_cabecera);
+    $("#" + _tabla + ">tbody").html("");
+    for (var i = 0; i < _array.length; i++) {
+        var _linea = "<tr>";
+        for (var k in _array[i]) {
+            _linea += "<td>" + _array[i][k] + "</td>";
+        }
+        _linea += "</tr>";
+        $("#" + _tabla + ">tbody").append(_linea);
+    }
+}
+
 //topten
-$(function() {
+function TablaTop() {
     var _sumaVentas = sumarVentas(ventas);
     var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
     var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
     var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
     var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
     dibujarTablaTops(_ordenada, 'tablatopten');
-});
-
+}
+;
+$(TablaTop);
 // lista publicaciones en página de inicio...
-$(function () {
+function TablaPublicaciones() {
     var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    dibujarTabla(_listaOrdenada, 'listaPublicacionesInicio');
+    dibujarTablaPublicaciones(_listaOrdenada, 'listaPublicacionesInicio');
+}
+;
+$(TablaPublicaciones);
+// lista de publicaciones en página de catálogo...
+function TablaCatalogo() {
+    dibujarTablaCatalogo(listaPublicaciones, 'listaPublicacionesCatalogo');
+}
+;
+$(TablaCatalogo);
+
+// Ingresar una venta
+$('#ingresarNuevaVenta').click(function () {
+    var codigo_pub_venta = parseInt($('#codigo_pub').val());
+    var cantidad = parseInt($('#cantidad').val());
+    ingresar_ventas(ventas, codigo_pub_venta, cantidad);
+    // Vuelvo a dibujar las tablas...
+    $(TablaTop);
+    $(TablaPublicaciones);
+    $(TablaCatalogo);
 });
-// lista de publicaciones en página de catálogo, hay que formatearla bien...
-$(function () {
-    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    dibujarTabla(listaPublicaciones, 'listaPublicacionesCatalogo');
-});
+//-----------------------------------------------------------------------------

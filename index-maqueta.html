@@ -23,7 +23,7 @@
                                 <label for="pass">Contraseña:</label>
                                 <input type="text" id="pass"><br>
 
-                                <input type="button" value="Ingresar">
+                                <input type="button" value="Ingresar" id="botonLogin">
                             </div>
                             <div id="bienvenido" class="oculto">Bienvenido/a: Usuario que seas...</div>
                         </div>
@@ -31,10 +31,10 @@
                     <div class="menu">
                         <ul>
                             <!-- el atributo class con valor active marca la selección de la sección actual -->
-                            <li><a href="#" class="active"><span>Inicio</span></a></li>
-                            <li><a href="#" ><span>Catálogo</span></a></li>
-                            <li><a href="#" ><span>Ventas</span></a></li>
-                            <li><a href="#" ><span>Administración</span></a></li>
+                            <li><span class="active" id="spanInicio">Inicio</span></li>
+                            <li><span id="spanCatalgo">Catálogo</span></li>
+                            <li><span id="spanVentas">Ventas</span></li>
+                            <li><span id="spanAdministracion">Administración</span></li>
                         </ul>
                     </div>
                 </div><!-- fin header -->
@@ -59,7 +59,7 @@
                         </p>
                     </div>                    
                     <div id="publicacionesInicio">
-                        <h3>Lista de Publicaciones en Inicio Ord. Alfabetico</h3>
+                        <h3>Lista de Publicaciones en Ord. Alfabetico</h3>
                         <table id="listaPublicacionesInicio">
                             <thead></thead>
                             <tbody></tbody>
@@ -67,7 +67,7 @@
                     </div>                    
                     <p>&nbsp;</p>
                     <div id="catalogo">
-                        <h3>Catálogo a lo bruto</h3>
+                        <h3>Catálogo</h3>
                         <table id="listaPublicacionesCatalogo">
                             <thead></thead>
                             <tbody></tbody>
@@ -77,8 +77,8 @@
                     <div id="administrador" style="clear: both">
                         <div class="menu">
                             <ul>
-                                <li><a href="#" class="active"><span>Ingresar</span></a></li>
-                                <li><a href="#" ><span>Modificar/Eliminar</span></a></li>
+                                <li><span class="active" id="spanIngresar">Ingresar</span></li>
+                                <li><span id="spanModificar">Modificar/Eliminar</span></li>
                             </ul>
                         </div>
                         <p>&nbsp;</p>
@@ -91,35 +91,35 @@
 
                                         <tbody>
                                             <tr>
-                                                <td><label for="tipo">Tipo:</label></td>
-                                                <td><label for="codigo">Código:</label></td>
-                                                <td><label for="imagen">Imagen:</label></td>
+                                                <td><label for="tipoIngreso">Tipo:</label></td>
+                                                <td><label for="codigoIngreso">Código:</label></td>
+                                                <td><label for="imagenIngreso">Imagen:</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" id="tipo"></td>
-                                                <td><input type="text" id="codigo"></td>
-                                                <td><input type="text" id="imagen"></td>
+                                                <td><input type="text" id="tipoIngreso"></td>
+                                                <td><input type="text" id="codigoIngreso"></td>
+                                                <td><input type="text" id="imagenIngreso"></td>
                                             </tr>
                                             <tr>
 
-                                                <td><label for="titulo">Título:</label></td>
-                                                <td><label for="descripcion">Descripción:</label></td>
-                                                <td><label for="autor">Autor:</label></td>
+                                                <td><label for="tituloIngreso">Título:</label></td>
+                                                <td><label for="descripcionIngreso">Descripción:</label></td>
+                                                <td><label for="autorIngreso">Autor:</label></td>
                                             </tr>
                                             <tr>                                           
-                                                <td><input type="text" id="titulo"></td>
-                                                <td><input type="text" id="descripcion"></td>
-                                                <td><input type="text" id="autor"></td>
+                                                <td><input type="text" id="tituloIngreso"></td>
+                                                <td><input type="text" id="descripcionIngreso"></td>
+                                                <td><input type="text" id="autorIngreso"></td>
                                             </tr>
                                             <tr>
-                                                <td><label for="precio">Precio:</label></td>
-                                                <td><label for="stock">Stock:</label></td>
-                                                <td><label for="estado">Estado:</label></td>
+                                                <td><label for="precioIngreso">Precio:</label></td>
+                                                <td><label for="stockIngreso">Stock:</label></td>
+                                                <td><label for="estadoIngreso">Estado:</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" id="precio"></td>
-                                                <td><input type="text" value="0" id="stock"></td>
-                                                <td><input type="text" value="habilitado" id="estado"></td>
+                                                <td><input type="text" id="precioIngreso"></td>
+                                                <td><input type="text" value="0" id="stockIngreso"></td>
+                                                <td><input type="text" value="habilitado" id="estadoIngreso"></td>
                                             </tr>                            
                                         </tbody>                            
                                     </table>
@@ -242,7 +242,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <input type="button" id="ingresar_venta" value="Ingresar Venta"> <input type="reset">
+                                <input type="button" id="ingresarNuevaVenta" value="Ingresar Venta"> <input type="reset">
                             </form>
                         </div>
                         <div id="mensajesVenta" style="width: 162px; float: left">
