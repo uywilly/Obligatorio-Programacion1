@@ -35,6 +35,7 @@
                             <li><span id="spanCatalgo">Catálogo</span></li>
                             <li><span id="spanVentas">Ventas</span></li>
                             <li><span id="spanAdministracion">Administración</span></li>
+						    <li><span id="spanReportes">Reportes</span></li>
                         </ul>
                     </div>
                 </div><!-- fin header -->
@@ -258,6 +259,75 @@
                             </div>
                         </div>
                     </div>
+				    <div id="reportes" style="clear: both">
+					  <h3>Reportes:</h3>
+					  <div class="menu">
+                        <ul>
+						  <!-- el atributo class con valor active marca la selección de la sección actual -->
+						  <li><span class="active" id="spanPorPrecio">Por precio:</span></li>
+						  <li><span id="spanPorFecha">Por fecha:</span></li>
+                        </ul>
+					  </div>
+					  <p>&nbsp;</p>
+					  <div id="reportePorPrecio">
+					  <div id="busquedaPorPrecio" style="min-width: 345px; float: left; clear: both">
+						<h4>Generar reporte por precio:</h4>
+						<form id="formularioBusquedaPorPrecio" class="formulario">
+						  <table>
+							<tbody>
+							  <tr>
+								<td><label for="precioDeReporte">Precio:</label></td>
+								<td><input type="text" id="precioDeReporte"></td>
+							  </tr>
+							</tbody>
+						  </table>
+						  <input type="button" id="generarReportePorPrecio" value="Buscar"> <input type="reset">
+						</form>
+					  </div>
+					  <div id="mensajesBusquedaPorPrecio" style="width: 162px; float: left">
+						<h4>Mensajes:</h4>
+						<div class="message">
+						  <p> Reporte generado!</p>
+						</div>
+						<div class="error">
+						  <p> Reporte negativo!</p>
+						</div>
+					  </div>
+					  <table id="tablaReportePorPrecio" style="clear: both">
+						<thead></thead>
+						<tbody></tbody>
+					  </table>
+					  </div>
+					  <div id="reportePorFecha">
+						<div id="busquedaPorFecha" style="min-width: 345px; float: left; clear: both">
+						  <h4>Generar reporte por Fecha:</h4>
+						  <form id="formularioBusquedaPorFecha" class="formulario">
+							<table>
+							  <tbody>
+								<tr>
+								  <td><label for="fechaDeReporte">Fecha:</label></td>
+								  <td><input type="text" id="fechaDeReporte"></td>
+								</tr>
+							  </tbody>
+							</table>
+							<input type="button" id="generarReportePorFecha" value="Buscar"> <input type="reset">
+						  </form>
+						</div>
+						<div id="mensajesBusquedaPorFecha" style="width: 162px; float: left">
+						  <h4>Mensajes:</h4>
+						  <div class="message">
+							<p> Reporte generado!</p>
+						  </div>
+						  <div class="error">
+							<p> Reporte negativo!</p>
+						  </div>
+						</div>
+						<table id="tablaReportePorFecha" style="clear: both">
+						  <thead></thead>
+						  <tbody></tbody>
+						</table>
+					  </div>
+					</div>
                     <p>&nbsp;</p>
                 </div><!-- fin div parte derecha -->
             </div><!-- fin div contenedor sitio completo -->
