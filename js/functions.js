@@ -761,6 +761,30 @@ function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
     _listaPublicaciones[_posPublicacion] = _publicacion;
 }
 
+function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
+
+    var _pubValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+    if (_pubValida === true)
+    {
+        //creo una nueva publicacion
+        var _nuevaPublicacion = {
+            tipo: _tipo,
+            codigo: _codigo,
+            imagen: _imagen,
+            titulo: _titulo,
+            descripcion: _desc,
+            autor: _autor,
+            precio: _precio,
+            stock: _stock,
+            estado: _estado
+        };
+        //Busco la posicion de la publicacion en la lista 
+        var _posPublicacion = posicion_publicacion(listaPublicaciones, _codigo);
+        //Utilizando la posicion y reemplazo la publicacion existente por la nueva
+        listaPublicaciones[_posPublicacion] = _nuevaPublicacion;
+    }
+}
+
 // Ingresar una venta
 function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
     var _fecha = generar_fecha();
@@ -801,22 +825,23 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
 //
 // mensajes individuales por cada campo mal ingresado?
 // las validaciones deberían estar anidadas... si la primera es correcta, pasar a la segunda, sino, mostrar aviso...
-function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
+function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado)
+{ //Esta nueva funcion realiza todas las validaciones de los campos para las publicaciones de la misma forma en que 
+    //la realizaba la funcion ingresar_pubicacion fue dividida para reutilizar codigo
     var _parametros = [_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado];
+    var _pubCorrecta = false;
+
     var _campoNoVacio = false;
     var _letraMayus = false;
     var _descOk = false;
     var _codIdentif = false;
     var _precioValido = false;
-
     //Valido que todos los campos tengan datos
     for (var i = 0; i < _parametros.length; i++)
     { //true = no vacio
         if (validarCampoVacio(_parametros[i]) === false)
         {
-            _campoNoVacio = false;
-            alert("entra a param vacio");
-            break;
+            return _pubCorrecta;
         } else
         {
             _campoNoVacio = true;
@@ -833,23 +858,33 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
         if (_letraMayus === true && _descOk === true &&
                 _codIdentif === true && _precioValido === true)
         {
-            if (buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1) // si no existe la pub..
-            {
-                var _nuevaPub = {
-                    tipo: _tipo,
-                    codigo: _codigo,
-                    imagen: _imagen,
-                    titulo: _titulo,
-                    descripcion: _desc,
-                    autor: _autor,
-                    precio: _precio,
-                    stock: _stock,
-                    estado: _estado
-                };
-                listaPublicaciones.push(_nuevaPub);
-            } else {
-                alert('Ya está dada de alta esa publicación!.');
-            }
+            _pubCorrecta = true;
+        }
+    }
+    return _pubCorrecta;
+}
+function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado)
+{
+    var _proceder = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+
+    if (_proceder === true)
+    {
+        if (buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1) // si no existe la pub..
+        {
+            var _nuevaPub = {
+                tipo: _tipo,
+                codigo: _codigo,
+                imagen: _imagen,
+                titulo: _titulo,
+                descripcion: _desc,
+                autor: _autor,
+                precio: _precio,
+                stock: _stock,
+                estado: _estado
+            };
+            listaPublicaciones.push(_nuevaPub);
+        } else {
+            alert('Ya está dada de alta esa publicación!.');
         }
     }
 }
@@ -1064,18 +1099,6 @@ $("#codigo_pub_venta").blur(function () {
     alert('hola');
 });
 // tiene que llamar al que crea el total y lo muestra.
-$("#ingresarPub").click(function () {
-    var _tipo = $("#tipo").val();
-    var _codigo = $("#codigo").val();
-    var _imagen = $("#imagen").val();
-    var _titulo = $("#titulo").val();
-    var _desc = $("#descripcion").val();
-    var _autor = $("#autor").val();
-    var _precio = $("#precio").val();
-    var _stock = $("#stock").val();
-    var _estado = $("#estado").val();
-    ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-});
 
 //------------------------------------------------------------------------------
 // Funciones para index-maqueta
@@ -1145,4 +1168,49 @@ $('#ingresarNuevaVenta').click(function () {
     $(TablaPublicaciones);
     $(TablaCatalogo);
 });
+$("#ingresarPub").click(function () {
+    var _tipo = $("#tipoIngreso").val();
+    var _codigo = $("#codigoIngreso").val();
+    var _imagen = $("#imagenIngreso").val();
+    var _titulo = $("#tituloIngreso").val();
+    var _desc = $("#descripcionIngreso").val();
+    var _autor = $("#autorIngreso").val();
+    var _precio = $("#precioIngreso").val();
+    var _stock = $("#stockIngreso").val();
+    var _estado = $("#estadoIngreso").val();
+    ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+});
+$('#buscar').click(
+        function () {
+            var _cod = $('#codigo_pub_a_modif').val();
+            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            $('#tipoModificado').val(_pub.tipo);
+            $('#codigoModificado').val(_pub.codigo);
+            $('#imagenModificado').val(_pub.imagen);
+            $('#tituloModificado').val(_pub.titulo);
+            $('#descripcionModificado').val(_pub.descripcion);
+            $('#autorModificado').val(_pub.autor);
+            $('#precioModificado').val(_pub.precio);
+            $('#stockModificado').val(_pub.stock);
+            $('#estadoModificado').val(_pub.estado);
+        });
+$('#modificarPub').click(
+        function () {
+            var _cod = $('#codigo_pub_a_modif').val();
+            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            var _pos = posicion_publicacion(listaPublicaciones, _cod);
+
+            var _tipo = $('#tipoModificado').val();
+            var _codigo = $('#codigoModificado').val();
+            var _imagen = $('#imagenModificado').val();
+            var _titulo = $('#tituloModificado').val();
+            var _desc = $('#descripcionModificado').val();
+            var _autor = $("#autorModificado").val();
+            var _precio = $('#precioModificado').val();
+            var _stock = $('#stockModificado').val();
+            var _estado = $('#estadoModificado').val();
+
+            actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+
+        });
 //-----------------------------------------------------------------------------
