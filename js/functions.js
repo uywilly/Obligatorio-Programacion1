@@ -1277,9 +1277,12 @@ $('#modificarPub').click(function () {
         actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
     } else {
         // verifico que el nuevo codigo sea valido...
-        var _codigoValido = validarCodigoIdentificador(_codigo, _tipo);
-        // si es  valido (true)...
-        if (_codigoValido) {
+        var _codigoNuevoValido = validarCodigoIdentificador(_codigo, _tipo);
+        //verifico que el nuevo codigo no exista ya en listaPublicaciones...
+        var _codigoNuevoDisponible = posicion_publicacion(listaPublicaciones, _codigo);
+        // si es  valido el codigo nuevo...
+        if (_codigoNuevoValido) {
+            if(_codigoNuevoDisponible===-1){
             // actualizo las ventas con el código nuevo...
             modificarVentas(_codigoBackup, _codigo);
             // me guardo la posición de la publicación vieja...
@@ -1302,7 +1305,11 @@ $('#modificarPub').click(function () {
             $(TablaCatalogo);
         } else {
             // esto sería un show algo... el mensaje de error que toque.
-            alert('El nuevo codigo no es válido!');
+            alert('Codigo no disponible!');
+        }
+        } else {
+            // esto sería un show algo... el mensaje de error que toque.
+            alert('Codigo no es válido!');
         }
     }
 });
