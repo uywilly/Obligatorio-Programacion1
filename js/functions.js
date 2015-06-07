@@ -1,27 +1,27 @@
 //Objetos
 var listaPublicaciones = new Array(
-//        {
-//            tipo: 'libro',
-//            codigo: '1234567891234',
-//            imagen: 'libro1.jpg',
-//            titulo: 'Aprende a tocar la guitarra',
-//            descripcion: 'Curso de guitarra',
-//            autor: 'Phil Capone',
-//            precio: 320,
-//            stock: 15,
-//            estado: 'habilitado'
-//        },
         {
             tipo: 'libro',
-            codigo: '2345678912345',
-            imagen: 'libro2.jpg',
-            titulo: 'Introducción a Piaget',
-            descripcion: 'Manual de método docente',
-            autor: 'Ed Labinowicz',
-            precio: 260,
-            stock: 25,
+            codigo: '1234567891234',
+            imagen: 'libro1.jpg',
+            titulo: 'Aprende a tocar la guitarra',
+            descripcion: 'Curso de guitarra',
+            autor: 'Phil Capone',
+            precio: 320,
+            stock: 15,
             estado: 'habilitado'
         },
+{
+    tipo: 'libro',
+    codigo: '2345678912345',
+    imagen: 'libro2.jpg',
+    titulo: 'Introducción a Piaget',
+    descripcion: 'Manual de método docente',
+    autor: 'Ed Labinowicz',
+    precio: 260,
+    stock: 25,
+    estado: 'habilitado'
+},
 {
     tipo: 'libro',
     codigo: '3456789123456',
@@ -444,7 +444,7 @@ function controlUsuario(_usuario, _password) {
     return _tipoUsuario;
 }
 // funcion ocultar todo al inicio
-function ocultoAlInicio (){
+function ocultoAlInicio() {
     // secciones
     $("#catalogo").hide();
     $("#administrador").hide();
@@ -455,7 +455,7 @@ function ocultoAlInicio (){
     $("#spanVentas").hide();
     $("#spanAdministracion").hide();
     $("#spanReportes").hide();
-} ;
+}
 
 // Mostrar interfaz principal de vendedores o administradores
 function interfazSegunTipoUsuario(_tipo) {
@@ -1071,60 +1071,60 @@ function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
     return _publicacionesDePrecioMenor;
 }
 
-// PRUEBAS
-$("#probarfuncion").click(function () {
-    dibujarTabla(listaPublicaciones, 'tabla1');
-});
-$("#probarfuncion2").click(function () {
-    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
-    dibujarTabla(_listaOrdenada, 'tabla1');
-});
-$("#probarfuncion3").click(function () {
-    dibujarTabla(ventas, 'tabla1');
-});
-$("#probarfuncion4").click(function () {
-    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas, 'total', 'precio');
-    dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
-});
-$("#probarfuncion5").click(function () {
-// en este caso la clave es total...
-    var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas, 'total');
-    // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
-    var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
-    dibujarTabla(_tops, 'tabla1');
-});
-$("#probarfuncion6").click(function () {
-    var _sumaVentas = sumarVentas(ventas);
-    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
-    dibujarTabla(_sumaVentasOrdenadasPorMayor, 'tabla1');
-});
-$("#probarfuncion7").click(function () {
-    var _sumaVentas = sumarVentas(ventas);
-    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
-    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
-    dibujarTabla(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
-});
-$("#probarfuncion8").click(function () {
-    var _sumaVentas = sumarVentas(ventas);
-    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
-    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
-    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
-    var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
-    dibujarTablaTops(_ordenada, 'tabla1');
-});
+// PRUEBAS 
+//$("#probarfuncion").click(function () {
+//    dibujarTabla(listaPublicaciones, 'tabla1');
+//});
+//$("#probarfuncion2").click(function () {
+//    var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
+//    dibujarTabla(_listaOrdenada, 'tabla1');
+//});
+//$("#probarfuncion3").click(function () {
+//    dibujarTabla(ventas, 'tabla1');
+//});
+//$("#probarfuncion4").click(function () {
+//    var _ventasOrdenadasPorTotales = ordenarArrayPorClave(ventas, 'total', 'precio');
+//    dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
+//});
+//$("#probarfuncion5").click(function () {
+//// en este caso la clave es total...
+//    var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas, 'total');
+//    // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
+//    var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
+//    dibujarTabla(_tops, 'tabla1');
+//});
+//$("#probarfuncion6").click(function () {
+//    var _sumaVentas = sumarVentas(ventas);
+//    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'total');
+//    dibujarTabla(_sumaVentasOrdenadasPorMayor, 'tabla1');
+//});
+//$("#probarfuncion7").click(function () {
+//    var _sumaVentas = sumarVentas(ventas);
+//    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
+//    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
+//    dibujarTabla(_solo3primerasDeSumaVentasOrdenadasPorMayor, 'tabla1');
+//});
+//$("#probarfuncion8").click(function () {
+//    var _sumaVentas = sumarVentas(ventas);
+//    var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
+//    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
+//    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
+//    var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
+//    dibujarTablaTops(_ordenada, 'tabla1');
+//});
 //$("#probarfuncion9").click(function () {
 //    var _ventasPorFecha = totalVentasPorFecha(ventas, '24/5/2015');
 //    dibujarTabla(_ventasPorFecha, 'tabla1');
 //});
-$("#probarfuncion10").click(function () {
-    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, 250);
-    dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
-});
-$('#ingresar_venta').click(function () {
-    var codigo_pub_venta = parseInt($('#codigo_pub_venta').val());
-    var cantidad = parseInt($('#cantidad_venta').val());
-    var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
-});
+//$("#probarfuncion10").click(function () {
+//    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, 250);
+//    dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
+//});
+//$('#ingresar_venta').click(function () {
+//    var codigo_pub_venta = parseInt($('#codigo_pub_venta').val());
+//    var cantidad = parseInt($('#cantidad_venta').val());
+//    var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
+//});
 $("#codigo_pub_venta").blur(function () {
     alert('hola');
 });
@@ -1146,6 +1146,7 @@ function dibujarTablaPublicaciones(_array, _tabla) {
         $("#" + _tabla + ">tbody").append(_linea);
     }
 }
+//------------------------------------------------------------------------------
 // Dibujar tabla Catalgo a lo bruto
 function dibujarTablaCatalogo(_array, _tabla) {
     var _cabecera = "<tr><th>Tipo</th><th>Código</th><th>Imagen</th><th>Título</th><th>Descripción</th><th>Autor</th><th>Precio</th><th>Stock</th><th>Estado</th></tr>";
@@ -1160,18 +1161,19 @@ function dibujarTablaCatalogo(_array, _tabla) {
         $("#" + _tabla + ">tbody").append(_linea);
     }
 }
-
+//------------------------------------------------------------------------------
 //topten
 function TablaTop() {
     var _sumaVentas = sumarVentas(ventas);
     var _sumaVentasOrdenadasPorMayor = ordenarArrayPorClave(_sumaVentas, 'cantidad');
-    var _solo3primerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
-    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_solo3primerasDeSumaVentasOrdenadasPorMayor);
+    var _soloXprimerasDeSumaVentasOrdenadasPorMayor = cuantasPrimerasDeArray(_sumaVentasOrdenadasPorMayor, 4);
+    var _masprecio = agregarPrecioPublicacionEnArrayVentas(_soloXprimerasDeSumaVentasOrdenadasPorMayor);
     var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
     dibujarTablaTops(_ordenada, 'tablatopten');
 }
 ;
 $(TablaTop);
+//------------------------------------------------------------------------------
 // lista publicaciones en página de inicio...
 function TablaPublicaciones() {
     var _listaOrdenada = ordenar_publicaciones(listaPublicaciones);
@@ -1179,12 +1181,14 @@ function TablaPublicaciones() {
 }
 ;
 $(TablaPublicaciones);
+//------------------------------------------------------------------------------
 // lista de publicaciones en página de catálogo...
 function TablaCatalogo() {
     dibujarTablaCatalogo(listaPublicaciones, 'listaPublicacionesCatalogo');
 }
 ;
 $(TablaCatalogo);
+//------------------------------------------------------------------------------
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
     var codigo_pub_venta = parseInt($('#codigo_pub').val());
@@ -1195,6 +1199,7 @@ $('#ingresarNuevaVenta').click(function () {
     $(TablaPublicaciones);
     $(TablaCatalogo);
 });
+//------------------------------------------------------------------------------
 // Ingresar publicacion
 $("#ingresarPub").click(function () {
     var _tipo = $("#tipoIngreso").val();
@@ -1208,58 +1213,121 @@ $("#ingresarPub").click(function () {
     var _estado = $("#estadoIngreso").val();
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
 });
+//------------------------------------------------------------------------------
 // Buscar publicacion para modificar/eliminar (botón)
-$('#buscar').click(
-        function () {
-            var _cod = $('#codigo_pub_a_modif').val();
-            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-            // rellena los inputs de tablaModificacionPublicaciones con los datos...
-            $('#tipoModificado').val(_pub.tipo);
-            $('#codigoModificado').val(_pub.codigo);
-            $('#imagenModificado').val(_pub.imagen);
-            $('#tituloModificado').val(_pub.titulo);
-            $('#descripcionModificado').val(_pub.descripcion);
-            $('#autorModificado').val(_pub.autor);
-            $('#precioModificado').val(_pub.precio);
-            $('#stockModificado').val(_pub.stock);
-            $('#estadoModificado').val(_pub.estado);
-        });
-// Modificar publicación
-$('#modificarPub').click(
-        function () {
-            var _cod = $('#codigo_pub_a_modif').val();
-            //var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-            //var _pos = posicion_publicacion(listaPublicaciones, _cod);
+$('#buscar').click(function () {
+    var _cod = $('#codigo_pub_a_modif').val();
+    var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+    // rellena los inputs de tablaModificacionPublicaciones con los datos...
+    $('#tipoModificado').val(_pub.tipo);
+    $('#codigoModificado').val(_pub.codigo);
+    $('#codigoBackup').val(_pub.codigo);     //--> guarda el código en un campo oculto...
+    $('#imagenModificado').val(_pub.imagen);
+    $('#tituloModificado').val(_pub.titulo);
+    $('#descripcionModificado').val(_pub.descripcion);
+    $('#autorModificado').val(_pub.autor);
+    $('#precioModificado').val(_pub.precio);
+    $('#stockModificado').val(_pub.stock);
+    $('#estadoModificado').val(_pub.estado);
+});
+//-------Cuando actualizan el codigo de una publicación-------------------------
 
-            var _tipo = $('#tipoModificado').val();
-            var _codigo = $('#codigoModificado').val();
-            var _imagen = $('#imagenModificado').val();
-            var _titulo = $('#tituloModificado').val();
-            var _desc = $('#descripcionModificado').val();
-            var _autor = $("#autorModificado").val();
-            var _precio = $('#precioModificado').val();
-            var _stock = $('#stockModificado').val();
-            var _estado = $('#estadoModificado').val();
-            actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-        });
+// Buscar las ventas con el codigo tal (el antiguo)...
+function buscarVentasPorCodigo(_codigo) {
+    var _ventas = new Array();
+    for (var i = 0; i < ventas.length; i++) {
+        if (ventas[i].codigo_pub === _codigo) {
+            _ventas.push(ventas[i]);
+        }
+    }
+    if (_ventas.length === 0) {
+        // devuelve false si no hay ventas con ese código...
+        _ventas = false;
+    }
+    return _ventas;
+}
+
+// Sustituir el codigo de las ventas con codigo_viejo por el codigo_nuevo...
+function modificarVentas(_codigo_pub_viejo, _codigo_pub_nuevo) {
+    // esto es por si modificamos el código de una publicación, que no pierda sus
+    // ventas asociadas anteriores.
+    var _ventas = buscarVentasPorCodigo(_codigo_pub_viejo);
+    if (_ventas !== false) {
+        for (var i = 0; i < _ventas.length; i++) {
+            _ventas[i].codigo_pub = _codigo_pub_nuevo;
+        }
+    }
+}
+//------------------------------------------------------------------------------
+// Modificar publicación
+$('#modificarPub').click(function () {
+    var _codigoBackup = $("#codigoBackup").val();  //-->me guardo el codigo del campo oculto...
+    var _tipo = $('#tipoModificado').val();
+    var _codigo = $('#codigoModificado').val();
+    var _imagen = $('#imagenModificado').val();
+    var _titulo = $('#tituloModificado').val();
+    var _desc = $('#descripcionModificado').val();
+    var _autor = $("#autorModificado").val();
+    var _precio = parseInt($('#precioModificado').val());   //--> hay que captarlo como número
+    var _stock = parseInt($('#stockModificado').val());     //--> hay que captarlo como número
+    var _estado = $('#estadoModificado').val();
+    // controlo si ha cambiado el codigo...
+    if (_codigoBackup === _codigo) {
+        // si los 2 codigos son iguales, actualizo y listo...
+        actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+    } else {
+        // verifico que el nuevo codigo sea valido...
+        var _codigoValido = validarCodigoIdentificador(_codigo, _tipo);
+        // si es  valido (true)...
+        if (_codigoValido) {
+            // actualizo las ventas con el código nuevo...
+            modificarVentas(_codigoBackup, _codigo);
+            // me guardo la posición de la publicación vieja...
+            var _posicionPub = posicion_publicacion(listaPublicaciones, _codigoBackup);
+            // sobrescribo en esa posición con la publicación actualizada...
+            listaPublicaciones[_posicionPub] = {
+                tipo: _tipo,
+                codigo: _codigo,
+                imagen: _imagen,
+                titulo: _titulo,
+                descripcion: _desc,
+                autor: _autor,
+                precio: _precio,
+                stock: _stock,
+                estado: _estado
+            };
+            // Recargo las listas actualizadas...
+            $(TablaTop);
+            $(TablaPublicaciones);
+            $(TablaCatalogo);
+        } else {
+            // esto sería un show algo... el mensaje de error que toque.
+            alert('El nuevo codigo no es válido!');
+        }
+    }
+});
+//------------------------------------------------------------------------------
 // Generar reporte por precio
 $("#generarReportePorPrecio").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
     dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
 });
+//------------------------------------------------------------------------------
 // Generar reporte por fecha
 $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
     dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
 });
+//------------------------------------------------------------------------------
 // Ocultar todo a los visitantes
-ocultoAlInicio();   //--->comentar para ver todo
+//ocultoAlInicio();   //------------> Comentado ves todo, descomentado, lo que toca.
+//------------------------------------------------------------------------------
 // Login
-$("#botonLogin").click(function(){
+$("#botonLogin").click(function () {
     var _user = $("#user").val();
     var _pass = $("#pass").val();
     var _tipoUsuario = controlUsuario(_user, _pass);
     interfazSegunTipoUsuario(_tipoUsuario);
 });
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
