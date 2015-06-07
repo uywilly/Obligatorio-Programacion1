@@ -1338,3 +1338,54 @@ $("#botonLogin").click(function () {
     interfazSegunTipoUsuario(_tipoUsuario);
 });
 //------------------------------------------------------------------------------
+/*
+ $('#modificarPub').click(
+        function () {
+            //Validar codigo en busqueda
+            var _cod = $('#codigo_pub_a_modif').val(); //cargo el codigo de la pub original desde el campo de texto del BUSCAR
+            var _pos = posicion_publicacion(listaPublicaciones, _cod); //cargo la posicion donde esta la pub original
+            
+            //cargo todos los campos
+            var _tipo = $('#tipoModificado').val();
+            var _codigo = $('#codigoModificado').val();
+            var _codigo = $('#codigoModificado').val();
+            var _imagen = $('#imagenModificado').val();
+            var _titulo = $('#tituloModificado').val();
+            var _desc = $('#descripcionModificado').val();
+            var _autor = $("#autorModificado").val();
+            var _precio = $('#precioModificado').val();
+            var _stock = $('#stockModificado').val();
+            var _estado = $('#estadoModificado').val();
+
+            if (_cod === _codigo) //comparo los codigos
+            {
+                /si los codigos no cambiaron actualizo directamente
+                actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+            } else
+            {
+                //valido los campos nuevos
+                var _seguir = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+                if(_seguir === true)
+                {   
+                    //creo la nueva publicacion
+                    var _nuevaPub = {
+                    tipo: _tipo,
+                    codigo: _codigo,
+                    imagen: _imagen,
+                    titulo: _titulo,
+                    descripcion: _desc,
+                    autor: _autor,
+                    precio: _precio,
+                    stock: _stock,
+                    estado: _estado
+                };
+                delete listaPublicaciones[_pos]; // elimino el elemento sin perder la posicion
+                listaPublicaciones[_pos] = _nuevaPub;   //agrego la nueva pub en la misma pos
+                }else
+                {
+                    alert('error al actualizar');
+                }
+                
+            }
+        });
+ */
