@@ -318,18 +318,19 @@ var listaPublicaciones = new Array(
     precio: 140,
     stock: 18,
     estado: 'habilitado'
-},
-{
-    tipo: 'revista',
-    codigo: '5589012343',
-    imagen: 'revista15.jpg',
-    titulo: 'Woman',
-    descripcion: 'Revista vieja para mujeres viejas',
-    autor: 'Fortunato Mascaronne',
-    precio: 125,
-    stock: 22,
-    estado: 'habilitado'
 }
+//,
+//{
+//    tipo: 'revista',
+//    codigo: '5589012343',
+//    imagen: 'revista15.jpg',
+//    titulo: 'Woman',
+//    descripcion: 'Revista vieja para mujeres viejas',
+//    autor: 'Fortunato Mascaronne',
+//    precio: 125,
+//    stock: 22,
+//    estado: 'habilitado'
+//}
 );
 var usuarios = new Array(
         {
@@ -767,8 +768,23 @@ function ordenar_publicaciones(_listaPublicaciones) {
 }
 
 // Buscar posición (indice) de publicación según su _codigo
+//function posicion_publicacion(_listaPublicaciones, _codigo) {
+//    var _posicion = 0;
+//    for (var i = 0; i < _listaPublicaciones.length; i++)
+//    {
+//        var _codigo_elemento = _listaPublicaciones[i].codigo;
+//        if (_codigo_elemento === _codigo)
+//                // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
+//                {
+//                    _posicion = i;
+//                    break;
+//                }
+//    }
+//    return _posicion;
+//}
+// Si no encuentra esa publicación y devuelve 0, en realidad está devolviendo la posición 0...
 function posicion_publicacion(_listaPublicaciones, _codigo) {
-    var _posicion = 0;
+    var _posicion = false;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
         var _codigo_elemento = _listaPublicaciones[i].codigo;
@@ -1125,6 +1141,7 @@ function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
 //    var cantidad = parseInt($('#cantidad_venta').val());
 //    var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
 //});
+
 $("#codigo_pub_venta").blur(function () {
     alert('hola');
 });
@@ -1191,13 +1208,14 @@ $(TablaCatalogo);
 //------------------------------------------------------------------------------
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
-    var codigo_pub_venta = parseInt($('#codigo_pub').val());
+    //var codigo_pub_venta = parseInt($('#codigo_pub').val());    // ---> esto guardaba el codigo como número.
+    var codigo_pub_venta = $('#codigo_pub').val(); // ---> tiene que guardarlo como string...
     var cantidad = parseInt($('#cantidad').val());
     ingresar_ventas(ventas, codigo_pub_venta, cantidad);
     // Vuelvo a dibujar las tablas...
-    $(TablaTop);
     $(TablaPublicaciones);
-    $(TablaCatalogo);
+    $(TablaCatalogo);    
+    $(TablaTop);
 });
 //------------------------------------------------------------------------------
 // Ingresar publicacion
@@ -1282,31 +1300,31 @@ $('#modificarPub').click(function () {
         var _codigoNuevoDisponible = posicion_publicacion(listaPublicaciones, _codigo);
         // si es  valido el codigo nuevo...
         if (_codigoNuevoValido) {
-            if(_codigoNuevoDisponible===-1){
-            // actualizo las ventas con el código nuevo...
-            modificarVentas(_codigoBackup, _codigo);
-            // me guardo la posición de la publicación vieja...
-            var _posicionPub = posicion_publicacion(listaPublicaciones, _codigoBackup);
-            // sobrescribo en esa posición con la publicación actualizada...
-            listaPublicaciones[_posicionPub] = {
-                tipo: _tipo,
-                codigo: _codigo,
-                imagen: _imagen,
-                titulo: _titulo,
-                descripcion: _desc,
-                autor: _autor,
-                precio: _precio,
-                stock: _stock,
-                estado: _estado
-            };
-            // Recargo las listas actualizadas...
-            $(TablaTop);
-            $(TablaPublicaciones);
-            $(TablaCatalogo);
-        } else {
-            // esto sería un show algo... el mensaje de error que toque.
-            alert('Codigo no disponible!');
-        }
+            if (_codigoNuevoDisponible === false) {
+                // actualizo las ventas con el código nuevo...
+                modificarVentas(_codigoBackup, _codigo);
+                // me guardo la posición de la publicación vieja...
+                var _posicionPub = posicion_publicacion(listaPublicaciones, _codigoBackup);
+                // sobrescribo en esa posición con la publicación actualizada...
+                listaPublicaciones[_posicionPub] = {
+                    tipo: _tipo,
+                    codigo: _codigo,
+                    imagen: _imagen,
+                    titulo: _titulo,
+                    descripcion: _desc,
+                    autor: _autor,
+                    precio: _precio,
+                    stock: _stock,
+                    estado: _estado
+                };
+                // Recargo las listas actualizadas...                
+                $(TablaPublicaciones);
+                $(TablaCatalogo);
+                $(TablaTop);
+            } else {
+                // esto sería un show algo... el mensaje de error que toque.
+                alert('Codigo no disponible!');
+            }
         } else {
             // esto sería un show algo... el mensaje de error que toque.
             alert('Codigo no es válido!');
@@ -1338,54 +1356,52 @@ $("#botonLogin").click(function () {
     interfazSegunTipoUsuario(_tipoUsuario);
 });
 //------------------------------------------------------------------------------
-/*
- $('#modificarPub').click(
-        function () {
-            //Validar codigo en busqueda
-            var _cod = $('#codigo_pub_a_modif').val(); //cargo el codigo de la pub original desde el campo de texto del BUSCAR
-            var _pos = posicion_publicacion(listaPublicaciones, _cod); //cargo la posicion donde esta la pub original
-            
-            //cargo todos los campos
-            var _tipo = $('#tipoModificado').val();
-            var _codigo = $('#codigoModificado').val();
-            var _codigo = $('#codigoModificado').val();
-            var _imagen = $('#imagenModificado').val();
-            var _titulo = $('#tituloModificado').val();
-            var _desc = $('#descripcionModificado').val();
-            var _autor = $("#autorModificado").val();
-            var _precio = $('#precioModificado').val();
-            var _stock = $('#stockModificado').val();
-            var _estado = $('#estadoModificado').val();
-
-            if (_cod === _codigo) //comparo los codigos
-            {
-                /si los codigos no cambiaron actualizo directamente
-                actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-            } else
-            {
-                //valido los campos nuevos
-                var _seguir = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-                if(_seguir === true)
-                {   
-                    //creo la nueva publicacion
-                    var _nuevaPub = {
-                    tipo: _tipo,
-                    codigo: _codigo,
-                    imagen: _imagen,
-                    titulo: _titulo,
-                    descripcion: _desc,
-                    autor: _autor,
-                    precio: _precio,
-                    stock: _stock,
-                    estado: _estado
-                };
-                delete listaPublicaciones[_pos]; // elimino el elemento sin perder la posicion
-                listaPublicaciones[_pos] = _nuevaPub;   //agrego la nueva pub en la misma pos
-                }else
-                {
-                    alert('error al actualizar');
-                }
-                
-            }
-        });
- */
+/*$('#modificarPub').click(
+ function () {
+ //Validar codigo en busqueda
+ var _cod = $('#codigo_pub_a_modif').val(); //cargo el codigo de la pub original desde el campo de texto del BUSCAR
+ var _pos = posicion_publicacion(listaPublicaciones, _cod); //cargo la posicion donde esta la pub original
+ 
+ //cargo todos los campos
+ var _tipo = $('#tipoModificado').val();
+ var _codigo = $('#codigoModificado').val();
+ var _codigo = $('#codigoModificado').val();
+ var _imagen = $('#imagenModificado').val();
+ var _titulo = $('#tituloModificado').val();
+ var _desc = $('#descripcionModificado').val();
+ var _autor = $("#autorModificado").val();
+ var _precio = $('#precioModificado').val();
+ var _stock = $('#stockModificado').val();
+ var _estado = $('#estadoModificado').val();
+ 
+ if (_cod === _codigo) //comparo los codigos
+ {
+ //si los codigos no cambiaron actualizo directamente
+ actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+ } else
+ {
+ //valido los campos nuevos
+ var _seguir = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+ if (_seguir === true)
+ {
+ //creo la nueva publicacion
+ var _nuevaPub = {
+ tipo: _tipo,
+ codigo: _codigo,
+ imagen: _imagen,
+ titulo: _titulo,
+ descripcion: _desc,
+ autor: _autor,
+ precio: _precio,
+ stock: _stock,
+ estado: _estado
+ };
+ delete listaPublicaciones[_pos]; // elimino el elemento sin perder la posicion
+ listaPublicaciones[_pos] = _nuevaPub;   //agrego la nueva pub en la misma pos
+ } else
+ {
+ alert('error al actualizar');
+ }
+ 
+ }
+ });*/
