@@ -30,11 +30,10 @@
                     </div>
                     <div class="menu">
                         <ul>
-                            <!-- el atributo class con valor active marca la selección de la sección actual -->
-                            <li><span class="active" id="spanInicio">Inicio</span></li>
-                            <li><span id="spanCatalgo">Catálogo</span></li>
+                            <!-- el atributo class con valor active marca la selección de la sección actual -->                           
                             <li><span id="spanVentas">Ventas</span></li>
                             <li><span id="spanAdministracion">Administración</span></li>
+                            <li><span id="spanCatalgo">Catálogo</span></li>
                             <li><span id="spanReportes">Reportes</span></li>
                         </ul>
                     </div>
@@ -60,25 +59,23 @@
                         </p>
                     </div>                    
                     <div id="publicacionesInicio">
-                        <h3>Lista de Publicaciones en Ord. Alfabetico</h3>
+                        <h3>Publicaciones</h3>
                         <table id="listaPublicacionesInicio">
                             <thead></thead>
                             <tbody></tbody>
                         </table>       
-                    </div>                    
-                    <p>&nbsp;</p>
+                    </div>
                     <div id="catalogo">
                         <h3>Catálogo</h3>
                         <table id="listaPublicacionesCatalogo">
                             <thead></thead>
                             <tbody></tbody>
                         </table>       
-                    </div>                    
-                    <p>&nbsp;</p>
+                    </div>
                     <div id="administrador" style="clear: both">
                         <div class="menu">
                             <ul>
-                                <li><span class="active" id="spanIngresar">Ingresar</span></li>
+                                <li><span id="spanIngresar">Ingresar</span></li>
                                 <li><span id="spanModificar">Modificar/Eliminar</span></li>
                             </ul>
                         </div>
@@ -131,13 +128,13 @@
                             </div>
                             <div id="mensajesIngreso" style="width: 162px; float: right">
                                 <h3>Mensajes:</h3>
-                                <div class="message">
+                                <div class="message" id="ingresoExitoso">
                                     <p> Publicación Ingresada</p>
                                 </div>
-                                <div class="warning">
+                                <div class="warning" id="ingresoCamposMalos">
                                     <p> Errores en los campos.</p>
                                 </div>
-                                <div class="error">
+                                <div class="error" id="ingresoError">
                                     <p> Publicación no ingresada.</p>
                                 </div>
                             </div>
@@ -151,8 +148,8 @@
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <td><label for="codigo_pub_venta">Codigo:</label></td>
-                                                    <td><input type="text" id="codigo_pub_venta"></td>
+                                                    <td><label for="codigo_pub_a_modif">Codigo:</label></td>
+                                                    <td><input type="text" id="codigo_pub_a_modif"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -161,10 +158,10 @@
                                 </div>
                                 <div id="mensajesBusqueda" style="width: 162px; float: left">
                                     <h3>Mensajes:</h3>
-                                    <div class="message">
+                                    <div class="message" id="publiEncontrada">
                                         <p> Publicación encontrada.</p>
                                     </div>
-                                    <div class="error">
+                                    <div class="error" id="publiNoEncontrada">
                                         <p> Publicación no encontrada!</p>
                                     </div>
                                 </div>
@@ -213,20 +210,19 @@
                                 </div>
                                 <div id="mensajesModificacion" style="width: 162px; float: right">
                                     <h3>Mensajes:</h3>
-                                    <div class="message">
+                                    <div class="message" id="publiModificada">
                                         <p> Publicación modificada</p>
                                     </div>
-                                    <div class="warning">
+                                    <div class="warning" id="publiCamposMalos">
                                         <p> Errores en los campos.</p>
                                     </div>
-                                    <div class="error">
+                                    <div class="error" id="publiNoModificada">
                                         <p> Publicación no modificada.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <p>&nbsp;</p>
                     <div id="vendedor" style="clear: both">
                         <div id="ingresarVenta" style="min-width: 345px; float: left">
                             <h3>Ingresar Venta:</h3>
@@ -248,13 +244,13 @@
                         </div>
                         <div id="mensajesVenta" style="width: 162px; float: left">
                             <h3>Mensajes:</h3>
-                            <div class="message">
+                            <div class="message" id="ventaIngresada">
                                 <p> Venta ingresada</p>
                             </div>
-                            <div class="warning">
+                            <div class="warning" id="ventaCamposMalos">
                                 <p> Errores en los campos.</p>
                             </div>
-                            <div class="error">
+                            <div class="error" id="ventaNoIngresada">
                                 <p> Venta no ingresada.</p>
                             </div>
                         </div>
@@ -264,7 +260,7 @@
                         <div class="menu">
                             <ul>
                                 <!-- el atributo class con valor active marca la selección de la sección actual -->
-                                <li><span class="active" id="spanPorPrecio">Por precio:</span></li>
+                                <li><span id="spanPorPrecio">Por precio:</span></li>
                                 <li><span id="spanPorFecha">Por fecha:</span></li>
                             </ul>
                         </div>
@@ -286,10 +282,10 @@
                             </div>
                             <div id="mensajesBusquedaPorPrecio" style="width: 162px; float: left">
                                 <h4>Mensajes:</h4>
-                                <div class="message">
+                                <div class="message" id="reportePrecioGenerado">
                                     <p> Reporte generado!</p>
                                 </div>
-                                <div class="error">
+                                <div class="error" id="reportePrecioNoGenerado">
                                     <p> Reporte negativo!</p>
                                 </div>
                             </div>
@@ -315,10 +311,10 @@
                             </div>
                             <div id="mensajesBusquedaPorFecha" style="width: 162px; float: left">
                                 <h4>Mensajes:</h4>
-                                <div class="message">
+                                <div class="message" id="reporteFechaGenerado">
                                     <p> Reporte generado!</p>
                                 </div>
-                                <div class="error">
+                                <div class="error" id="reporteFechaNoGenerado">
                                     <p> Reporte negativo!</p>
                                 </div>
                             </div>

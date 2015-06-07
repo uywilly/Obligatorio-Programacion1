@@ -333,14 +333,14 @@ var listaPublicaciones = new Array(
 );
 var usuarios = new Array(
         {
-            tipo: 'adminstrador',
+            tipo: 'administrador',
             nombre: 'William',
             apellido: 'Machado',
             mail: 'william.machado.uy@gmail.com',
             contrasena: 'william11'
         },
 {
-    tipo: 'adminstrador',
+    tipo: 'administrador',
     nombre: 'Juan',
     apellido: 'Rodríguez',
     mail: 'niandubay79@gmail.com',
@@ -417,10 +417,8 @@ var ventas = new Array(
     cantidad: 2,
     total: 426
 });
-
 // Constantes
 var stockMinimo = 4;
-
 // Control de usuarios
 // que la contraseña sea alfanumérica significa que tiene que ser un string o que
 // hay que verificar que tenga si o sí alguna letra y algún número?
@@ -445,15 +443,53 @@ function controlUsuario(_usuario, _password) {
     }
     return _tipoUsuario;
 }
+// funcion ocultar todo al inicio
+function ocultoAlInicio (){
+    // secciones
+    $("#catalogo").hide();
+    $("#administrador").hide();
+    $("#vendedor").hide();
+    $("#reportes").hide();
+    // menu principal
+    $("#spanCatalgo").hide();
+    $("#spanVentas").hide();
+    $("#spanAdministracion").hide();
+    $("#spanReportes").hide();
+} ;
 
 // Mostrar interfaz principal de vendedores o administradores
-function interfazPrincipal(_tipo) {
+function interfazSegunTipoUsuario(_tipo) {
     if (_tipo === 'vendedor') {
-        // show todo lo que tenga que ver el vendedor...
+        // secciones
+        $("#vendedor").show();
+        $("#mensajeBienvenida").hide();
+        $("#publicacionesInicio").hide();
+        // menu principal
+        $("#spanCatalgo").show();
+        $("#spanVentas").show();
+        // Mensajes
+        $("#mensajesVenta").hide();
+        $(".message").hide();
+        $(".warning").hide();
+        $(".error").hide();
     } else if (_tipo === 'administrador') {
-        // show todo lo que tenga que ver el administrador...
+        // secciones
+        $("#administrador").show();
+        $("#modificaciones").hide();
+        $("#mensajeBienvenida").hide();
+        $("#publicacionesInicio").hide();
+        // menu principal
+        $("#spanCatalgo").show();
+        $("#spanAdministracion").show();
+        $("#spanReportes").show();
+        // Mensajes
+        $("#mensajesIngreso").hide();
+        $(".message").hide();
+        $(".warning").hide();
+        $(".error").hide();
     } else {
-        // si eltipo es 'incorrecto' no se muestra nada :)
+        // si eltipo es 'incorrecto' tengo
+        // que mostrar un alert o algo..
     }
 }
 
@@ -471,7 +507,7 @@ function validar_primer_letra_mayuscula(_string) {
     return _correcto;
 }
 function validar_descripcion(_desc) {
-    // la descripción debe empezar con mayúscula y tener al menos 15 caracteres...
+// la descripción debe empezar con mayúscula y tener al menos 15 caracteres...
     var _primer_letra_mayuscula = validar_primer_letra_mayuscula(_desc);
     var _correcto = false;
     var _largo = _desc.length;
@@ -501,7 +537,7 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
     switch (_tipoPublicacion) {
         case "libro":
             if (_codigoIdentificador.length === 13) {
-                // si tiene 13 digitos me fijo si alguno de ellos no es un número...
+// si tiene 13 digitos me fijo si alguno de ellos no es un número...
                 for (var i = 0; i < _codigoIdentificador.length; i++) {
                     if (isNaN(_codigoIdentificador[i])) {
                         _valido = false;
@@ -510,30 +546,30 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
                         break;
                     }
                 }
-                // si no tiene 13 digitos es falso...
+// si no tiene 13 digitos es falso...
             } else {
                 _valido = false;
             }
             break;
         case "revista":
             if (_codigoIdentificador.length === 10) {
-                // controlo que sean todos números...
+// controlo que sean todos números...
                 for (var j = 0; j < _codigoIdentificador.length; j++) {
                     if (isNaN(_codigoIdentificador[j])) {
-                        // si alguno no es un número... false...
+// si alguno no es un número... false...
                         _valido = false;
                         break;
                     }
                 }
-                // si en este punto sigue siendo true es que son todos números...
+// si en este punto sigue siendo true es que son todos números...
                 if (_valido) {
-                    // inicializo _numeroPublicacion
+// inicializo _numeroPublicacion
                     var _numeroPublicacion = "";
                     // lo relleno con los números de 2 a 8...
                     for (var n = 2; n < 9; n++) {
                         _numeroPublicacion = _numeroPublicacion + _codigoIdentificador[n];
                     }
-                    // le asigno a _digitoVerificadorIngresado el digito en la posición 9...
+// le asigno a _digitoVerificadorIngresado el digito en la posición 9...
                     var _digitoVerificadorIngresado = parseInt(_codigoIdentificador[9]);
                     // inicializo la variable donde hago la suma...
                     var _suma7digitos = 0;
@@ -546,10 +582,10 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
                     // el resto de la división entera es igual a 0...
                     var _digitoVerificadorCalculado = 0;
                     if (_restoDivisionEntera !== 0) {
-                        // si el resto no es cero, el digito es 10 - resto...
+// si el resto no es cero, el digito es 10 - resto...
                         _digitoVerificadorCalculado = 10 - _restoDivisionEntera;
                     }
-                    // si el digito varificador ingresado es distinto al calculado...
+// si el digito varificador ingresado es distinto al calculado...
                     if (_digitoVerificadorIngresado !== _digitoVerificadorCalculado) {
                         _valido = false;
                     }
@@ -582,7 +618,6 @@ function generar_fecha() {
     var _mes = _fecha.getMonth() + 1;
     var _dia = _fecha.getDate();
     var _ano = _fecha.getFullYear();
-
     _fecha = _dia + '/' + _mes + '/' + _ano;
     return _fecha;
 }
@@ -608,7 +643,7 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
 
 // Dibujar tabla
 function dibujarTabla(_array, _tabla) {
-    // thead
+// thead
     var _cabecera = "<tr>";
     for (var j in _array[0]) {
         _cabecera += "<th>" + j + "</th>";
@@ -648,8 +683,8 @@ function total_ventas_fecha(_ventas, _fecha) {
     {
         if (_ventas[i].fecha === _fecha)
         {
-            //_totalVentas++; ---> esto sería un contador de ventas y pide el total
-            // en _totalVentas acumulamos los totales de cada venta...
+//_totalVentas++; ---> esto sería un contador de ventas y pide el total
+// en _totalVentas acumulamos los totales de cada venta...
             _totalVentas += _ventas[i].total;
         }
     }
@@ -666,8 +701,8 @@ function separar_palabras(_texto) {
 
 // Ordenar publicaciones alfabeticamente utilizando bubble sort
 function ordenar_publicaciones(_listaPublicaciones) {
-    //var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
-    //var _publicaciones = _listaPublicaciones.slice(0); // -->hay que comprobarla mejor...
+//var _publicaciones = _listaPublicaciones;  --->no furula, hay que "clonar" el array...
+//var _publicaciones = _listaPublicaciones.slice(0); // -->hay que comprobarla mejor...
     var _publicaciones = JSON.parse(JSON.stringify(_listaPublicaciones)); // -->furula pero usando JSON    
     var _largo = _publicaciones.length;
     do
@@ -675,7 +710,7 @@ function ordenar_publicaciones(_listaPublicaciones) {
         var _cambios = false; //flag para cortar el loop
         for (var i = 1; i <= _largo - 1; i++)
         {
-            //cargo los titulos completos
+//cargo los titulos completos
             var _titulo1 = _publicaciones[i - 1].titulo.toLowerCase();
             var _titulo2 = _publicaciones[i].titulo.toLowerCase();
             /*separo los titulos por palabras considerando que algunos 
@@ -693,16 +728,16 @@ function ordenar_publicaciones(_listaPublicaciones) {
             {
                 if (_palabras_titulo1[j] !== _palabras_titulo2[j])
                 {
-                    //ordenar y salir...
-                    //obtengo el largo de la palabra mas corta
+//ordenar y salir...
+//obtengo el largo de la palabra mas corta
                     if (_palabras_titulo2[j].length > _palabras_titulo1[j].length)
                     {
                         var _largoPalabra = _palabras_titulo1[j].length;
                     } else {
                         var _largoPalabra = _palabras_titulo2[j].length;
                     }
-                    //comparo las letras de la palabra mas corta 
-                    //y de ser necesario ordeno utilizando el bubble sort
+//comparo las letras de la palabra mas corta 
+//y de ser necesario ordeno utilizando el bubble sort
                     for (var k = 0; k < _largoPalabra; k++)
                     {
                         if (_palabras_titulo1[j].charAt(k) !== _palabras_titulo2[j].charAt(k))
@@ -745,12 +780,11 @@ function posicion_publicacion(_listaPublicaciones, _codigo) {
                 }
     }
     return _posicion;
-
 }
 
 // Actualizar stock de un objeto de _listaPublicaciones, con _codigoPublicacion usando _cantidad
 function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
-    //Busco la publicacion para obtener su informacion
+//Busco la publicacion para obtener su informacion
     var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
     var _posPublicacion = posicion_publicacion(_listaPublicaciones, _codigoPublicacion);
@@ -760,13 +794,13 @@ function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
     //Utilizando la posicion actualizo el objeto
     _listaPublicaciones[_posPublicacion] = _publicacion;
 }
-
+// Actualizar publicacion
 function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
 
     var _pubValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
     if (_pubValida === true)
     {
-        //creo una nueva publicacion
+//creo una nueva publicacion
         var _nuevaPublicacion = {
             tipo: _tipo,
             codigo: _codigo,
@@ -808,7 +842,6 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
             actualizar_stock(listaPublicaciones, _codigoPublicacion, _cantidad);
             _ventas.push(_nuevaVenta);
             alert('Venta agregada con exito');
-
         } else {
             alert('No hay stock!');
         }
@@ -830,7 +863,6 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
     //la realizaba la funcion ingresar_pubicacion fue dividida para reutilizar codigo
     var _parametros = [_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado];
     var _pubCorrecta = false;
-
     var _campoNoVacio = false;
     var _letraMayus = false;
     var _descOk = false;
@@ -866,7 +898,6 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
 function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado)
 {
     var _proceder = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-
     if (_proceder === true)
     {
         if (buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1) // si no existe la pub..
@@ -893,7 +924,7 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
 function agregarPrecioPublicacionEnArrayVentas(_ventas) {
     var _lista = new Array();
     for (var i = 0; i < _ventas.length; i++) {
-        //cargo la venta
+//cargo la venta
         var _venta = _ventas[i];
         // cargo el codigo_pub de la venta
         var _codigo = parseInt(_venta.codigo_pub);
@@ -916,7 +947,7 @@ function agregarPrecioPublicacionEnArrayVentas(_ventas) {
 
 // Ordenar _array por _clave
 function ordenarArrayPorClave(_array, _clave) {
-    // clono el array _ventas
+// clono el array _ventas
     var _lista = _array.slice();
     // esta es la magia que apenas entiendo...
     _lista.sort(function (a, b) {
@@ -929,7 +960,7 @@ function ordenarArrayPorClave(_array, _clave) {
 }
 // Ordenar _array por _clave1 y luego por _clave2
 function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
-    // clono el array _ventas
+// clono el array _ventas
     var _lista = _array.slice();
     // esta es la magia que apenas entiendo...
     _lista.sort(function (a, b) {
@@ -953,7 +984,7 @@ function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
 }
 // Tomar sólo las primeras '_cuantas' de ese _array...
 function cuantasPrimerasDeArray(_array, _cuantas) {
-    // creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
+// creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
     var _primeras = _array.slice(0, _cuantas);
     return _primeras;
 }
@@ -971,7 +1002,7 @@ function sumarVentas(_ventas) {
             }
         }
     }
-    // esto es para borrar claves innecesarias del nuevo array..
+// esto es para borrar claves innecesarias del nuevo array..
     for (var n = 0; n < _array.length; n++) {
         delete _array[n].fecha;
         delete _array[n].numero;
@@ -980,14 +1011,14 @@ function sumarVentas(_ventas) {
 }
 // Dibujar tabla tops   ->> es distinta porque mezcla datos, no saca el header de las claves...
 function dibujarTablaTops(_arrayDeTops, _tabla) {
-    // clono el array para trabajar sobre copia...
+// clono el array para trabajar sobre copia...
     var _array = JSON.parse(JSON.stringify(_arrayDeTops));
     // elimino en los objetos del array las claves no usadas..
     for (var n = 0; n < _arrayDeTops.length; n++) {
         delete _arrayDeTops[n].fecha;
         delete _arrayDeTops[n].numero;
     }
-    // thead
+// thead
     var _cabecera = "<tr><th>Publicación</th><th>Ventas</th><th>Precio</th></tr>";
     // un thead que sea hijo directo de un #table1
     $("#" + _tabla + ">thead").html(_cabecera);
@@ -1056,7 +1087,7 @@ $("#probarfuncion4").click(function () {
     dibujarTabla(_ventasOrdenadasPorTotales, 'tabla1');
 });
 $("#probarfuncion5").click(function () {
-    // en este caso la clave es total...
+// en este caso la clave es total...
     var _ventasOrdenadasPorClave = ordenarArrayPorClave(ventas, 'total');
     // el 3 que paso como parámetro es para un top 3... si fuera top 10, pues un 10.
     var _tops = cuantasPrimerasDeArray(_ventasOrdenadasPorClave, 3);
@@ -1081,10 +1112,10 @@ $("#probarfuncion8").click(function () {
     var _ordenada = ordenarArrayPor2Claves(_masprecio, 'cantidad', 'precio');
     dibujarTablaTops(_ordenada, 'tabla1');
 });
-$("#probarfuncion9").click(function () {
-    var _ventasPorFecha = totalVentasPorFecha(ventas, '24/5/2015');
-    dibujarTabla(_ventasPorFecha, 'tabla1');
-});
+//$("#probarfuncion9").click(function () {
+//    var _ventasPorFecha = totalVentasPorFecha(ventas, '24/5/2015');
+//    dibujarTabla(_ventasPorFecha, 'tabla1');
+//});
 $("#probarfuncion10").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, 250);
     dibujarTabla(_publicacionesDePrecioMenor, 'tabla1');
@@ -1093,13 +1124,10 @@ $('#ingresar_venta').click(function () {
     var codigo_pub_venta = parseInt($('#codigo_pub_venta').val());
     var cantidad = parseInt($('#cantidad_venta').val());
     var venta1 = ingresar_ventas(ventas, codigo_pub_venta, cantidad);
-
 });
 $("#codigo_pub_venta").blur(function () {
     alert('hola');
 });
-// tiene que llamar al que crea el total y lo muestra.
-
 //------------------------------------------------------------------------------
 // Funciones para index-maqueta
 // -----------------------------------------------------------------------------
@@ -1157,7 +1185,6 @@ function TablaCatalogo() {
 }
 ;
 $(TablaCatalogo);
-
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
     var codigo_pub_venta = parseInt($('#codigo_pub').val());
@@ -1168,6 +1195,7 @@ $('#ingresarNuevaVenta').click(function () {
     $(TablaPublicaciones);
     $(TablaCatalogo);
 });
+// Ingresar publicacion
 $("#ingresarPub").click(function () {
     var _tipo = $("#tipoIngreso").val();
     var _codigo = $("#codigoIngreso").val();
@@ -1180,10 +1208,12 @@ $("#ingresarPub").click(function () {
     var _estado = $("#estadoIngreso").val();
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
 });
+// Buscar publicacion para modificar/eliminar (botón)
 $('#buscar').click(
         function () {
             var _cod = $('#codigo_pub_a_modif').val();
             var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            // rellena los inputs de tablaModificacionPublicaciones con los datos...
             $('#tipoModificado').val(_pub.tipo);
             $('#codigoModificado').val(_pub.codigo);
             $('#imagenModificado').val(_pub.imagen);
@@ -1194,11 +1224,12 @@ $('#buscar').click(
             $('#stockModificado').val(_pub.stock);
             $('#estadoModificado').val(_pub.estado);
         });
+// Modificar publicación
 $('#modificarPub').click(
         function () {
             var _cod = $('#codigo_pub_a_modif').val();
-            var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-            var _pos = posicion_publicacion(listaPublicaciones, _cod);
+            //var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+            //var _pos = posicion_publicacion(listaPublicaciones, _cod);
 
             var _tipo = $('#tipoModificado').val();
             var _codigo = $('#codigoModificado').val();
@@ -1209,8 +1240,26 @@ $('#modificarPub').click(
             var _precio = $('#precioModificado').val();
             var _stock = $('#stockModificado').val();
             var _estado = $('#estadoModificado').val();
-
             actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-
         });
+// Generar reporte por precio
+$("#generarReportePorPrecio").click(function () {
+    var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
+    dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
+});
+// Generar reporte por fecha
+$("#generarReportePorFecha").click(function () {
+    var fecha = $("#fechaDeReporte").val();
+    var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
+    dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
+});
+// Ocultar todo a los visitantes
+ocultoAlInicio();   //--->comentar para ver todo
+// Login
+$("#botonLogin").click(function(){
+    var _user = $("#user").val();
+    var _pass = $("#pass").val();
+    var _tipoUsuario = controlUsuario(_user, _pass);
+    interfazSegunTipoUsuario(_tipoUsuario);
+});
 //-----------------------------------------------------------------------------
