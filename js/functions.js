@@ -718,6 +718,7 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
     var _descOk = false;
     var _codIdentif = false;
     var _precioValido = false;
+    var _stockValido = false;
     //Valido que todos los campos tengan datos
     for (var i = 0; i < _parametros.length; i++)
     { //true = no vacio
@@ -736,9 +737,10 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
         _descOk = validar_descripcion(_desc);
         _codIdentif = validarCodigoIdentificador(_codigo, _tipo);
         _precioValido = validarPrecio(_precio);
+        _stockValido = validarPrecio(_stock); // no puede ser negativo, igual que el precio...
         //Si todas las validaciones fueron exitosas se procede al ingreso de la nueva publicacion
         if (_letraMayus === true && _descOk === true &&
-                _codIdentif === true && _precioValido === true)
+                _codIdentif === true && _precioValido === true && _stockValido === true)
         {
             _pubCorrecta = true;
         }
@@ -902,6 +904,79 @@ function total_ventas_fecha(_ventas, _fecha) {
         }
     }
     return _totalVentas;
+}
+//------------------------------------------------------------------------------
+// Sumar ventas de misma publicación
+function sumarVentas(_ventas) {
+    var _array = JSON.parse(JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
+    for (var i = 0; i < _ventas.length - 1; i++) {
+        var k = i + 1;
+        for (var j = k; j < _array.length; j++) {
+            if (_array[i].codigo_pub === _array[j].codigo_pub) {
+                _array[i].total += _array[j].total;
+                _array[i].cantidad += _array[j].cantidad;
+                _array.splice(j, 1);
+                j--;
+            }
+        }
+    }
+// esto es para borrar claves innecesarias del nuevo array..
+    for (var n = 0; n < _array.length; n++) {
+        delete _array[n].fecha;
+        delete _array[n].numero;
+    }
+    return _array;
+}
+//------------------------------------------------------------------------------
+// Seleccionar solo las publicaciones que estén habilitadas
+function publicacionesHabilitadas(_array) {
+    var _publicacionesHabilitadas = new Array();
+    for (var i = 0; i < _array.length; i++) {
+        if (_array[i].estado === 'habilitado') {
+            _publicacionesHabilitadas.push(_array[i]);
+        }
+    }
+    return _publicacionesHabilitadas;
+}
+// -----------------------------------------------------------------------------
+// Tomar sólo los primeros '_cuantos' elementos de un _array...
+function cuantasPrimerasDeArray(_array, _cuantos) {
+// creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
+    var _primeras = _array.slice(0, _cuantos);
+    return _primeras;
+}
+//------------------------------------------------------------------------------
+// Separar palabras de un string...
+function separar_palabras(_texto) {
+    var _palabras = new Array();
+    var _caracterseparador = " ";
+    _palabras = _texto.split(_caracterseparador);
+    return _palabras;
+}
+//------------------------------------------------------------------------------
+// Clona _ventas pero le agrega la clave precio
+function agregarPrecioPublicacionEnArrayVentas(_ventas) {
+    var _lista = new Array();
+    for (var i = 0; i < _ventas.length; i++) {
+//cargo la venta
+        var _venta = _ventas[i];
+        // cargo el codigo_pub de la venta
+        var _codigo = parseInt(_venta.codigo_pub);
+        // cargo el precio de la publicacion que tenga el _codigo de la venta
+        var _precio = buscar_publicacion_codigo(listaPublicaciones, _codigo).precio;
+        // defino una nuevo objeto con la estructura de _venta más la clave nueva precio y lo relleno..
+        var _ventaModif = {
+            numero: _venta.numero,
+            fecha: _venta.fecha,
+            codigo_pub: _venta.codigo_pub,
+            cantidad: _venta.cantidad,
+            total: _venta.total,
+            precio: _precio
+        };
+        // lo agrego a la _lista
+        _lista.push(_ventaModif);
+    }
+    return _lista;
 }
 //------------------------------------------------------------------------------
 ////////////////////////////////Actualizaciones/////////////////////////////////
@@ -1104,10 +1179,8 @@ function ordenar_publicaciones(_listaPublicaciones) {
 function ordenarArrayPorClave(_array, _clave) {
 // clono el array _ventas
     var _lista = _array.slice();
-    // esta es la magia que apenas entiendo...
     _lista.sort(function (a, b) {
-        // significa algo como retornar el array pero ordenado de b -> a (descendente)
-        // usando los valores de la clave (_clave) de cada objeto... 
+        // dados a y b (se asume b>a) y retorno primero b y luego a
         return b[_clave] - a[_clave];
     });
     // retorno la _lista ordenada...
@@ -1118,19 +1191,19 @@ function ordenarArrayPorClave(_array, _clave) {
 function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
 // clono el array _ventas
     var _lista = _array.slice(0);
-    // esta es la magia que apenas entiendo...
     _lista.sort(function (a, b) {
-        // significa algo como retornar el array pero ordenado de b -> a (descendente)
-        // usando los valores de la clave (_clave) de cada objeto... 
-        //return b[_clave] - a[_clave];
-        if (a[_clave1] - b[_clave1] > 0) {
+        // si a es menor que b
+        if (a[_clave1] - b[_clave1]) {
+            // retorno primero b y luego a
             return b[_clave1] - a[_clave1];
-        } else if (b[_clave1] - a[_clave1] < 0) {
+        // si b es menor que a
+        } else if (b[_clave1] - a[_clave1]) {
+            // retorno primero a y luego b
             return a[_clave1] - b[_clave1];
         } else {
-            if (b[_clave2] - a[_clave2] > 0) {
+            if (a[_clave2] - b[_clave2]) {
                 return a[_clave2] - b[_clave2];
-            } else if (b[_clave2] - a[_clave2] < 0) {
+            } else {
                 return b[_clave2] - a[_clave2];
             }
         }
@@ -1139,46 +1212,6 @@ function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
     return _lista;
 }
 //------------------------------------------------------------------------------
-// Tomar sólo los primeros '_cuantos' elementos de un _array...
-function cuantasPrimerasDeArray(_array, _cuantos) {
-// creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
-    var _primeras = _array.slice(0, _cuantos);
-    return _primeras;
-}
-//------------------------------------------------------------------------------
-// Sumar ventas de misma publicación
-function sumarVentas(_ventas) {
-    var _array = JSON.parse(JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
-    for (var i = 0; i < _ventas.length - 1; i++) {
-        var k = i + 1;
-        for (var j = k; j < _array.length; j++) {
-            if (_array[i].codigo_pub === _array[j].codigo_pub) {
-                _array[i].total += _array[j].total;
-                _array[i].cantidad += _array[j].cantidad;
-                _array.splice(j, 1);
-                j--;
-            }
-        }
-    }
-// esto es para borrar claves innecesarias del nuevo array..
-    for (var n = 0; n < _array.length; n++) {
-        delete _array[n].fecha;
-        delete _array[n].numero;
-    }
-    return _array;
-}
-//------------------------------------------------------------------------------
-// Seleccionar solo las publicaciones que estén habilitadas
-function publicacionesHabilitadas(_array) {
-    var _publicacionesHabilitadas = new Array();
-    for (var i = 0; i < _array.length; i++) {
-        if (_array[i].estado === 'habilitado') {
-            _publicacionesHabilitadas.push(_array[i]);
-        }
-    }
-    return _publicacionesHabilitadas;
-}
-// -----------------------------------------------------------------------------
 //////////////////////////////////Reportes//////////////////////////////////////
 // -----------------------------------------------------------------------------
 // Reporte por fecha
@@ -1220,8 +1253,6 @@ function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
     return _publicacionesDePrecioMenor;
 }
 //------------------------------------------------------------------------------
-//$("#codigo_pub_venta").blur(function () {alert('hola');});
-//------------------------------------------------------------------------------
 /////////////////////////////////Auxiliares/////////////////////////////////////
 //------------------------------------------------------------------------------
 // Generar fecha
@@ -1234,38 +1265,8 @@ function generar_fecha() {
     return _fecha;
 }
 //------------------------------------------------------------------------------
-// Separar palabras de un string...
-function separar_palabras(_texto) {
-    var _palabras = new Array();
-    var _caracterseparador = " ";
-    _palabras = _texto.split(_caracterseparador);
-    return _palabras;
-}
-//------------------------------------------------------------------------------
-// Clona _ventas pero le agrega la clave precio
-function agregarPrecioPublicacionEnArrayVentas(_ventas) {
-    var _lista = new Array();
-    for (var i = 0; i < _ventas.length; i++) {
-//cargo la venta
-        var _venta = _ventas[i];
-        // cargo el codigo_pub de la venta
-        var _codigo = parseInt(_venta.codigo_pub);
-        // cargo el precio de la publicacion que tenga el _codigo de la venta
-        var _precio = buscar_publicacion_codigo(listaPublicaciones, _codigo).precio;
-        // defino una nuevo objeto con la estructura de _venta más la clave nueva precio y lo relleno..
-        var _ventaModif = {
-            numero: _venta.numero,
-            fecha: _venta.fecha,
-            codigo_pub: _venta.codigo_pub,
-            cantidad: _venta.cantidad,
-            total: _venta.total,
-            precio: _precio
-        };
-        // lo agrego a la _lista
-        _lista.push(_ventaModif);
-    }
-    return _lista;
-}
+// Llamar una funcion al perder foco determinado elemento html
+//$("#codigo_pub_venta").blur(function () {alert('hola');});
 //------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////////
 //---------------------FUNCIONES PARA INDEX-MAQUETA-----------------------------
