@@ -1108,6 +1108,22 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
     }
 }
 //------------------------------------------------------------------------------
+//////////////////////////////////Eliminaciones//////////////////////////////////////
+//------------------------------------------------------------------------------
+// Eliminar una publicacion
+function eliminar_pub(_codigo)
+{
+    var _pub = buscar_publicacion_codigo(listaPublicaciones,_codigo);
+    if (_pub !== -1)
+    {
+        var _pos = posicion_publicacion(listaPublicaciones,_codigo);
+       listaPublicaciones.splice(_pos,1); //no hay que actualizar ventas
+    }else 
+    {
+        alert("no existe la publicacion");
+    }
+}
+//------------------------------------------------------------------------------
 //////////////////////////////////Ordenar///////////////////////////////////////
 //------------------------------------------------------------------------------
 // Ordenar publicaciones alfabeticamente utilizando bubble sort
@@ -1404,6 +1420,24 @@ $('#modificarPub').click(function () {
     $(TablaTop);
 });
 //------------------------------------------------------------------------------
+// Eliminar Pub
+$("#eliminarPub").click(function (){
+    var _cod = parseInt($('#codigo_pub_a_modif').val());
+    var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
+    if(_pub !==-1)
+    {
+        eliminar_pub(_cod);
+    }else
+    {
+        alert("no existe la pub");
+    }
+    // Recargo las listas actualizadas...                
+    $(TablaPublicaciones);
+    $(TablaCatalogo);
+    $(TablaTop); 
+});
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // Generar reporte por precio
 $("#generarReportePorPrecio").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
@@ -1428,3 +1462,71 @@ $("#botonLogin").click(function () {
     interfazSegunTipoUsuario(_tipoUsuario);
 });
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+///////////////////////////////////DISPLAY//////////////////////////////////////
+//------------------------------------------------------------------------------
+$("#spanAdministracion").click(
+        function () {
+            $("#administrador").show();
+            $("#ingresos").show();
+            $("#publicacionesInicio").hide();
+            $("#modificaciones").hide();
+            $("#catalogo").hide();
+            $("#reportes").hide();
+        });
+$("#spanModificar").click(
+        function () {
+            
+            $("#ingresos").hide();
+            $("#modificaciones").show();
+            $("#publicacionesInicio").hide();
+        });
+$("#spanIngresar").click(
+        function () {
+            $("#publicacionesInicio").hide();
+            $("#ingresos").show();
+            $("#modificaciones").hide();
+        });
+        
+$("#spanCatalogo").click(
+        function () {
+            $("#reportes").hide();
+            $("#reportePorPrecio").hide();
+            $("#reportePorFecha").hide();
+            $("#publicacionesInicio").hide();
+            $("#ingresos").hide();
+            $("#modificaciones").hide();
+            $("#administrador").hide();
+            $("#ingresarVenta").hide();
+            $("#catalogo").show();
+        });
+        
+       
+$("#spanReportes").click(
+        function () {
+            $("#reportes").show();
+            $("#reportePorPrecio").show();
+            $("#reportePorFecha").hide();
+            $("#publicacionesInicio").hide();
+            $("#ingresos").hide();
+            $("#modificaciones").hide();
+            $("#administrador").hide();
+            $("#catalogo").hide();        
+        });  
+$("#spanPorPrecio").click(
+        function () {        
+            $("#reportePorPrecio").show();
+            $("#reportePorFecha").hide();
+        });
+$("#spanPorFecha").click(
+        function () {
+            $("#reportePorPrecio").hide();
+            $("#reportePorFecha").show();
+        });        
+
+$("#spanVentas").click(
+        function () {
+            $("#ingresarVenta").show();
+            $("#catalogo").hide();
+        });        
