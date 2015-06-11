@@ -522,19 +522,21 @@ function controlUsuario(_usuario, _password) {
                 _tipoUsuario = usuarios[i].tipo;
                 break;
             } else {
-                alert("Contraseña incorrecta!");
+                $(".loginError").show(); //-> contraseña incorrecta
                 break;
             }
         }
     }
     if (_usuarioEncontrado === false) {
-        alert("Usuario no encontrado!");
+        $(".loginError").show(); //->usuario no encontrado
     }
     return _tipoUsuario;
 }
 //------------------------------------------------------------------------------
 // Ocultar todo al inicio
 function ocultoAlInicio() {
+    // login
+    $(".loginError").hide();
     // secciones
     $("#catalogo").hide();
     $("#administrador").hide();
@@ -555,6 +557,7 @@ function interfazSegunTipoUsuario(_tipo) {
             $("#vendedor").show();
             $("#mensajeBienvenida").hide();
             $("#publicacionesInicio").hide();
+            $("#login").hide();
             // menu principal
             $("#spanCatalgo").show();
             $("#spanVentas").show();
@@ -570,6 +573,7 @@ function interfazSegunTipoUsuario(_tipo) {
             $("#modificaciones").hide();
             $("#mensajeBienvenida").hide();
             $("#publicacionesInicio").hide();
+            $("#login").hide();
             // menu principal
             $("#spanCatalgo").show();
             $("#spanAdministracion").show();
@@ -758,12 +762,17 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
         if (_codigo_elemento === parseInt(_codigo))
         {
             _publicacion = _listaPublicaciones[i];
+            $("#mensajesBusqueda").show();
+            $("#publiNoEncontrada").hide();
+            $("#publiEncontrada").show(); //->publicación encontrada
             break;
         }
     }
     if (_publicacion === -1)
     {
-        alert("No existe la publicacion");
+        $("#mensajesBusqueda").show();
+        $("#publiEncontrada").hide();
+        $("#publiNoEncontrada").show(); //->no existe la publicación
     }
     return _publicacion;
 }
@@ -1050,7 +1059,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
         // calculo el total de la venta...
         var _total = _publicacion.precio * _cantidad;
         // si hay suficiente stock para efectuar la venta...
-        if (_stock >= _cantidad) {
+        if (_stock >= _cantidad && _cantidad!== 0) {
             // genero el número de venta...
             var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
             // creo el objeto venta...
@@ -1066,19 +1075,43 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
             // una vez actualizado el stock, agrego la _nuevaVenta a _ventas
             _ventas.push(_nuevaVenta);
             // mando el mensaje exitoso...
-            alert('Venta agregada con exito');
+            //alert('Venta agregada con exito');
+            $("#mensajesVenta").show();
+            $("#ventaIngresada").show();
+            $("#ventaNoIngresada").hide();
+            $("#stockBajo").hide();
+            $("#ventaSinStock").hide();
+            $("#pubNoEncontrada").hide();
+            // si el stock de esa publicación ha quedado por debajo del stock mínimo...
+            if (_publicacion.stock < stockMinimo) {
+                // meto un alert para avisar...
+                //alert('El stock de este artìculo ha quedado por debajo de ' + stockMinimo + ' unidades!');
+                $("#mensajesVenta").show();
+                $("#ventaIngresada").show();
+                $("#stockBajo").show();
+                $("#ventaSinStock").hide();
+                $("#pubNoEncontrada").hide();
+                $("#ventaNoIngresada").hide();
+            }
         } else {
             // si no hay suficiente stock...
-            alert('No hay stock!');
+            //alert('No hay stock!');
+            $("#ventaIngresada").hide();
+            $("#pubNoEncontrada").hide();
+            $("#stockBajo").hide();
+            $("#mensajesVenta").show();
+            $("#ventaSinStock").show();
+            $("#ventaNoIngresada").show();
         }
     } else {
         // si no se encuentra la publicación para la que se quiere crear la venta...
-        alert('Está agregando una venta de una publicación que no existe!');
-    }
-    // si el stock de esa publicación ha quedado por debajo del stock mínimo...
-    if (_publicacion.stock < stockMinimo) {
-        // meto un alert para avisar...
-        alert('El stock de este artìculo ha quedado por debajo de ' + stockMinimo + ' unidades!');
+        //alert('Está agregando una venta de una publicación que no existe!');
+        $("#ventaIngresada").hide();
+        $("#ventaSinStock").hide();
+        $("#stockBajo").hide();
+        $("#mensajesVenta").show();
+        $("#pubNoEncontrada").show();
+        $("#ventaNoIngresada").show();
     }
     //return _nuevaVenta;  --> este return sobra, no tiene que devolver nada, solo ingresarla.
 }
@@ -1113,12 +1146,12 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
 // Eliminar una publicacion
 function eliminar_pub(_codigo)
 {
-    var _pub = buscar_publicacion_codigo(listaPublicaciones,_codigo);
+    var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
     if (_pub !== -1)
     {
-        var _pos = posicion_publicacion(listaPublicaciones,_codigo);
-       listaPublicaciones.splice(_pos,1); //no hay que actualizar ventas
-    }else 
+        var _pos = posicion_publicacion(listaPublicaciones, _codigo);
+        listaPublicaciones.splice(_pos, 1); //no hay que actualizar ventas
+    } else
     {
         alert("no existe la publicacion");
     }
@@ -1212,7 +1245,7 @@ function ordenarArrayPor2Claves(_array, _clave1, _clave2) {
         if (a[_clave1] - b[_clave1]) {
             // retorno primero b y luego a
             return b[_clave1] - a[_clave1];
-        // si b es menor que a
+            // si b es menor que a
         } else if (b[_clave1] - a[_clave1]) {
             // retorno primero a y luego b
             return a[_clave1] - b[_clave1];
@@ -1287,7 +1320,7 @@ function generar_fecha() {
 ////////////////////////////////////////////////////////////////////////////////
 //---------------------FUNCIONES PARA INDEX-MAQUETA-----------------------------
 //////////////////////////////////////////////////////////////////////////////// 
-// -----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TopTen
 function TablaTop() {
     var _sumaVentas = sumarVentas(ventas);
@@ -1421,22 +1454,21 @@ $('#modificarPub').click(function () {
 });
 //------------------------------------------------------------------------------
 // Eliminar Pub
-$("#eliminarPub").click(function (){
+$("#eliminarPub").click(function () {
     var _cod = parseInt($('#codigo_pub_a_modif').val());
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-    if(_pub !==-1)
+    if (_pub !== -1)
     {
         eliminar_pub(_cod);
-    }else
+    } else
     {
         alert("no existe la pub");
     }
     // Recargo las listas actualizadas...                
     $(TablaPublicaciones);
     $(TablaCatalogo);
-    $(TablaTop); 
+    $(TablaTop);
 });
-//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 // Generar reporte por precio
 $("#generarReportePorPrecio").click(function () {
@@ -1452,7 +1484,7 @@ $("#generarReportePorFecha").click(function () {
 });
 //------------------------------------------------------------------------------
 // Ocultar todo a los visitantes
-//ocultoAlInicio();   //--------> Comentado ves todo, descomentado, lo que toca.
+ocultoAlInicio();   //--------> Comentado ves todo, descomentado, lo que toca.
 //------------------------------------------------------------------------------
 // Login
 $("#botonLogin").click(function () {
@@ -1462,71 +1494,63 @@ $("#botonLogin").click(function () {
     interfazSegunTipoUsuario(_tipoUsuario);
 });
 //------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 ///////////////////////////////////DISPLAY//////////////////////////////////////
 //------------------------------------------------------------------------------
-$("#spanAdministracion").click(
-        function () {
-            $("#administrador").show();
-            $("#ingresos").show();
-            $("#publicacionesInicio").hide();
-            $("#modificaciones").hide();
-            $("#catalogo").hide();
-            $("#reportes").hide();
-        });
-$("#spanModificar").click(
-        function () {
-            
-            $("#ingresos").hide();
-            $("#modificaciones").show();
-            $("#publicacionesInicio").hide();
-        });
-$("#spanIngresar").click(
-        function () {
-            $("#publicacionesInicio").hide();
-            $("#ingresos").show();
-            $("#modificaciones").hide();
-        });
-        
-$("#spanCatalogo").click(
-        function () {
-            $("#reportes").hide();
-            $("#reportePorPrecio").hide();
-            $("#reportePorFecha").hide();
-            $("#publicacionesInicio").hide();
-            $("#ingresos").hide();
-            $("#modificaciones").hide();
-            $("#administrador").hide();
-            $("#ingresarVenta").hide();
-            $("#catalogo").show();
-        });
-        
-       
-$("#spanReportes").click(
-        function () {
-            $("#reportes").show();
-            $("#reportePorPrecio").show();
-            $("#reportePorFecha").hide();
-            $("#publicacionesInicio").hide();
-            $("#ingresos").hide();
-            $("#modificaciones").hide();
-            $("#administrador").hide();
-            $("#catalogo").hide();        
-        });  
-$("#spanPorPrecio").click(
-        function () {        
-            $("#reportePorPrecio").show();
-            $("#reportePorFecha").hide();
-        });
-$("#spanPorFecha").click(
-        function () {
-            $("#reportePorPrecio").hide();
-            $("#reportePorFecha").show();
-        });        
+$("#spanAdministracion").click(function () {
+    $("#administrador").show();
+    $("#ingresos").show();
+    $("#publicacionesInicio").hide();
+    $("#modificaciones").hide();
+    $("#catalogo").hide();
+    $("#reportes").hide();
+});
+$("#spanModificar").click(function () {
 
-$("#spanVentas").click(
-        function () {
-            $("#ingresarVenta").show();
-            $("#catalogo").hide();
-        });        
+    $("#ingresos").hide();
+    $("#modificaciones").show();
+    $("#publicacionesInicio").hide();
+    $("#mensajesBusqueda").hide();
+    $("#mensajesModificacion").hide();
+});
+$("#spanIngresar").click(function () {
+    $("#publicacionesInicio").hide();
+    $("#ingresos").show();
+    $("#modificaciones").hide();
+});
+$("#spanCatalogo").click(function () {
+    $("#reportes").hide();
+    $("#reportePorPrecio").hide();
+    $("#reportePorFecha").hide();
+    $("#publicacionesInicio").hide();
+    $("#ingresos").hide();
+    $("#modificaciones").hide();
+    $("#administrador").hide();
+    $("#ingresarVenta").hide();
+    $("#mensajesVenta").hide();
+    $("#catalogo").show();
+});
+$("#spanReportes").click(function () {
+    $("#reportes").show();
+    $("#reportePorPrecio").show();
+    $("#reportePorFecha").hide();
+    $("#publicacionesInicio").hide();
+    $("#ingresos").hide();
+    $("#modificaciones").hide();
+    $("#administrador").hide();
+    $("#catalogo").hide();
+    $("#mensajesBusquedaPorPrecio").hide();
+});
+$("#spanPorPrecio").click(function () {
+    $("#reportePorPrecio").show();
+    $("#reportePorFecha").hide();
+    $("#mensajesBusquedaPorPrecio").hide();
+});
+$("#spanPorFecha").click(function () {
+    $("#reportePorPrecio").hide();
+    $("#reportePorFecha").show();
+    $("#mensajesBusquedaPorFecha").hide();
+});
+$("#spanVentas").click(function () {
+    $("#ingresarVenta").show();
+    $("#catalogo").hide();
+});
