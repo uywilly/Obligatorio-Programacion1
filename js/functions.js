@@ -406,7 +406,7 @@ var usuarios = new Array(
 var ventas = new Array(
         {
             numero: 1,
-            fecha: '22/5/2015',
+            fecha: '22/05/2015',
             codigo_pub: '6789123456789',
             cantidad: 1,
             total: 213
@@ -414,7 +414,7 @@ var ventas = new Array(
 ,
         {
             numero: 2,
-            fecha: '23/5/2015',
+            fecha: '23/05/2015',
             codigo_pub: '4489123458',
             cantidad: 2,
             total: 170
@@ -422,7 +422,7 @@ var ventas = new Array(
 ,
         {
             numero: 3,
-            fecha: '23/5/2015',
+            fecha: '23/05/2015',
             codigo_pub: '5678901234567',
             cantidad: 3,
             total: 840
@@ -430,7 +430,7 @@ var ventas = new Array(
 ,
         {
             numero: 4,
-            fecha: '24/5/2015',
+            fecha: '24/05/2015',
             codigo_pub: '3356789014',
             cantidad: 2,
             total: 230
@@ -438,7 +438,7 @@ var ventas = new Array(
 ,
         {
             numero: 5,
-            fecha: '24/5/2015',
+            fecha: '24/05/2015',
             codigo_pub: '2345678912345',
             cantidad: 4,
             total: 1040
@@ -446,7 +446,7 @@ var ventas = new Array(
 ,
         {
             numero: 6,
-            fecha: '25/5/2015',
+            fecha: '25/05/2015',
             codigo_pub: '3356789014',
             cantidad: 3,
             total: 345
@@ -454,7 +454,7 @@ var ventas = new Array(
 ,
         {
             numero: 7,
-            fecha: '25/5/2015',
+            fecha: '25/05/2015',
             codigo_pub: '6789123456789',
             cantidad: 2,
             total: 426
@@ -470,7 +470,7 @@ var ventas = new Array(
 ,
         {
             numero: 9,
-            fecha: '26/5/2015',
+            fecha: '26/05/2015',
             codigo_pub: '5567890127',
             cantidad: 6,
             total: 660
@@ -478,7 +478,7 @@ var ventas = new Array(
 ,
         {
             numero: 10,
-            fecha: '27/5/2015',
+            fecha: '27/05/2015',
             codigo_pub: '3378912346',
             cantidad: 2,
             total: 360
@@ -486,7 +486,7 @@ var ventas = new Array(
 ,
         {
             numero: 11,
-            fecha: '27/5/2015',
+            fecha: '27/05/2015',
             codigo_pub: '7891234567890',
             cantidad: 4,
             total: 1680
@@ -494,7 +494,7 @@ var ventas = new Array(
 ,
         {
             numero: 12,
-            fecha: '27/5/2015',
+            fecha: '27/05/2015',
             codigo_pub: '4567890123456',
             cantidad: 3,
             total: 600
@@ -1365,14 +1365,17 @@ function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
 function generar_fecha() {
     var _fecha = new Date();
     var _mes = _fecha.getMonth() + 1;
+    if( _mes < 10){
+        _mes = '0' + _mes;
+    }
     var _dia = _fecha.getDate();
+    if( _dia < 10){
+        _dia = '0' + _dia;
+    }
     var _ano = _fecha.getFullYear();
     _fecha = _dia + '/' + _mes + '/' + _ano;
     return _fecha;
 }
-//------------------------------------------------------------------------------
-// Llamar una funcion al perder foco determinado elemento html
-//$("#codigo_pub_venta").blur(function () {alert('hola');});
 //------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////////
 //---------------------FUNCIONES PARA INDEX-MAQUETA-----------------------------
@@ -1557,6 +1560,11 @@ $("#generarReportePorPrecio").click(function () {
 });
 //------------------------------------------------------------------------------
 // Generar reporte por fecha
+$("#fechaDeReporte").datepicker({
+        monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        dateFormat: "dd/mm/yy"
+    });
 $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
