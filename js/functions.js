@@ -712,6 +712,14 @@ function validarPrecio(_precio) {
     return _precioValido;
 }
 //------------------------------------------------------------------------------
+function validarStock(_stock) {
+    var _precioValido = false;
+    if (_stock >= 0) {
+        _precioValido = true;
+    }
+    return _precioValido;
+}
+//------------------------------------------------------------------------------
 function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
     //Esta nueva funcion realiza todas las validaciones de los campos para las publicaciones de la misma forma en que 
     //la realizaba la funcion ingresar_pubicacion fue dividida para reutilizar codigo
@@ -741,7 +749,7 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
         _descOk = validar_descripcion(_desc);
         _codIdentif = validarCodigoIdentificador(_codigo, _tipo);
         _precioValido = validarPrecio(_precio);
-        _stockValido = validarPrecio(_stock); // no puede ser negativo, igual que el precio...
+        _stockValido = validarStock(_stock); // no puede ser negativo, igual que el precio...
         //Si todas las validaciones fueron exitosas se procede al ingreso de la nueva publicacion
         if (_letraMayus === true && _descOk === true &&
                 _codIdentif === true && _precioValido === true && _stockValido === true)
@@ -824,7 +832,11 @@ function dibujarTabla(_array, _tabla) {
     for (var i = 0; i < _array.length; i++) {
         var _linea = "<tr>";
         for (var k in _array[i]) {
-            _linea += "<td>" + _array[i][k] + "</td>";
+            if (k !== "imagen") {
+                _linea += "<td>" + _array[i][k] + "</td>";
+            } else {
+                _linea += "<td style='text-align: center; vertical-align: middle;'><img src='tapas/" + _array[i][k] + "' alt='" + _array[i][k] + "' heigth='50%' width='50%'></td>";
+            }
         }
         _linea += "</tr>";
         $("#" + _tabla + ">tbody").append(_linea);
@@ -880,7 +892,11 @@ function dibujarTablaCatalogo(_array, _tabla) {
     for (var i = 0; i < _array.length; i++) {
         var _linea = "<tr>";
         for (var k in _array[i]) {
-            _linea += "<td>" + _array[i][k] + "</td>";
+            if (k !== "imagen") {
+                _linea += "<td>" + _array[i][k] + "</td>";
+            } else {
+                _linea += "<td style='text-align: center; vertical-align: middle;'><img src='tapas/" + _array[i][k] + "' alt='" + _array[i][k] + "' heigth='50%' width='50%'></td>";
+            }
         }
         _linea += "</tr>";
         $("#" + _tabla + ">tbody").append(_linea);
@@ -1029,6 +1045,19 @@ function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor,
         var _posPublicacion = posicion_publicacion(listaPublicaciones, _codigo);
         //Utilizando la posicion y reemplazo la publicacion existente por la nueva
         listaPublicaciones[_posPublicacion] = _nuevaPublicacion;
+        // publicación modificada
+        $("#mensajesModificacion").show();
+        $("#publiModificada").show();
+        $("#publiEliminada").hide();
+        $("#publiCamposMalos").hide();
+        $("#publiNoModificada").hide();
+    } else {
+        // publicación no modificada por campos malos
+        $("#mensajesModificacion").show();
+        $("#publiModificada").hide();
+        $("#publiEliminada").hide();
+        $("#publiCamposMalos").show();
+        $("#publiNoModificada").show();
     }
 }
 //------------------------------------------------------------------------------
@@ -1059,7 +1088,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
         // calculo el total de la venta...
         var _total = _publicacion.precio * _cantidad;
         // si hay suficiente stock para efectuar la venta...
-        if (_stock >= _cantidad && _cantidad!== 0) {
+        if (_stock >= _cantidad && _cantidad !== 0) {
             // genero el número de venta...
             var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
             // creo el objeto venta...
@@ -1119,8 +1148,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
 // Ingresar una publicación
 function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
     var _proceder = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-    if (_proceder === true)
-    {
+    if (_proceder === true) {
         if (buscar_publicacion_codigo(listaPublicaciones, _codigo) === -1) // si no existe la pub..
         {
             var _nuevaPub = {
@@ -1135,25 +1163,54 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
                 estado: _estado
             };
             listaPublicaciones.push(_nuevaPub);
+            // publicación ingresada            
+            $("#mensajesIngreso").show();
+            $("#ingresoExitoso").show();
+            $("#ingresoCamposMalos").hide();
+            $("#ingresoPubDuplicada").hide();
+            $("#ingresoError").hide();
         } else {
-            alert('Ya está dada de alta esa publicación!.');
+            // publicación duplicada
+            $("#mensajesIngreso").show();
+            $("#ingresoExitoso").hide();
+            $("#ingresoCamposMalos").hide();
+            $("#ingresoPubDuplicada").show();
+            $("#ingresoError").show();
         }
+    } else {
+        // publicación no ingresada por error en los campos
+        $("#mensajesIngreso").show();
+        $("#ingresoExitoso").hide();
+        $("#ingresoCamposMalos").show();
+        $("#ingresoPubDuplicada").hide();
+        $("#ingresoError").show();
     }
 }
 //------------------------------------------------------------------------------
 //////////////////////////////////Eliminaciones//////////////////////////////////////
 //------------------------------------------------------------------------------
 // Eliminar una publicacion
-function eliminar_pub(_codigo)
-{
+function eliminar_pub(_codigo) {
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
-    if (_pub !== -1)
-    {
+    if (_pub !== -1) {
         var _pos = posicion_publicacion(listaPublicaciones, _codigo);
         listaPublicaciones.splice(_pos, 1); //no hay que actualizar ventas
+        // publicación eliminada
+        $("#mensajesModificacion").show();
+        $("#publiModificada").hide();
+        $("#publiEliminada").show();
+        $("#publiCamposMalos").hide();
+        $("#publiNoModificada").hide();
+        $("#publiNoEliminada").hide();
     } else
     {
-        alert("no existe la publicacion");
+        // pub no eliminada por no encontrada con ese pub
+        $("#mensajesModificacion").show();
+        $("#publiModificada").hide();
+        $("#publiEliminada").hide();
+        $("#publiNoEliminada").show();
+        $("#publiCamposMalos").show();
+        $("#publiNoModificada").hide();
     }
 }
 //------------------------------------------------------------------------------
@@ -1372,6 +1429,7 @@ $("#ingresarPub").click(function () {
     var _stock = $("#stockIngreso").val();
     var _estado = $("#estadoIngreso").val();
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+    dibujarTablaCatalogo(listaPublicaciones, 'listaPublicacionesCatalogo');
 });
 //------------------------------------------------------------------------------
 // Buscar publicación para modificar/eliminar (botón)
@@ -1379,7 +1437,7 @@ $('#buscar').click(function () {
     var _cod = $('#codigo_pub_a_modif').val();
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
     // rellena los inputs de tablaModificacionPublicaciones con los datos...
-    $('#tipoModificado').val(_pub.tipo);
+    $('#tipoModificado').val(_pub.tipo).attr("selected", "selected");
     $('#codigoModificado').val(_pub.codigo);
     $('#codigoBackup').val(_pub.codigo);     //--> guarda el código en un campo oculto...
     $('#imagenModificado').val(_pub.imagen);
@@ -1388,7 +1446,7 @@ $('#buscar').click(function () {
     $('#autorModificado').val(_pub.autor);
     $('#precioModificado').val(_pub.precio);
     $('#stockModificado').val(_pub.stock);
-    $('#estadoModificado').val(_pub.estado);
+    $('#estadoModificado').val(_pub.estado).attr("selected", "selected");
 });
 //------------------------------------------------------------------------------
 // Modificar publicación
@@ -1406,13 +1464,13 @@ $('#modificarPub').click(function () {
     // controlo si ha cambiado el codigo...
     if (_codigoBackup === _codigo) {
         // si los 2 codigos son iguales, actualizo y listo...
-        var _modificacionValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-        if (_modificacionValida) {
-            actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-            alert('Publicacion actualizada!');
-        } else {
-            alert('Los campos modificaciones tienen algún error!');
-        }
+//        var _modificacionValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+//        if (_modificacionValida) {
+        actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+//            alert('Publicacion actualizada!');
+//        } else {
+//            alert('Los campos modificaciones tienen algún error!');
+//        }
     } else {
         // verifico que el nuevo codigo sea valido...
         var _codigoNuevoValido = validarCodigoIdentificador(_codigo, _tipo);
@@ -1437,14 +1495,24 @@ $('#modificarPub').click(function () {
                     stock: _stock,
                     estado: _estado
                 };
-                alert('Publicación modificada!');
-            } else {
-                // esto sería un show algo... el mensaje de error que toque.
-                alert('Codigo no disponible!');
+                // publicación modificada
+                $("#mensajesModificacion").show();
+                $("#publiModificada").show();
+                $("#publiEliminada").hide();
+                $("#publiCamposMalos").hide();
+                $("#publiNoModificada").hide();
             }
+//            else {
+//                // esto sería un show algo... el mensaje de error que toque.
+//                alert('Codigo no disponible!');
+//            }
         } else {
-            // esto sería un show algo... el mensaje de error que toque.
-            alert('Codigo no es válido!');
+            // publicación no modificada por campos malos
+            $("#mensajesModificacion").show();
+            $("#publiModificada").hide();
+            $("#publiEliminada").hide();
+            $("#publiCamposMalos").show();
+            $("#publiNoModificada").show();
         }
     }
     // Recargo las listas actualizadas...                
@@ -1455,7 +1523,8 @@ $('#modificarPub').click(function () {
 //------------------------------------------------------------------------------
 // Eliminar Pub
 $("#eliminarPub").click(function () {
-    var _cod = parseInt($('#codigo_pub_a_modif').val());
+    //var _cod = parseInt($('#codigo_pub_a_modif').val()); //--> usaba el codigo el buscador
+    var _cod = parseInt($('#codigoModificado').val()); //--> uso el codigo del campo modificar
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
     if (_pub !== -1)
     {
@@ -1473,14 +1542,36 @@ $("#eliminarPub").click(function () {
 // Generar reporte por precio
 $("#generarReportePorPrecio").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
-    dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
+    if (_publicacionesDePrecioMenor.length !== 0) {
+        dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
+        $("#mensajesBusquedaPorPrecio").show();
+        $("#reportePrecioGenerado").show();
+        $("#reportePrecioNoGenerado").hide();
+        $("#mensajesBusquedaPorFecha").hide();
+    } else {
+        $("#mensajesBusquedaPorPrecio").show();
+        $("#reportePrecioGenerado").hide();
+        $("#reportePrecioNoGenerado").show();
+        $("#mensajesBusquedaPorFecha").hide();
+    }
 });
 //------------------------------------------------------------------------------
 // Generar reporte por fecha
 $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
-    dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
+    if (_ventasPorFecha.length !== 0) {
+        dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
+        $("#mensajesBusquedaPorPrecio").hide();
+        $("#reporteFechaGenerado").show();
+        $("#reporteFechaNoGenerado").hide();
+        $("#mensajesBusquedaPorFecha").show();
+    } else {
+        $("#mensajesBusquedaPorPrecio").hide();
+        $("#reporteFechaGenerado").hide();
+        $("#reporteFechaNoGenerado").show();
+        $("#mensajesBusquedaPorFecha").show();
+    }
 });
 //------------------------------------------------------------------------------
 // Ocultar todo a los visitantes
