@@ -364,7 +364,7 @@ input[type=button], input[type=submit], input[type=reset] {
     cursor:pointer;
     background-color:#C30;
     font: bold 12px Arial, Helvetica, sans-serif;
-    height: 16px;
+    height: 15px;
     width: 88px;
     text-align: center;
 }
@@ -468,4 +468,10 @@ li.bg, .bg {
     color:#6d6d6d;
     padding:3px 0 0 20px;
     margin:0;
+}
+#tablaReportePorPrecio, #tablaReportePorFecha {
+    left: 10px;
+    position: relative;
+    top: 10px;
+    margin-bottom: 10px;
 }

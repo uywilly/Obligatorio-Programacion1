@@ -548,6 +548,7 @@ function ocultoAlInicio() {
     $("#spanAdministracion").hide();
     $("#spanReportes").hide();
 }
+ocultoAlInicio();   //--------> Comentado ves todo, descomentado, lo que toca.
 //------------------------------------------------------------------------------
 // Mostrar interfaz principal de vendedores o administradores
 function interfazSegunTipoUsuario(_tipo) {
@@ -760,7 +761,7 @@ function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _p
     return _pubCorrecta;
 }
 //------------------------------------------------------------------------------
-////////////////////////////////Buscadores//////////////////////////////////////
+/////////////////////////////////Buscadores/////////////////////////////////////
 //------------------------------------------------------------------------------
 function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     var _publicacion = -1;
@@ -770,18 +771,18 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
         if (_codigo_elemento === parseInt(_codigo))
         {
             _publicacion = _listaPublicaciones[i];
-            $("#mensajesBusqueda").show();
-            $("#publiNoEncontrada").hide();
-            $("#publiEncontrada").show(); //->publicación encontrada
+//            $("#mensajesBusqueda").show();
+//            $("#publiNoEncontrada").hide();
+//            $("#publiEncontrada").show(); //->publicación encontrada
             break;
         }
     }
-    if (_publicacion === -1)
-    {
-        $("#mensajesBusqueda").show();
-        $("#publiEncontrada").hide();
-        $("#publiNoEncontrada").show(); //->no existe la publicación
-    }
+//    if (_publicacion === -1)
+//    {
+//        $("#mensajesBusqueda").show();
+//        $("#publiEncontrada").hide();
+//        $("#publiNoEncontrada").show(); //->no existe la publicación
+//    }
     return _publicacion;
 }
 //------------------------------------------------------------------------------
@@ -903,7 +904,7 @@ function dibujarTablaCatalogo(_array, _tabla) {
     }
 }
 //------------------------------------------------------------------------------
-///////////////////////////////////Listados/////////////////////////////////////
+//////////////////////////////////Listados//////////////////////////////////////
 //------------------------------------------------------------------------------
 // Listar publicaciones de precio menor a un precio dado
 function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
@@ -1004,7 +1005,7 @@ function agregarPrecioPublicacionEnArrayVentas(_ventas) {
     return _lista;
 }
 //------------------------------------------------------------------------------
-////////////////////////////////Actualizaciones/////////////////////////////////
+///////////////////////Actualizaciones-Modificaciones///////////////////////////
 //------------------------------------------------------------------------------
 // Actualizar stock restándole _cantidad
 function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
@@ -1046,16 +1047,20 @@ function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor,
         //Utilizando la posicion y reemplazo la publicacion existente por la nueva
         listaPublicaciones[_posPublicacion] = _nuevaPublicacion;
         // publicación modificada
+        $("#mensajesBusqueda").hide();
         $("#mensajesModificacion").show();
         $("#publiModificada").show();
         $("#publiEliminada").hide();
+        $("#publiNoEliminada").hide();
         $("#publiCamposMalos").hide();
         $("#publiNoModificada").hide();
     } else {
         // publicación no modificada por campos malos
+        $("#mensajesBusqueda").hide();
         $("#mensajesModificacion").show();
         $("#publiModificada").hide();
         $("#publiEliminada").hide();
+        $("#publiNoEliminada").hide();
         $("#publiCamposMalos").show();
         $("#publiNoModificada").show();
     }
@@ -1187,30 +1192,32 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
     }
 }
 //------------------------------------------------------------------------------
-//////////////////////////////////Eliminaciones//////////////////////////////////////
+//////////////////////////////////Eliminaciones/////////////////////////////////
 //------------------------------------------------------------------------------
 // Eliminar una publicacion
 function eliminar_pub(_codigo) {
+    // todo esto es medio al pedo, porque està duplicado, habrìa que dejar
+    // solo la lìnea del splice...
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
     if (_pub !== -1) {
         var _pos = posicion_publicacion(listaPublicaciones, _codigo);
         listaPublicaciones.splice(_pos, 1); //no hay que actualizar ventas
-        // publicación eliminada
-        $("#mensajesModificacion").show();
-        $("#publiModificada").hide();
-        $("#publiEliminada").show();
-        $("#publiCamposMalos").hide();
-        $("#publiNoModificada").hide();
-        $("#publiNoEliminada").hide();
-    } else
-    {
-        // pub no eliminada por no encontrada con ese pub
-        $("#mensajesModificacion").show();
-        $("#publiModificada").hide();
-        $("#publiEliminada").hide();
-        $("#publiNoEliminada").show();
-        $("#publiCamposMalos").show();
-        $("#publiNoModificada").hide();
+//        // publicación eliminada
+//        $("#mensajesModificacion").show();
+//        $("#publiModificada").hide();
+//        $("#publiEliminada").show();
+//        $("#publiCamposMalos").hide();
+//        $("#publiNoModificada").hide();
+//        $("#publiNoEliminada").hide();
+//    } else
+//    {
+//        // pub no eliminada por no encontrada con ese pub
+//        $("#mensajesModificacion").show();
+//        $("#publiModificada").hide();
+//        $("#publiEliminada").hide();
+//        $("#publiNoEliminada").show();
+//        $("#publiCamposMalos").show();
+//        $("#publiNoModificada").hide();
     }
 }
 //------------------------------------------------------------------------------
@@ -1359,17 +1366,17 @@ function publicacionesConPrecioMenorADado(_publicaciones, _precio) {
     return _publicacionesDePrecioMenor;
 }
 //------------------------------------------------------------------------------
-/////////////////////////////////Auxiliares/////////////////////////////////////
+////////////////////////////////////Fecha///////////////////////////////////////
 //------------------------------------------------------------------------------
 // Generar fecha
 function generar_fecha() {
     var _fecha = new Date();
     var _mes = _fecha.getMonth() + 1;
-    if( _mes < 10){
+    if (_mes < 10) {
         _mes = '0' + _mes;
     }
     var _dia = _fecha.getDate();
-    if( _dia < 10){
+    if (_dia < 10) {
         _dia = '0' + _dia;
     }
     var _ano = _fecha.getFullYear();
@@ -1408,6 +1415,14 @@ $(TablaCatalogo);
 //------------------------------------------------------------------------------
 ///////////////////////////////////Botones//////////////////////////////////////
 //------------------------------------------------------------------------------
+// Login
+$("#botonLogin").click(function () {
+    var _user = $("#user").val();
+    var _pass = $("#pass").val();
+    var _tipoUsuario = controlUsuario(_user, _pass);
+    interfazSegunTipoUsuario(_tipoUsuario);
+});
+//------------------------------------------------------------------------------
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
     //var codigo_pub_venta = parseInt($('#codigo_pub').val());    // ---> esto guardaba el codigo como número.
@@ -1439,17 +1454,29 @@ $("#ingresarPub").click(function () {
 $('#buscar').click(function () {
     var _cod = $('#codigo_pub_a_modif').val();
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-    // rellena los inputs de tablaModificacionPublicaciones con los datos...
-    $('#tipoModificado').val(_pub.tipo).attr("selected", "selected");
-    $('#codigoModificado').val(_pub.codigo);
-    $('#codigoBackup').val(_pub.codigo);     //--> guarda el código en un campo oculto...
-    $('#imagenModificado').val(_pub.imagen);
-    $('#tituloModificado').val(_pub.titulo);
-    $('#descripcionModificado').val(_pub.descripcion);
-    $('#autorModificado').val(_pub.autor);
-    $('#precioModificado').val(_pub.precio);
-    $('#stockModificado').val(_pub.stock);
-    $('#estadoModificado').val(_pub.estado).attr("selected", "selected");
+    if (_pub === -1)
+    {
+        $("#mensajesBusqueda").show();
+        $("#publiEncontrada").hide();
+        $("#mensajesModificacion").hide();
+        $("#publiNoEncontrada").show(); //->no existe la publicación
+    } else {
+        $("#mensajesBusqueda").show();
+        $("#publiNoEncontrada").hide();
+        $("#mensajesModificacion").hide();
+        $("#publiEncontrada").show(); //->publicación encontrada
+        // rellena los inputs de tablaModificacionPublicaciones con los datos...
+        $('#tipoModificado').val(_pub.tipo).attr("selected", "selected");
+        $('#codigoModificado').val(_pub.codigo);
+        $('#codigoBackup').val(_pub.codigo);     //--> guarda el código en un campo oculto...
+        $('#imagenModificado').val(_pub.imagen);
+        $('#tituloModificado').val(_pub.titulo);
+        $('#descripcionModificado').val(_pub.descripcion);
+        $('#autorModificado').val(_pub.autor);
+        $('#precioModificado').val(_pub.precio);
+        $('#stockModificado').val(_pub.stock);
+        $('#estadoModificado').val(_pub.estado).attr("selected", "selected");
+    }
 });
 //------------------------------------------------------------------------------
 // Modificar publicación
@@ -1469,7 +1496,19 @@ $('#modificarPub').click(function () {
         // si los 2 codigos son iguales, actualizo y listo...
 //        var _modificacionValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
 //        if (_modificacionValida) {
-        actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+        var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
+        if (_pub !== -1) { //--->si aùn existe la publicaciòn que vamos a modificar
+            actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+        } else {
+            // publicación no modificada porque ya no existía..
+            $("#mensajesBusqueda").hide(); // --> no lo oculta
+            $("#mensajesModificacion").show();
+            $("#publiModificada").hide();
+            $("#publiEliminada").hide();
+            $("#publiCamposMalos").show();
+            $("#publiNoModificada").show();
+            $("#publiNoEliminada").hide();
+        }
 //            alert('Publicacion actualizada!');
 //        } else {
 //            alert('Los campos modificaciones tienen algún error!');
@@ -1499,21 +1538,26 @@ $('#modificarPub').click(function () {
                     estado: _estado
                 };
                 // publicación modificada
+                $("#mensajesBusqueda").hide();  //---> no lo oculta
                 $("#mensajesModificacion").show();
                 $("#publiModificada").show();
                 $("#publiEliminada").hide();
                 $("#publiCamposMalos").hide();
                 $("#publiNoModificada").hide();
+                $("#publiNoEliminada").hide();
+                
             }
 //            else {
 //                // esto sería un show algo... el mensaje de error que toque.
 //                alert('Codigo no disponible!');
 //            }
         } else {
-            // publicación no modificada por campos malos
+            // publicación no modificada por campos malos            
+            $("#mensajesBusqueda").hide(); // --> no lo oculta
             $("#mensajesModificacion").show();
             $("#publiModificada").hide();
             $("#publiEliminada").hide();
+            $("#publiNoEliminada").hide();
             $("#publiCamposMalos").show();
             $("#publiNoModificada").show();
         }
@@ -1524,7 +1568,7 @@ $('#modificarPub').click(function () {
     $(TablaTop);
 });
 //------------------------------------------------------------------------------
-// Eliminar Pub
+// Eliminar publicación
 $("#eliminarPub").click(function () {
     //var _cod = parseInt($('#codigo_pub_a_modif').val()); //--> usaba el codigo el buscador
     var _cod = parseInt($('#codigoModificado').val()); //--> uso el codigo del campo modificar
@@ -1532,9 +1576,24 @@ $("#eliminarPub").click(function () {
     if (_pub !== -1)
     {
         eliminar_pub(_cod);
+        // publicación eliminada
+        $("#mensajesBusqueda").hide();
+        $("#mensajesModificacion").show();
+        $("#publiModificada").hide();
+        $("#publiEliminada").show();
+        $("#publiCamposMalos").hide();
+        $("#publiNoModificada").hide();
+        $("#publiNoEliminada").hide();
     } else
     {
-        alert("no existe la pub");
+        //alert("no existe la pub");
+        $("#mensajesBusqueda").hide();
+        $("#mensajesModificacion").show();
+        $("#publiModificada").hide();
+        $("#publiEliminada").hide();
+        $("#publiNoEliminada").show();
+        $("#publiCamposMalos").show();
+        $("#publiNoModificada").hide();
     }
     // Recargo las listas actualizadas...                
     $(TablaPublicaciones);
@@ -1561,10 +1620,10 @@ $("#generarReportePorPrecio").click(function () {
 //------------------------------------------------------------------------------
 // Generar reporte por fecha
 $("#fechaDeReporte").datepicker({
-        monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
-        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-        dateFormat: "dd/mm/yy"
-    });
+    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
+    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+    dateFormat: "dd/mm/yy"
+});
 $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
@@ -1582,18 +1641,7 @@ $("#generarReportePorFecha").click(function () {
     }
 });
 //------------------------------------------------------------------------------
-// Ocultar todo a los visitantes
-ocultoAlInicio();   //--------> Comentado ves todo, descomentado, lo que toca.
-//------------------------------------------------------------------------------
-// Login
-$("#botonLogin").click(function () {
-    var _user = $("#user").val();
-    var _pass = $("#pass").val();
-    var _tipoUsuario = controlUsuario(_user, _pass);
-    interfazSegunTipoUsuario(_tipoUsuario);
-});
-//------------------------------------------------------------------------------
-///////////////////////////////////DISPLAY//////////////////////////////////////
+////////////////////////////Menús de navegación/////////////////////////////////
 //------------------------------------------------------------------------------
 $("#spanAdministracion").click(function () {
     $("#administrador").show();
@@ -1653,3 +1701,4 @@ $("#spanVentas").click(function () {
     $("#ingresarVenta").show();
     $("#catalogo").hide();
 });
+//------------------------------------------------------------------------------
