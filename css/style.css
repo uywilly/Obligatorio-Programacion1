@@ -368,6 +368,19 @@ input[type=button], input[type=submit], input[type=reset] {
     width: 88px;
     text-align: center;
 }
+.logout {
+    padding:11px 11px;
+    margin:10px 0 0 0;
+    border:1px solid #e8e8e8;
+    color:#FFF;
+    float:left;
+    cursor:pointer;
+    background-color:#C30;
+    font: bold 12px Arial, Helvetica, sans-serif;
+    height: 15px;
+    width: 88px;
+    text-align: center;
+}
 /* footer */
 .footer {
     padding:5px 0;

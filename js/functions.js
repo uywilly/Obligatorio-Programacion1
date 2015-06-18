@@ -537,13 +537,14 @@ function controlUsuario(_usuario, _password) {
 function ocultoAlInicio() {
     // login
     $(".loginError").hide();
+    $(".logout").hide();
     // secciones
     $("#catalogo").hide();
     $("#administrador").hide();
     $("#vendedor").hide();
     $("#reportes").hide();
     // menu principal
-    $("#spanCatalgo").hide();
+    $("#spanCatalogo").hide();
     $("#spanVentas").hide();
     $("#spanAdministracion").hide();
     $("#spanReportes").hide();
@@ -556,11 +557,13 @@ function interfazSegunTipoUsuario(_tipo) {
         case 'vendedor':
             // secciones
             $("#vendedor").show();
+            $("#ingresarVenta").show();
             $("#mensajeBienvenida").hide();
             $("#publicacionesInicio").hide();
-            $("#login").hide();
+            $("#ingresar").hide();
+            $(".logout").show();
             // menu principal
-            $("#spanCatalgo").show();
+            $("#spanCatalogo").show();
             $("#spanVentas").show();
             // Mensajes
             $("#mensajesVenta").hide();
@@ -571,12 +574,14 @@ function interfazSegunTipoUsuario(_tipo) {
         case 'administrador':
             // secciones
             $("#administrador").show();
+            $("#ingresos").show();
             $("#modificaciones").hide();
             $("#mensajeBienvenida").hide();
             $("#publicacionesInicio").hide();
-            $("#login").hide();
+            $("#ingresar").hide();
+            $(".logout").show();
             // menu principal
-            $("#spanCatalgo").show();
+            $("#spanCatalogo").show();
             $("#spanAdministracion").show();
             $("#spanReportes").show();
             // Mensajes
@@ -1385,7 +1390,7 @@ function generar_fecha() {
 }
 //------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////////
-//---------------------FUNCIONES PARA INDEX-MAQUETA-----------------------------
+//----------------------------FUNCIONES PARA INDEX------------------------------
 //////////////////////////////////////////////////////////////////////////////// 
 //------------------------------------------------------------------------------
 // TopTen
@@ -1417,19 +1422,34 @@ $(TablaCatalogo);
 //------------------------------------------------------------------------------
 // Login
 $("#botonLogin").click(function () {
+    // me guardo el user y el pass...
     var _user = $("#user").val();
     var _pass = $("#pass").val();
+    // verifico el usuario con esos user y pass...
     var _tipoUsuario = controlUsuario(_user, _pass);
+    // muestro la interfaz que corresponda...
     interfazSegunTipoUsuario(_tipoUsuario);
+});
+//------------------------------------------------------------------------------
+// Logout
+$(".logout").click(function () {
+    // oculto todo lo correspondiente al inicio..
+    ocultoAlInicio();
+    // muestro sólo las secciones visibles por defecto...
+    $("#ingresar").show();
+    $("#mensajeBienvenida").show();
+    $("#publicacionesInicio").show();
 });
 //------------------------------------------------------------------------------
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
-    //var codigo_pub_venta = parseInt($('#codigo_pub').val());    // ---> esto guardaba el codigo como número.
-    var codigo_pub_venta = $('#codigo_pub').val(); // ---> tiene que guardarlo como string...
-    var cantidad = parseInt($('#cantidad').val()); // ---> tiene que ser un número...
+    // cargo en una variable el codigo como string...
+    var codigo_pub_venta = $('#codigo_pub').val();
+    // cargo en una variable la cantidad como int...
+    var cantidad = parseInt($('#cantidad').val());
+    // ingreso la venta...
     ingresar_ventas(ventas, codigo_pub_venta, cantidad);
-    // Vuelvo a dibujar las tablas...
+    // Vuelvo a dibujar las tablas para reflejar los cambios...
     $(TablaPublicaciones);
     $(TablaCatalogo);
     $(TablaTop);
@@ -1437,6 +1457,7 @@ $('#ingresarNuevaVenta').click(function () {
 //------------------------------------------------------------------------------
 // Ingresar publicacion
 $("#ingresarPub").click(function () {
+    // capto los datos de cada input en una variable privada...
     var _tipo = $("#tipoIngreso").val();
     var _codigo = $("#codigoIngreso").val();
     var _imagen = $("#imagenIngreso").val();
@@ -1446,80 +1467,88 @@ $("#ingresarPub").click(function () {
     var _precio = $("#precioIngreso").val();
     var _stock = $("#stockIngreso").val();
     var _estado = $("#estadoIngreso").val();
+    // ingreso la publicación usando esas variables...
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
+    // vuelvo a dibujar la tabla catálogo para que refleje la nueva publicación...
     dibujarTablaCatalogo(listaPublicaciones, 'listaPublicacionesCatalogo');
 });
 //------------------------------------------------------------------------------
 // Buscar publicación para modificar/eliminar (botón)
 $('#buscar').click(function () {
+    // cargo en una variable interna el codigo de la pub a buscar...
     var _cod = $('#codigo_pub_a_modif').val();
+    // busco si existe la pub con ese codigo...
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-    if (_pub === -1)
-    {
+    if (_pub === -1) {
+        // si NO encuentro una publicación con ese código...
         $("#mensajesBusqueda").show();
+        $("#publiNoEncontrada").show();
         $("#publiEncontrada").hide();
-        $("#mensajesModificacion").hide();
-        $("#publiNoEncontrada").show(); //->no existe la publicación
+        $("#mensajesModificacion").hide();        
     } else {
+        // si encuentra una publicación con ese código muestros mensajes...
         $("#mensajesBusqueda").show();
+        $("#publiEncontrada").show();
         $("#publiNoEncontrada").hide();
         $("#mensajesModificacion").hide();
-        $("#publiEncontrada").show(); //->publicación encontrada
-        // rellena los inputs de tablaModificacionPublicaciones con los datos...
+        // me guardo el código de la pub en un campo oculto de la tabla...
+        $('#codigoBackup').val(_pub.codigo);
+        // rellena los inputs del formulario para modificar con los datos...
         $('#tipoModificado').val(_pub.tipo).attr("selected", "selected");
+        $('#estadoModificado').val(_pub.estado).attr("selected", "selected");
+        // sigo rellenando el formulario..
         $('#codigoModificado').val(_pub.codigo);
-        $('#codigoBackup').val(_pub.codigo);     //--> guarda el código en un campo oculto...
         $('#imagenModificado').val(_pub.imagen);
         $('#tituloModificado').val(_pub.titulo);
         $('#descripcionModificado').val(_pub.descripcion);
         $('#autorModificado').val(_pub.autor);
         $('#precioModificado').val(_pub.precio);
-        $('#stockModificado').val(_pub.stock);
-        $('#estadoModificado').val(_pub.estado).attr("selected", "selected");
+        $('#stockModificado').val(_pub.stock);        
     }
 });
 //------------------------------------------------------------------------------
 // Modificar publicación
 $('#modificarPub').click(function () {
-    var _codigoBackup = $("#codigoBackup").val();  //-->me guardo el codigo del campo oculto...
+    // me guardo el codigo del campo oculto...
+    var _codigoBackup = $("#codigoBackup").val();
+    // cargo los datos en variables internas...
     var _tipo = $('#tipoModificado').val();
     var _codigo = $('#codigoModificado').val();
     var _imagen = $('#imagenModificado').val();
     var _titulo = $('#tituloModificado').val();
     var _desc = $('#descripcionModificado').val();
     var _autor = $("#autorModificado").val();
-    var _precio = parseInt($('#precioModificado').val());   //--> hay que captarlo como número
-    var _stock = parseInt($('#stockModificado').val());     //--> hay que captarlo como número
+    // el precio lo guardo como int..
+    var _precio = parseInt($('#precioModificado').val());
+    // el stock lo guardo como int..
+    var _stock = parseInt($('#stockModificado').val());
     var _estado = $('#estadoModificado').val();
     // controlo si ha cambiado el codigo...
     if (_codigoBackup === _codigo) {
         // si los 2 codigos son iguales, actualizo y listo...
-//        var _modificacionValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
-//        if (_modificacionValida) {
         var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
-        if (_pub !== -1) { //--->si aùn existe la publicaciòn que vamos a modificar
+        if (_pub !== -1) {
+            // si existe la publicaciòn que vamos a modificar la actualizo...
             actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
         } else {
-            // publicación no modificada porque ya no existía..
-            $("#mensajesBusqueda").hide(); // --> no lo oculta
+            // si no existe, no actualiza pero muestro errores...
             $("#mensajesModificacion").show();
-            $("#publiModificada").hide();
-            $("#publiEliminada").hide();
             $("#publiCamposMalos").show();
             $("#publiNoModificada").show();
+            $("#publiModificada").hide();
+            $("#publiEliminada").hide();
             $("#publiNoEliminada").hide();
+            $("#mensajesBusqueda").hide();
         }
-//            alert('Publicacion actualizada!');
-//        } else {
-//            alert('Los campos modificaciones tienen algún error!');
-//        }
     } else {
+        // este else es por si justo lo que se modifica es el código...
         // verifico que el nuevo codigo sea valido...
         var _codigoNuevoValido = validarCodigoIdentificador(_codigo, _tipo);
         //verifico que el nuevo codigo no exista ya en listaPublicaciones...
         var _codigoNuevoDisponible = posicion_publicacion(listaPublicaciones, _codigo);
         // si es  valido el codigo nuevo...
         if (_codigoNuevoValido) {
+            // si el codigo nuevo está disponible...
             if (_codigoNuevoDisponible === false) {
                 // actualizo las ventas con el código nuevo...
                 modificarVentas(_codigoBackup, _codigo);
@@ -1537,29 +1566,24 @@ $('#modificarPub').click(function () {
                     stock: _stock,
                     estado: _estado
                 };
-                // publicación modificada
-                $("#mensajesBusqueda").hide();  //---> no lo oculta
+                // muestro mensajes de modificación correcta
                 $("#mensajesModificacion").show();
                 $("#publiModificada").show();
-                $("#publiEliminada").hide();
                 $("#publiCamposMalos").hide();
                 $("#publiNoModificada").hide();
+                $("#publiEliminada").hide();
                 $("#publiNoEliminada").hide();
-                
+                $("#mensajesBusqueda").hide();
             }
-//            else {
-//                // esto sería un show algo... el mensaje de error que toque.
-//                alert('Codigo no disponible!');
-//            }
         } else {
-            // publicación no modificada por campos malos            
-            $("#mensajesBusqueda").hide(); // --> no lo oculta
+            // muestro mensajes de publicacion no modificada por campos malos
             $("#mensajesModificacion").show();
+            $("#publiCamposMalos").show();
+            $("#publiNoModificada").show();
             $("#publiModificada").hide();
             $("#publiEliminada").hide();
             $("#publiNoEliminada").hide();
-            $("#publiCamposMalos").show();
-            $("#publiNoModificada").show();
+            $("#mensajesBusqueda").hide();
         }
     }
     // Recargo las listas actualizadas...                
@@ -1570,30 +1594,28 @@ $('#modificarPub').click(function () {
 //------------------------------------------------------------------------------
 // Eliminar publicación
 $("#eliminarPub").click(function () {
-    //var _cod = parseInt($('#codigo_pub_a_modif').val()); //--> usaba el codigo el buscador
     var _cod = parseInt($('#codigoModificado').val()); //--> uso el codigo del campo modificar
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
-    if (_pub !== -1)
-    {
+    if (_pub !== -1) {
+        // si encuentro esa publicación la elimino usando su código
         eliminar_pub(_cod);
-        // publicación eliminada
-        $("#mensajesBusqueda").hide();
+        // muestro mensajes correctos        
         $("#mensajesModificacion").show();
-        $("#publiModificada").hide();
         $("#publiEliminada").show();
-        $("#publiCamposMalos").hide();
-        $("#publiNoModificada").hide();
         $("#publiNoEliminada").hide();
-    } else
-    {
-        //alert("no existe la pub");
-        $("#mensajesBusqueda").hide();
-        $("#mensajesModificacion").show();
         $("#publiModificada").hide();
-        $("#publiEliminada").hide();
-        $("#publiNoEliminada").show();
-        $("#publiCamposMalos").show();
         $("#publiNoModificada").hide();
+        $("#publiCamposMalos").hide();
+        $("#mensajesBusqueda").hide();
+    } else {
+        // si no encuentra la publicación muestro mensajes de error
+        $("#mensajesModificacion").show();
+        $("#publiCamposMalos").show();
+        $("#publiNoEliminada").show();
+        $("#publiEliminada").hide();
+        $("#publiModificada").hide();
+        $("#publiNoModificada").hide();
+        $("#mensajesBusqueda").hide();
     }
     // Recargo las listas actualizadas...                
     $(TablaPublicaciones);
@@ -1605,12 +1627,14 @@ $("#eliminarPub").click(function () {
 $("#generarReportePorPrecio").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
     if (_publicacionesDePrecioMenor.length !== 0) {
+        // si existen pubs con precios menores al dado muestro tabla y mensaje correcto
         dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
         $("#mensajesBusquedaPorPrecio").show();
         $("#reportePrecioGenerado").show();
         $("#reportePrecioNoGenerado").hide();
         $("#mensajesBusquedaPorFecha").hide();
     } else {
+        // si no existen publicaciones muestro mensajes de error
         $("#mensajesBusquedaPorPrecio").show();
         $("#reportePrecioGenerado").hide();
         $("#reportePrecioNoGenerado").show();
@@ -1620,6 +1644,7 @@ $("#generarReportePorPrecio").click(function () {
 //------------------------------------------------------------------------------
 // Generar reporte por fecha
 $("#fechaDeReporte").datepicker({
+    // formateo del datepicker
     monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
     dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
     dateFormat: "dd/mm/yy"
@@ -1628,16 +1653,19 @@ $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
     if (_ventasPorFecha.length !== 0) {
+        // si existen ventas en esa fecha muestro la tabla y...
         dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
-        $("#mensajesBusquedaPorPrecio").hide();
+        // muestro  mensaje reporte correcto
+        $("#mensajesBusquedaPorFecha").show();
         $("#reporteFechaGenerado").show();
         $("#reporteFechaNoGenerado").hide();
-        $("#mensajesBusquedaPorFecha").show();
-    } else {
         $("#mensajesBusquedaPorPrecio").hide();
-        $("#reporteFechaGenerado").hide();
-        $("#reporteFechaNoGenerado").show();
+    } else {
+        // si no existen ventas en esa fecha muestro mensajes de error
         $("#mensajesBusquedaPorFecha").show();
+        $("#reporteFechaNoGenerado").show();
+        $("#reporteFechaGenerado").hide();
+        $("#mensajesBusquedaPorPrecio").hide();
     }
 });
 //------------------------------------------------------------------------------
@@ -1652,50 +1680,49 @@ $("#spanAdministracion").click(function () {
     $("#reportes").hide();
 });
 $("#spanModificar").click(function () {
-
-    $("#ingresos").hide();
-    $("#modificaciones").show();
+    $("#modificaciones").show();        
     $("#publicacionesInicio").hide();
+    $("#ingresos").hide();
     $("#mensajesBusqueda").hide();
     $("#mensajesModificacion").hide();
 });
-$("#spanIngresar").click(function () {
+$("#spanIngresar").click(function () {    
     $("#publicacionesInicio").hide();
     $("#ingresos").show();
-    $("#modificaciones").hide();
+    $("#modificaciones").hide();    
 });
 $("#spanCatalogo").click(function () {
+    $("#catalogo").show();    
+    $("#publicacionesInicio").hide();
+    $("#administrador").hide();
+    $("#ingresos").hide();
+    $("#modificaciones").hide();
     $("#reportes").hide();
     $("#reportePorPrecio").hide();
     $("#reportePorFecha").hide();
-    $("#publicacionesInicio").hide();
-    $("#ingresos").hide();
-    $("#modificaciones").hide();
-    $("#administrador").hide();
     $("#ingresarVenta").hide();
     $("#mensajesVenta").hide();
-    $("#catalogo").show();
 });
 $("#spanReportes").click(function () {
     $("#reportes").show();
     $("#reportePorPrecio").show();
-    $("#reportePorFecha").hide();
-    $("#publicacionesInicio").hide();
-    $("#ingresos").hide();
-    $("#modificaciones").hide();
-    $("#administrador").hide();
-    $("#catalogo").hide();
     $("#mensajesBusquedaPorPrecio").hide();
+    $("#reportePorFecha").hide();
+    $("#ingresos").hide();
+    $("#publicacionesInicio").hide();
+    $("#administrador").hide();
+    $("#modificaciones").hide();    
+    $("#catalogo").hide();    
 });
 $("#spanPorPrecio").click(function () {
     $("#reportePorPrecio").show();
-    $("#reportePorFecha").hide();
     $("#mensajesBusquedaPorPrecio").hide();
+    $("#reportePorFecha").hide();    
 });
-$("#spanPorFecha").click(function () {
-    $("#reportePorPrecio").hide();
+$("#spanPorFecha").click(function () {    
     $("#reportePorFecha").show();
     $("#mensajesBusquedaPorFecha").hide();
+    $("#reportePorPrecio").hide();
 });
 $("#spanVentas").click(function () {
     $("#ingresarVenta").show();
