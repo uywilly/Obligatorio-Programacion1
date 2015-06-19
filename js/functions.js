@@ -1201,29 +1201,8 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
 //------------------------------------------------------------------------------
 // Eliminar una publicacion
 function eliminar_pub(_codigo) {
-    // todo esto es medio al pedo, porque està duplicado, habrìa que dejar
-    // solo la lìnea del splice...
-    var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
-    if (_pub !== -1) {
-        var _pos = posicion_publicacion(listaPublicaciones, _codigo);
-        listaPublicaciones.splice(_pos, 1); //no hay que actualizar ventas
-//        // publicación eliminada
-//        $("#mensajesModificacion").show();
-//        $("#publiModificada").hide();
-//        $("#publiEliminada").show();
-//        $("#publiCamposMalos").hide();
-//        $("#publiNoModificada").hide();
-//        $("#publiNoEliminada").hide();
-//    } else
-//    {
-//        // pub no eliminada por no encontrada con ese pub
-//        $("#mensajesModificacion").show();
-//        $("#publiModificada").hide();
-//        $("#publiEliminada").hide();
-//        $("#publiNoEliminada").show();
-//        $("#publiCamposMalos").show();
-//        $("#publiNoModificada").hide();
-    }
+    var _pos = posicion_publicacion(listaPublicaciones, _codigo);
+    listaPublicaciones.splice(_pos, 1); //no hay que actualizar ventas
 }
 //------------------------------------------------------------------------------
 //////////////////////////////////Ordenar///////////////////////////////////////
@@ -1464,8 +1443,10 @@ $("#ingresarPub").click(function () {
     var _titulo = $("#tituloIngreso").val();
     var _desc = $("#descripcionIngreso").val();
     var _autor = $("#autorIngreso").val();
-    var _precio = $("#precioIngreso").val();
-    var _stock = $("#stockIngreso").val();
+    //var _precio = $("#precioIngreso").val();
+    var _precio = parseInt($("#precioIngreso").val());
+    //var _stock = $("#stockIngreso").val();
+    var _stock = parseInt($("#stockIngreso").val());
     var _estado = $("#estadoIngreso").val();
     // ingreso la publicación usando esas variables...
     ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
@@ -1484,7 +1465,7 @@ $('#buscar').click(function () {
         $("#mensajesBusqueda").show();
         $("#publiNoEncontrada").show();
         $("#publiEncontrada").hide();
-        $("#mensajesModificacion").hide();        
+        $("#mensajesModificacion").hide();
     } else {
         // si encuentra una publicación con ese código muestros mensajes...
         $("#mensajesBusqueda").show();
@@ -1503,7 +1484,7 @@ $('#buscar').click(function () {
         $('#descripcionModificado').val(_pub.descripcion);
         $('#autorModificado').val(_pub.autor);
         $('#precioModificado').val(_pub.precio);
-        $('#stockModificado').val(_pub.stock);        
+        $('#stockModificado').val(_pub.stock);
     }
 });
 //------------------------------------------------------------------------------
@@ -1562,8 +1543,8 @@ $('#modificarPub').click(function () {
                     titulo: _titulo,
                     descripcion: _desc,
                     autor: _autor,
-                    precio: _precio,
-                    stock: _stock,
+                    precio: parseInt(_precio),
+                    stock: parseInt(_stock),
                     estado: _estado
                 };
                 // muestro mensajes de modificación correcta
@@ -1594,7 +1575,8 @@ $('#modificarPub').click(function () {
 //------------------------------------------------------------------------------
 // Eliminar publicación
 $("#eliminarPub").click(function () {
-    var _cod = parseInt($('#codigoModificado').val()); //--> uso el codigo del campo modificar
+//    var _cod = parseInt($('#codigoModificado').val()); //--> uso el codigo del campo modificar
+    var _cod = $('#codigoModificado').val(); //--> uso el codigo del campo modificar
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
     if (_pub !== -1) {
         // si encuentro esa publicación la elimino usando su código
@@ -1680,19 +1662,20 @@ $("#spanAdministracion").click(function () {
     $("#reportes").hide();
 });
 $("#spanModificar").click(function () {
-    $("#modificaciones").show();        
+    $("#modificaciones").show();
     $("#publicacionesInicio").hide();
     $("#ingresos").hide();
     $("#mensajesBusqueda").hide();
     $("#mensajesModificacion").hide();
 });
-$("#spanIngresar").click(function () {    
+$("#spanIngresar").click(function () {
     $("#publicacionesInicio").hide();
     $("#ingresos").show();
-    $("#modificaciones").hide();    
+    $("#modificaciones").hide();
+    $("#mensajesIngreso").hide();
 });
 $("#spanCatalogo").click(function () {
-    $("#catalogo").show();    
+    $("#catalogo").show();
     $("#publicacionesInicio").hide();
     $("#administrador").hide();
     $("#ingresos").hide();
@@ -1711,15 +1694,15 @@ $("#spanReportes").click(function () {
     $("#ingresos").hide();
     $("#publicacionesInicio").hide();
     $("#administrador").hide();
-    $("#modificaciones").hide();    
-    $("#catalogo").hide();    
+    $("#modificaciones").hide();
+    $("#catalogo").hide();
 });
 $("#spanPorPrecio").click(function () {
     $("#reportePorPrecio").show();
     $("#mensajesBusquedaPorPrecio").hide();
-    $("#reportePorFecha").hide();    
+    $("#reportePorFecha").hide();
 });
-$("#spanPorFecha").click(function () {    
+$("#spanPorFecha").click(function () {
     $("#reportePorFecha").show();
     $("#mensajesBusquedaPorFecha").hide();
     $("#reportePorPrecio").hide();
