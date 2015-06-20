@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 ////////////////////////////////////Objetos/////////////////////////////////////
 //------------------------------------------------------------------------------
+//Creacion de la lista de publicaciones (15 libros y 15 revistas)
 var listaPublicaciones = new Array(
         {
             tipo: 'libro',
@@ -362,6 +363,7 @@ var listaPublicaciones = new Array(
             estado: 'habilitado'
         }
 );
+//Creacion de la lista de usuarios (2 administradores - 3 vendedores) 
 var usuarios = new Array(
         {
             tipo: 'administrador',
@@ -403,6 +405,7 @@ var usuarios = new Array(
             contrasena: 'pilar22'
         }
 );
+//Creacion de la lista de ventas (12 ventas) 
 var ventas = new Array(
         {
             numero: 1,
@@ -511,25 +514,30 @@ var topCuanto = 10;
 // Control de usuarios
 // que la contraseña sea alfanumérica significa que tiene que ser un string o
 // que hay que verificar que tenga si o sí alguna letra y algún número?
+// devuelve vendedor, administrador o incorrecto.
 function controlUsuario(_usuario, _password) {
-    // devuelve vendedor, administrador o incorrecto.
+    //Se crean y cargan las variables
     var _tipoUsuario = 'incorrecto';
     var _usuarioEncontrado = false;
+    //Se recorre la lista de usuarios registrados en el sistema
     for (var i = 0; i < usuarios.length; i++) {
         if (usuarios[i].nombre === _usuario) {
+            //Se registra que el usuario está en el sistema
             _usuarioEncontrado = true;
             if (usuarios[i].contrasena === _password) {
+                //se valida la contraseña del usuario y se carga su tipo
                 _tipoUsuario = usuarios[i].tipo;
                 break;
             } else {
-                $(".loginError").show(); //-> contraseña incorrecta
+                $(".loginError").show(); //-> Mensaje de error: contraseña incorrecta
                 break;
             }
         }
     }
     if (_usuarioEncontrado === false) {
-        $(".loginError").show(); //->usuario no encontrado
+        $(".loginError").show(); //->Mensaje de error: usuario no encontrado
     }
+    // se retorna vendedor, administrador o incorrecto.
     return _tipoUsuario;
 }
 //------------------------------------------------------------------------------
@@ -553,8 +561,10 @@ ocultoAlInicio();   //--------> Comentado ves todo, descomentado, lo que toca.
 //------------------------------------------------------------------------------
 // Mostrar interfaz principal de vendedores o administradores
 function interfazSegunTipoUsuario(_tipo) {
+    //Se muestran las interfases de acuerdo al tipo de usuario
     switch (_tipo) {
         case 'vendedor':
+            //Para los vendedores se muestra y oculta lo siguiente:
             // secciones
             $("#vendedor").show();
             $("#ingresarVenta").show();
@@ -571,6 +581,7 @@ function interfazSegunTipoUsuario(_tipo) {
             $(".warning").hide();
             $(".error").hide();
             break;
+        //Para los administradores se muestra y oculta lo siguiente:
         case 'administrador':
             // secciones
             $("#administrador").show();
