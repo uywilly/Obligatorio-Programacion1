@@ -581,7 +581,7 @@ function interfazSegunTipoUsuario(_tipo) {
             $(".warning").hide();
             $(".error").hide();
             break;
-        //Para los administradores se muestra y oculta lo siguiente:
+            //Para los administradores se muestra y oculta lo siguiente:
         case 'administrador':
             // secciones
             $("#administrador").show();
@@ -608,9 +608,8 @@ function interfazSegunTipoUsuario(_tipo) {
 //------------------------------------------------------------------------------
 function validar_primer_letra_mayuscula(_string) {
     var _correcto = false;
-    var _caracter = _string[0];
     // la primer letra debe ser mayúscula..
-    if ((_caracter >= 'A') && (_caracter <= 'Z'))
+    if ((_string[0] >= 'A') && (_string[0] <= 'Z'))
     {
         _correcto = true;
     } else {
@@ -645,16 +644,14 @@ function validar_email(_texto) {
 }
 //------------------------------------------------------------------------------
 function validarCodigoIdentificador(_codigoId, _tipoPub) {
-    var _codigoIdentificador = _codigoId;
-    var _tipoPublicacion = _tipoPub;
     var _valido = true;
     // según el tipo de publicación controlo una cosa u otra...
-    switch (_tipoPublicacion) {
+    switch (_tipoPub) {
         case "libro":
-            if (_codigoIdentificador.length === 13) {
+            if (_codigoId.length === 13) {
 // si tiene 13 digitos me fijo si alguno de ellos no es un número...
-                for (var i = 0; i < _codigoIdentificador.length; i++) {
-                    if (isNaN(_codigoIdentificador[i])) {
+                for (var i = 0; i < _codigoId.length; i++) {
+                    if (isNaN(_codigoId[i])) {
                         _valido = false;
                         // el break es para si encuentra un isNaN ya salga del for
                         // y _valido sea false...
@@ -667,10 +664,10 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
             }
             break;
         case "revista":
-            if (_codigoIdentificador.length === 10) {
+            if (_codigoId.length === 10) {
 // controlo que sean todos números...
-                for (var j = 0; j < _codigoIdentificador.length; j++) {
-                    if (isNaN(_codigoIdentificador[j])) {
+                for (var j = 0; j < _codigoId.length; j++) {
+                    if (isNaN(_codigoId[j])) {
 // si alguno no es un número... false...
                         _valido = false;
                         break;
@@ -682,10 +679,10 @@ function validarCodigoIdentificador(_codigoId, _tipoPub) {
                     var _numeroPublicacion = "";
                     // lo relleno con los números de 2 a 8...
                     for (var n = 2; n < 9; n++) {
-                        _numeroPublicacion = _numeroPublicacion + _codigoIdentificador[n];
+                        _numeroPublicacion += _codigoId[n];
                     }
 // le asigno a _digitoVerificadorIngresado el digito en la posición 9...
-                    var _digitoVerificadorIngresado = parseInt(_codigoIdentificador[9]);
+                    var _digitoVerificadorIngresado = parseInt(_codigoId[9]);
                     // inicializo la variable donde hago la suma...
                     var _suma7digitos = 0;
                     // hago la suma..
@@ -730,11 +727,11 @@ function validarPrecio(_precio) {
 }
 //------------------------------------------------------------------------------
 function validarStock(_stock) {
-    var _precioValido = false;
+    var _stockValido = false;
     if (_stock >= 0) {
-        _precioValido = true;
+        _stockValido = true;
     }
-    return _precioValido;
+    return _stockValido;
 }
 //------------------------------------------------------------------------------
 function validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
@@ -783,43 +780,35 @@ function buscar_publicacion_codigo(_listaPublicaciones, _codigo) {
     var _publicacion = -1;
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = parseInt(_listaPublicaciones[i].codigo); //AGREGO PARSE INT YA QUE CON ESTOS DATOS LO LEVANTA COMO STRING
-        if (_codigo_elemento === parseInt(_codigo))
+        if (parseInt(_listaPublicaciones[i].codigo) === parseInt(_codigo))
         {
             _publicacion = _listaPublicaciones[i];
-//            $("#mensajesBusqueda").show();
-//            $("#publiNoEncontrada").hide();
-//            $("#publiEncontrada").show(); //->publicación encontrada
             break;
         }
     }
-//    if (_publicacion === -1)
-//    {
-//        $("#mensajesBusqueda").show();
-//        $("#publiEncontrada").hide();
-//        $("#publiNoEncontrada").show(); //->no existe la publicación
-//    }
     return _publicacion;
 }
 //------------------------------------------------------------------------------
 function posicion_publicacion(_listaPublicaciones, _codigo) {
     var _posicion = false;
+    //recorro la lista de publicaciones
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
-        var _codigo_elemento = _listaPublicaciones[i].codigo;
-        if (_codigo_elemento === _codigo)
-                // habíamos quedado en que tanto _codigo_elemento como _codigo eran strings..
-                {
-                    _posicion = i;
-                    break;
-                }
+        //si encuentro el elemento en la lista guardo su posición
+        if (_listaPublicaciones[i].codigo === _codigo)
+        {
+            _posicion = i;
+            break;
+        }
     }
     return _posicion;
 }
 //------------------------------------------------------------------------------
 function buscarVentasPorCodigo(_codigo) {
     var _ventas = new Array();
+    //recorro la lista de ventas
     for (var i = 0; i < ventas.length; i++) {
+        //cuando encuentro la venta con el codigo de producto deseado la guardo
         if (ventas[i].codigo_pub === _codigo) {
             _ventas.push(ventas[i]);
         }
@@ -835,7 +824,7 @@ function buscarVentasPorCodigo(_codigo) {
 //------------------------------------------------------------------------------
 // Dibujar tabla
 function dibujarTabla(_array, _tabla) {
-// thead
+// thead - cargo los headers tomando le primer elemento del array indexado y sacando las categorias del array asociativo en esa posicion
     var _cabecera = "<tr>";
     for (var j in _array[0]) {
         _cabecera += "<th>" + j + "</th>";
@@ -845,10 +834,11 @@ function dibujarTabla(_array, _tabla) {
     $("#" + _tabla + ">thead").html(_cabecera);
     // limpio el tbody para rellenarlo..
     $("#" + _tabla + ">tbody").html("");
-    // tbody
+    // tbody - cargo todos los elementos en filas y columnas
     for (var i = 0; i < _array.length; i++) {
         var _linea = "<tr>";
         for (var k in _array[i]) {
+            //al encontrarme con la categoria imagen cargo la celda con los atributos especificos
             if (k !== "imagen") {
                 _linea += "<td>" + _array[i][k] + "</td>";
             } else {
@@ -877,8 +867,7 @@ function dibujarTablaTops(_arrayDeTops, _tabla) {
     $("#" + _tabla + ">tbody").html("");
     // tbody
     for (var i = 0; i < _array.length; i++) {
-        //var _publicacion = buscar_publicacion_codigo(listaPublicaciones, parseInt(_array[i].codigo_pub)); // el parseInt lo necesita la funciòn buscar_publicacion_codigo...
-        var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _array[i].codigo_pub); // el parseInt lo necesita la funciòn buscar_publicacion_codigo...
+        var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _array[i].codigo_pub);
         var _linea = "<tr><td>" + _publicacion.titulo + "</td><td>" +
                 _array[i].cantidad + "</td><td>" + _publicacion.precio + "</td></tr>";
         $("#" + _tabla + ">tbody").append(_linea);
@@ -889,26 +878,27 @@ function dibujarTablaTops(_arrayDeTops, _tabla) {
 function dibujarTablaPublicaciones(_array, _tabla) {
     var _cabecera = "<tr><th>Título</th><th>Autor/Editorial</th><th>Tipo</th><th>Descripción</th><th>Precio</th></tr>";
     $("#" + _tabla + ">thead").html(_cabecera);
+    //limpio el body de la tabla
     $("#" + _tabla + ">tbody").html("");
+    //cargo los contenidos en las celdas
     for (var i = 0; i < _array.length; i++) {
-        var _titulo = _array[i].titulo;
-        var _autor = _array[i].autor;
-        var _tipo = _array[i].tipo;
-        var _descripcion = _array[i].descripcion;
-        var _precio = _array[i].precio;
-        var _linea = "<tr><td>" + _titulo + "</td><td>" + _autor + "</td><td>" + _tipo + "</td><td>" + _descripcion + "</td><td>" + _precio + "</td></tr>";
+        var _linea = "<tr><td>" + _array[i].titulo + "</td><td>" + _array[i].autor + "</td><td>" + _array[i].tipo + "</td><td>" + _array[i].descripcion + "</td><td>" + _array[i].precio + "</td></tr>";
         $("#" + _tabla + ">tbody").append(_linea);
     }
 }
 //------------------------------------------------------------------------------
 // Dibujar tabla Catálogo a lo bruto
 function dibujarTablaCatalogo(_array, _tabla) {
+    // thead - cargo los headers
     var _cabecera = "<tr><th>Tipo</th><th>Código</th><th>Imagen</th><th>Título</th><th>Descripción</th><th>Autor</th><th>Precio</th><th>Stock</th><th>Estado</th></tr>";
     $("#" + _tabla + ">thead").html(_cabecera);
+    //limpio el body de la tabla
     $("#" + _tabla + ">tbody").html("");
     for (var i = 0; i < _array.length; i++) {
+        // tbody - cargo todos los elementos en filas y columnas
         var _linea = "<tr>";
         for (var k in _array[i]) {
+            //al encontrarme con la categoria imagen cargo la celda con los atributos especificos
             if (k !== "imagen") {
                 _linea += "<td>" + _array[i][k] + "</td>";
             } else {
@@ -925,8 +915,10 @@ function dibujarTablaCatalogo(_array, _tabla) {
 // Listar publicaciones de precio menor a un precio dado
 function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
     var _listadoPrecio = new Array();
+    //recorro la lista de publicaciones
     for (var i = 0; i < _listaPublicaciones.length; i++)
     {
+        //guardo las publicaciones que tengan el precio dado
         if (_listaPublicaciones[i].precio < _precio)
         {
             _listadoPrecio.push(_listaPublicaciones[i]);
@@ -938,8 +930,10 @@ function listar_publicaciones_menor_precio(_listaPublicaciones, _precio) {
 // Listar ventas con fecha igual a una fecha dada...
 function total_ventas_fecha(_ventas, _fecha) {
     var _totalVentas = 0;
+    //recorro la lista de ventas 
     for (var i = 0; i < _ventas.length; i++)
     {
+        //sumo al contador cuando la venta concuerda con la fecha dada.
         if (_ventas[i].fecha === _fecha)
         {
             _totalVentas += _ventas[i].total;
@@ -950,19 +944,24 @@ function total_ventas_fecha(_ventas, _fecha) {
 //------------------------------------------------------------------------------
 // Sumar ventas de misma publicación
 function sumarVentas(_ventas) {
-    var _array = JSON.parse(JSON.stringify(_ventas)); // --> forma correcta de clonar un array???
+    var _array = JSON.parse(JSON.stringify(_ventas)); // --> clonado el array
+    //recorro el listado de ventas hasta el penultimo 
     for (var i = 0; i < _ventas.length - 1; i++) {
-        var k = i + 1;
-        for (var j = k; j < _array.length; j++) {
+        //recorro la lista desde el elemento siguiente
+        for (var j = (i + 1); j < _array.length; j++) {
+            //comparo codigo_pub del elemento actual con el siguiente
             if (_array[i].codigo_pub === _array[j].codigo_pub) {
+                //incremento el total vendido
                 _array[i].total += _array[j].total;
+                //incremento la cantidad vendida
                 _array[i].cantidad += _array[j].cantidad;
+                //elimino el elemento
                 _array.splice(j, 1);
                 j--;
             }
         }
     }
-// esto es para borrar claves innecesarias del nuevo array..
+    // esto es para borrar claves innecesarias del nuevo array..
     for (var n = 0; n < _array.length; n++) {
         delete _array[n].fecha;
         delete _array[n].numero;
@@ -972,8 +971,11 @@ function sumarVentas(_ventas) {
 //------------------------------------------------------------------------------
 // Seleccionar solo las publicaciones que estén habilitadas
 function publicacionesHabilitadas(_array) {
+    //creo un nuevo array
     var _publicacionesHabilitadas = new Array();
+    //recorro el listado pasado como parametro
     for (var i = 0; i < _array.length; i++) {
+        //guardo las publicaciones con estado habilitado
         if (_array[i].estado === 'habilitado') {
             _publicacionesHabilitadas.push(_array[i]);
         }
@@ -984,8 +986,7 @@ function publicacionesHabilitadas(_array) {
 // Tomar sólo los primeros '_cuantos' elementos de un _array...
 function cuantasPrimerasDeArray(_array, _cuantos) {
 // creo un array que contenga sólo los objetos de 0 a _cuantas (_cuantas es excluyente)...
-    var _primeras = _array.slice(0, _cuantos);
-    return _primeras;
+    return _array.slice(0, _cuantos);
 }
 //------------------------------------------------------------------------------
 // Separar palabras de un string...
@@ -1025,28 +1026,27 @@ function agregarPrecioPublicacionEnArrayVentas(_ventas) {
 //------------------------------------------------------------------------------
 // Actualizar stock restándole _cantidad
 function actualizar_stock(_listaPublicaciones, _codigoPublicacion, _cantidad) {
-//Busco la publicacion para obtener su informacion
+    //Busco la publicacion para obtener su informacion
     var _publicacion = buscar_publicacion_codigo(_listaPublicaciones, _codigoPublicacion);
     //Busco la posicion de la publicacion en la lista 
     var _posPublicacion = posicion_publicacion(_listaPublicaciones, _codigoPublicacion);
     // si la publicación existe...
     if (_posPublicacion !== false) {
         //Actualizo el stock
-        var _stock = _publicacion.stock - _cantidad;
-        _publicacion.stock = _stock;
+        _publicacion.stock = _publicacion.stock - _cantidad;
         //Utilizando la posicion actualizo el objeto
         _listaPublicaciones[_posPublicacion] = _publicacion;
     } else {
-        alert('Publicación no encontrada al intentar actualizar el stock!');
+        alert('Publicación no encontrada al intentar actualizar el stock!'); //Esto no deberia de estar aca, no? Tengo una version desactualizada?
     }
 }
 //------------------------------------------------------------------------------
 // Actualizar publicacion
 function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado) {
-
+    
     var _pubValida = validar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
     if (_pubValida === true) {
-//creo una nueva publicacion
+    //creo una nueva publicacion
         var _nuevaPublicacion = {
             tipo: _tipo,
             codigo: _codigo,
@@ -1071,7 +1071,7 @@ function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor,
         $("#publiCamposMalos").hide();
         $("#publiNoModificada").hide();
     } else {
-        // publicación no modificada por campos malos
+// publicación no modificada por campos malos
         $("#mensajesBusqueda").hide();
         $("#mensajesModificacion").show();
         $("#publiModificada").hide();
@@ -1084,8 +1084,8 @@ function actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor,
 //------------------------------------------------------------------------------
 // Sustituir el codigo de las ventas con codigo_viejo por el codigo_nuevo...
 function modificarVentas(_codigo_pub_viejo, _codigo_pub_nuevo) {
-    // esto es por si modificamos el código de una publicación, que no pierda sus
-    // ventas asociadas anteriores.
+// esto es por si modificamos el código de una publicación, que no pierda sus
+// ventas asociadas anteriores.
     var _ventas = buscarVentasPorCodigo(_codigo_pub_viejo);
     if (_ventas !== false) {
         for (var i = 0; i < _ventas.length; i++) {
@@ -1098,19 +1098,19 @@ function modificarVentas(_codigo_pub_viejo, _codigo_pub_nuevo) {
 //------------------------------------------------------------------------------
 // Ingresar una venta
 function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
-    // genero la fecha...
+// genero la fecha...
     var _fecha = generar_fecha();
     // me guardo la publicación con ese código...
     var _publicacion = buscar_publicacion_codigo(listaPublicaciones, _codigoPublicacion);
     // si la publicación existe...
     if (_publicacion !== -1) {
-        // me guardo el stock..
+// me guardo el stock..
         var _stock = _publicacion.stock;
         // calculo el total de la venta...
         var _total = _publicacion.precio * _cantidad;
         // si hay suficiente stock para efectuar la venta...
         if (_stock >= _cantidad && _cantidad !== 0) {
-            // genero el número de venta...
+// genero el número de venta...
             var _numeroVenta = _ventas.length + 1; //empiezan en 1 las ventas
             // creo el objeto venta...
             var _nuevaVenta = {
@@ -1134,8 +1134,8 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
             $("#pubNoEncontrada").hide();
             // si el stock de esa publicación ha quedado por debajo del stock mínimo...
             if (_publicacion.stock < stockMinimo) {
-                // meto un alert para avisar...
-                //alert('El stock de este artìculo ha quedado por debajo de ' + stockMinimo + ' unidades!');
+// meto un alert para avisar...
+//alert('El stock de este artìculo ha quedado por debajo de ' + stockMinimo + ' unidades!');
                 $("#mensajesVenta").show();
                 $("#ventaIngresada").show();
                 $("#stockBajo").show();
@@ -1144,8 +1144,8 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
                 $("#ventaNoIngresada").hide();
             }
         } else {
-            // si no hay suficiente stock...
-            //alert('No hay stock!');
+// si no hay suficiente stock...
+//alert('No hay stock!');
             $("#ventaIngresada").hide();
             $("#pubNoEncontrada").hide();
             $("#stockBajo").hide();
@@ -1154,8 +1154,8 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
             $("#ventaNoIngresada").show();
         }
     } else {
-        // si no se encuentra la publicación para la que se quiere crear la venta...
-        //alert('Está agregando una venta de una publicación que no existe!');
+// si no se encuentra la publicación para la que se quiere crear la venta...
+//alert('Está agregando una venta de una publicación que no existe!');
         $("#ventaIngresada").hide();
         $("#ventaSinStock").hide();
         $("#stockBajo").hide();
@@ -1163,7 +1163,7 @@ function ingresar_ventas(_ventas, _codigoPublicacion, _cantidad) {
         $("#pubNoEncontrada").show();
         $("#ventaNoIngresada").show();
     }
-    //return _nuevaVenta;  --> este return sobra, no tiene que devolver nada, solo ingresarla.
+//return _nuevaVenta;  --> este return sobra, no tiene que devolver nada, solo ingresarla.
 }
 //------------------------------------------------------------------------------
 // Ingresar una publicación
@@ -1191,7 +1191,7 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
             $("#ingresoPubDuplicada").hide();
             $("#ingresoError").hide();
         } else {
-            // publicación duplicada
+// publicación duplicada
             $("#mensajesIngreso").show();
             $("#ingresoExitoso").hide();
             $("#ingresoCamposMalos").hide();
@@ -1199,7 +1199,7 @@ function ingresar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _
             $("#ingresoError").show();
         }
     } else {
-        // publicación no ingresada por error en los campos
+// publicación no ingresada por error en los campos
         $("#mensajesIngreso").show();
         $("#ingresoExitoso").hide();
         $("#ingresoCamposMalos").show();
@@ -1412,7 +1412,7 @@ $(TablaCatalogo);
 //------------------------------------------------------------------------------
 // Login
 $("#botonLogin").click(function () {
-    // me guardo el user y el pass...
+// me guardo el user y el pass...
     var _user = $("#user").val();
     var _pass = $("#pass").val();
     // verifico el usuario con esos user y pass...
@@ -1423,7 +1423,7 @@ $("#botonLogin").click(function () {
 //------------------------------------------------------------------------------
 // Logout
 $(".logout").click(function () {
-    // oculto todo lo correspondiente al inicio..
+// oculto todo lo correspondiente al inicio..
     ocultoAlInicio();
     // muestro sólo las secciones visibles por defecto...
     $("#ingresar").show();
@@ -1433,7 +1433,7 @@ $(".logout").click(function () {
 //------------------------------------------------------------------------------
 // Ingresar una venta
 $('#ingresarNuevaVenta').click(function () {
-    // cargo en una variable el codigo como string...
+// cargo en una variable el codigo como string...
     var codigo_pub_venta = $('#codigo_pub').val();
     // cargo en una variable la cantidad como int...
     var cantidad = parseInt($('#cantidad').val());
@@ -1447,7 +1447,7 @@ $('#ingresarNuevaVenta').click(function () {
 //------------------------------------------------------------------------------
 // Ingresar publicacion
 $("#ingresarPub").click(function () {
-    // capto los datos de cada input en una variable privada...
+// capto los datos de cada input en una variable privada...
     var _tipo = $("#tipoIngreso").val();
     var _codigo = $("#codigoIngreso").val();
     var _imagen = $("#imagenIngreso").val();
@@ -1467,18 +1467,18 @@ $("#ingresarPub").click(function () {
 //------------------------------------------------------------------------------
 // Buscar publicación para modificar/eliminar (botón)
 $('#buscar').click(function () {
-    // cargo en una variable interna el codigo de la pub a buscar...
+// cargo en una variable interna el codigo de la pub a buscar...
     var _cod = $('#codigo_pub_a_modif').val();
     // busco si existe la pub con ese codigo...
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
     if (_pub === -1) {
-        // si NO encuentro una publicación con ese código...
+// si NO encuentro una publicación con ese código...
         $("#mensajesBusqueda").show();
         $("#publiNoEncontrada").show();
         $("#publiEncontrada").hide();
         $("#mensajesModificacion").hide();
     } else {
-        // si encuentra una publicación con ese código muestros mensajes...
+// si encuentra una publicación con ese código muestros mensajes...
         $("#mensajesBusqueda").show();
         $("#publiEncontrada").show();
         $("#publiNoEncontrada").hide();
@@ -1501,7 +1501,7 @@ $('#buscar').click(function () {
 //------------------------------------------------------------------------------
 // Modificar publicación
 $('#modificarPub').click(function () {
-    // me guardo el codigo del campo oculto...
+// me guardo el codigo del campo oculto...
     var _codigoBackup = $("#codigoBackup").val();
     // cargo los datos en variables internas...
     var _tipo = $('#tipoModificado').val();
@@ -1517,13 +1517,13 @@ $('#modificarPub').click(function () {
     var _estado = $('#estadoModificado').val();
     // controlo si ha cambiado el codigo...
     if (_codigoBackup === _codigo) {
-        // si los 2 codigos son iguales, actualizo y listo...
+// si los 2 codigos son iguales, actualizo y listo...
         var _pub = buscar_publicacion_codigo(listaPublicaciones, _codigo);
         if (_pub !== -1) {
-            // si existe la publicaciòn que vamos a modificar la actualizo...
+// si existe la publicaciòn que vamos a modificar la actualizo...
             actualizar_publicacion(_tipo, _codigo, _imagen, _titulo, _desc, _autor, _precio, _stock, _estado);
         } else {
-            // si no existe, no actualiza pero muestro errores...
+// si no existe, no actualiza pero muestro errores...
             $("#mensajesModificacion").show();
             $("#publiCamposMalos").show();
             $("#publiNoModificada").show();
@@ -1533,16 +1533,16 @@ $('#modificarPub').click(function () {
             $("#mensajesBusqueda").hide();
         }
     } else {
-        // este else es por si justo lo que se modifica es el código...
-        // verifico que el nuevo codigo sea valido...
+// este else es por si justo lo que se modifica es el código...
+// verifico que el nuevo codigo sea valido...
         var _codigoNuevoValido = validarCodigoIdentificador(_codigo, _tipo);
         //verifico que el nuevo codigo no exista ya en listaPublicaciones...
         var _codigoNuevoDisponible = posicion_publicacion(listaPublicaciones, _codigo);
         // si es  valido el codigo nuevo...
         if (_codigoNuevoValido) {
-            // si el codigo nuevo está disponible...
+// si el codigo nuevo está disponible...
             if (_codigoNuevoDisponible === false) {
-                // actualizo las ventas con el código nuevo...
+// actualizo las ventas con el código nuevo...
                 modificarVentas(_codigoBackup, _codigo);
                 // me guardo la posición de la publicación vieja...
                 var _posicionPub = posicion_publicacion(listaPublicaciones, _codigoBackup);
@@ -1568,7 +1568,7 @@ $('#modificarPub').click(function () {
                 $("#mensajesBusqueda").hide();
             }
         } else {
-            // muestro mensajes de publicacion no modificada por campos malos
+// muestro mensajes de publicacion no modificada por campos malos
             $("#mensajesModificacion").show();
             $("#publiCamposMalos").show();
             $("#publiNoModificada").show();
@@ -1578,7 +1578,7 @@ $('#modificarPub').click(function () {
             $("#mensajesBusqueda").hide();
         }
     }
-    // Recargo las listas actualizadas...                
+// Recargo las listas actualizadas...                
     $(TablaPublicaciones);
     $(TablaCatalogo);
     $(TablaTop);
@@ -1590,7 +1590,7 @@ $("#eliminarPub").click(function () {
     var _cod = $('#codigoModificado').val(); //--> uso el codigo del campo modificar
     var _pub = buscar_publicacion_codigo(listaPublicaciones, _cod);
     if (_pub !== -1) {
-        // si encuentro esa publicación la elimino usando su código
+// si encuentro esa publicación la elimino usando su código
         eliminar_pub(_cod);
         // muestro mensajes correctos        
         $("#mensajesModificacion").show();
@@ -1601,7 +1601,7 @@ $("#eliminarPub").click(function () {
         $("#publiCamposMalos").hide();
         $("#mensajesBusqueda").hide();
     } else {
-        // si no encuentra la publicación muestro mensajes de error
+// si no encuentra la publicación muestro mensajes de error
         $("#mensajesModificacion").show();
         $("#publiCamposMalos").show();
         $("#publiNoEliminada").show();
@@ -1610,7 +1610,7 @@ $("#eliminarPub").click(function () {
         $("#publiNoModificada").hide();
         $("#mensajesBusqueda").hide();
     }
-    // Recargo las listas actualizadas...                
+// Recargo las listas actualizadas...                
     $(TablaPublicaciones);
     $(TablaCatalogo);
     $(TablaTop);
@@ -1620,14 +1620,14 @@ $("#eliminarPub").click(function () {
 $("#generarReportePorPrecio").click(function () {
     var _publicacionesDePrecioMenor = publicacionesConPrecioMenorADado(listaPublicaciones, parseInt($("#precioDeReporte").val()));
     if (_publicacionesDePrecioMenor.length !== 0) {
-        // si existen pubs con precios menores al dado muestro tabla y mensaje correcto
+// si existen pubs con precios menores al dado muestro tabla y mensaje correcto
         dibujarTabla(_publicacionesDePrecioMenor, 'tablaReportePorPrecio');
         $("#mensajesBusquedaPorPrecio").show();
         $("#reportePrecioGenerado").show();
         $("#reportePrecioNoGenerado").hide();
         $("#mensajesBusquedaPorFecha").hide();
     } else {
-        // si no existen publicaciones muestro mensajes de error
+// si no existen publicaciones muestro mensajes de error
         $("#mensajesBusquedaPorPrecio").show();
         $("#reportePrecioGenerado").hide();
         $("#reportePrecioNoGenerado").show();
@@ -1637,7 +1637,7 @@ $("#generarReportePorPrecio").click(function () {
 //------------------------------------------------------------------------------
 // Generar reporte por fecha
 $("#fechaDeReporte").datepicker({
-    // formateo del datepicker
+// formateo del datepicker
     monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
     dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
     dateFormat: "dd/mm/yy"
@@ -1646,7 +1646,7 @@ $("#generarReportePorFecha").click(function () {
     var fecha = $("#fechaDeReporte").val();
     var _ventasPorFecha = totalVentasPorFecha(ventas, fecha);
     if (_ventasPorFecha.length !== 0) {
-        // si existen ventas en esa fecha muestro la tabla y...
+// si existen ventas en esa fecha muestro la tabla y...
         dibujarTabla(_ventasPorFecha, 'tablaReportePorFecha');
         // muestro  mensaje reporte correcto
         $("#mensajesBusquedaPorFecha").show();
@@ -1654,7 +1654,7 @@ $("#generarReportePorFecha").click(function () {
         $("#reporteFechaNoGenerado").hide();
         $("#mensajesBusquedaPorPrecio").hide();
     } else {
-        // si no existen ventas en esa fecha muestro mensajes de error
+// si no existen ventas en esa fecha muestro mensajes de error
         $("#mensajesBusquedaPorFecha").show();
         $("#reporteFechaNoGenerado").show();
         $("#reporteFechaGenerado").hide();
